@@ -202,6 +202,27 @@ html,body{margin:0;height:100%;background:var(--ink-deep);color:var(--text);}
 #bigvan svg{width:100%;height:100%;overflow:visible;display:block;}
 .puff{position:absolute;border-radius:50%;background:#86A19E;pointer-events:none;}
 
+/* ---------- edit mode ---------- */
+#edit-btn{position:fixed;left:96px;top:14px;z-index:6;font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--dim);
+  background:rgba(8,19,19,.6);border:1px solid var(--line-strong);border-radius:99px;padding:5px 11px;cursor:pointer;}
+#edit-btn:hover{color:var(--gold);border-color:var(--gold);}
+#editbar{position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:120;display:none;align-items:center;gap:8px;
+  padding:8px 10px;border-radius:14px;background:rgba(8,19,19,.94);border:1px solid var(--gold);box-shadow:0 12px 40px rgba(0,0,0,.5);
+  font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--text);white-space:nowrap;}
+html.editing #editbar{display:flex;}
+html.editing #edit-btn,html.editing #hint{display:none;}
+#editbar button{font:inherit;color:var(--bone);background:var(--raise);border:1px solid var(--line-strong);border-radius:8px;padding:6px 10px;cursor:pointer;}
+#editbar button:hover{border-color:var(--gold);color:var(--gold);}
+#editbar button.primary{background:var(--gold);color:var(--ink);border-color:var(--gold);font-weight:700;}
+#editbar label{display:flex;align-items:center;gap:6px;color:var(--gold);}
+#editbar input{font-family:var(--display);font-size:13px;width:330px;color:var(--ink);background:#f4ead7;border:0;border-radius:7px;padding:6px 8px;}
+#eb-pg{min-width:52px;text-align:center;color:var(--bone);}
+#eb-saved{color:var(--glacier);opacity:0;transition:opacity .3s;}
+html.editing [data-ed]{outline:1px dashed rgba(255,204,120,.45);outline-offset:4px;border-radius:3px;cursor:text;}
+html.editing [data-ed]:hover{outline-color:rgba(255,204,120,.9);}
+html.editing [data-ed]:focus{outline:2px solid var(--gold);background:rgba(255,204,120,.06);}
+html.print-pdf #edit-btn,html.print-pdf #editbar{display:none !important;}
+
 /* ---------- cinematic intro ---------- */
 #intro{position:fixed;inset:0;z-index:100;pointer-events:none;display:none;overflow:hidden;}
 html.intro-on #intro{display:block;}
@@ -237,7 +258,16 @@ html.print-pdf .reveal .slides section{background:radial-gradient(ellipse at 70%
 <canvas id="bg"></canvas>
 <div id="vignette"></div>
 <nav id="lang"><a href="index.html" class="on">EN</a><a href="es.html">ES</a></nav>
-<div id="hint">← → navigate · click Raco · F fullscreen · S speaker view · I replay intro</div>
+<button id="edit-btn" title="Edit text (E)">✎ Edit</button>
+<div id="editbar">
+  <button data-act="prev" title="Previous slide">◀</button><span id="eb-pg">1 / 9</span><button data-act="next" title="Next slide">▶</button>
+  <label>Raco: <input id="eb-say" type="text" spellcheck="false" /></label>
+  <button data-act="download">⬇ Download HTML</button>
+  <button data-act="reset">↺ Reset</button>
+  <button data-act="done" class="primary">✓ Done</button>
+  <span id="eb-saved">✓ Saved in this browser</span>
+</div>
+<div id="hint">← → navigate · click Raco · E edit text · F fullscreen · I replay intro</div>
 <div id="intro" aria-hidden="true">
   <div class="curtain"></div>
   <div class="cap" id="in-cap">Sondri presents</div>
@@ -616,6 +646,84 @@ gsap.ticker.lagSmoothing(0); gsap.config({nullTargetWarn:false});
 { let lf=-1; setInterval(()=>{ if(gsap.ticker.frame===lf) gsap.ticker.tick(); lf=gsap.ticker.frame; },50); }
 
 /* =====================================================================
+   0. Edit mode — press E (or ✎ Edit): click any text and type.
+      Edits auto-save in this browser; "Download HTML" bakes them into a copy of this file.
+   ===================================================================== */
+const ED={ on:false, key:'tv-edits:'+location.pathname, list:[], data:{html:{},say:{}} };
+const INLINE=new Set(['B','STRONG','EM','I','SPAN','BR','SMALL','A','SVG']);
+function editableList(root){
+  const chosen=new Set(), out=[];
+  root.querySelectorAll('.slides > section .sl *').forEach(el=>{
+    if(el.closest('svg,.a-letters,.marquee,.photo')) return;
+    for(let p=el.parentElement;p;p=p.parentElement) if(chosen.has(p)) return;
+    if(!el.textContent.trim()) return;
+    if(![...el.children].every(c=>INLINE.has(c.tagName.toUpperCase()))) return;
+    chosen.add(el); out.push(el);
+  });
+  return out;
+}
+(function loadEdits(){
+  try{ const d=JSON.parse(localStorage.getItem(ED.key)||'null'); if(d) ED.data={html:d.html||{},say:d.say||{}}; }catch(e){}
+  ED.list=editableList(document);
+  ED.list.forEach((el,i)=>{ el.dataset.ed=i; if(ED.data.html[i]!=null) el.innerHTML=ED.data.html[i]; });
+  const secs=document.querySelectorAll('.slides > section');
+  Object.entries(ED.data.say).forEach(([i,t])=>{ if(secs[i]) secs[i].dataset.say=t; });
+})();
+function saveEdits(){
+  localStorage.setItem(ED.key,JSON.stringify(ED.data));
+  const f=document.getElementById('eb-saved'); f.style.opacity=1; clearTimeout(ED.t); ED.t=setTimeout(()=>f.style.opacity=0,1400);
+}
+function syncBar(){
+  const i=Reveal.getIndices().h, n=Reveal.getTotalSlides();
+  document.getElementById('eb-pg').textContent=(i+1)+' / '+n;
+  document.getElementById('eb-say').value=Reveal.getCurrentSlide().dataset.say||'';
+}
+function setEditing(on){
+  if(on===ED.on || R.introOn) return;
+  ED.on=on; document.documentElement.classList.toggle('editing',on);
+  Reveal.configure({keyboard:!on});
+  ED.list.forEach(el=>{ if(on) el.setAttribute('contenteditable','true'); else el.removeAttribute('contenteditable'); });
+  if(on){ const s=Reveal.getCurrentSlide(); gsap.set(s.querySelectorAll('.a-up,.ph-in'),{opacity:1,y:0}); syncBar(); }
+  else if(document.activeElement) document.activeElement.blur();
+}
+async function downloadEdited(){
+  const name=(location.pathname.split('/').pop()||'index.html');
+  const src=await (await fetch(location.pathname,{cache:'no-store'})).text();
+  const doc=new DOMParser().parseFromString(src,'text/html');
+  const list=editableList(doc);
+  Object.entries(ED.data.html).forEach(([i,h])=>{ if(list[i]) list[i].innerHTML=h; });
+  const secs=doc.querySelectorAll('.slides > section');
+  Object.entries(ED.data.say).forEach(([i,t])=>{ if(secs[i]) secs[i].setAttribute('data-say',t); });
+  const blob=new Blob(['<!DOCTYPE html>\n'+doc.documentElement.outerHTML],{type:'text/html'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+}
+function initEditor(){
+  ED.list.forEach((el,i)=>{
+    el.addEventListener('input',()=>{ el.querySelectorAll('[data-count]').forEach(x=>x.removeAttribute('data-count')); ED.data.html[i]=el.innerHTML; saveEdits(); });
+    el.addEventListener('paste',e=>{ e.preventDefault(); document.execCommand('insertText',false,(e.clipboardData||window.clipboardData).getData('text/plain')); });
+    el.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); el.blur(); } });
+  });
+  document.getElementById('edit-btn').addEventListener('click',()=>setEditing(true));
+  document.getElementById('eb-say').addEventListener('input',e=>{
+    const i=Reveal.getIndices().h; Reveal.getCurrentSlide().dataset.say=e.target.value; ED.data.say[i]=e.target.value; R.pending=e.target.value; saveEdits();
+  });
+  document.getElementById('editbar').addEventListener('click',e=>{
+    const act=e.target.closest('button')?.dataset.act; if(!act) return;
+    if(act==='prev') Reveal.prev();
+    if(act==='next') Reveal.next();
+    if(act==='done') setEditing(false);
+    if(act==='download') downloadEdited();
+    if(act==='reset' && confirm('Discard all your edits on this deck and go back to the original?')){ localStorage.removeItem(ED.key); location.reload(); }
+  });
+  addEventListener('keydown',e=>{
+    const typing=e.target.isContentEditable||/INPUT|TEXTAREA/.test(e.target.tagName);
+    if(!ED.on && !typing && (e.key==='e'||e.key==='E') && !e.ctrlKey && !e.metaKey && !R.introOn){ e.preventDefault(); setEditing(true); }
+    else if(ED.on && e.key==='Escape'){ e.preventDefault(); setEditing(false); }
+  });
+  Reveal.on('slidechanged',()=>{ if(ED.on){ syncBar(); } });
+}
+
+/* =====================================================================
    1. WebGL background — Andean ridgelines, Bayer-dithered
    ===================================================================== */
 const U = { pan: 0, warm: .25, mx: .7, my: .5, click: 99, bright: 1, lift: 0 };
@@ -704,7 +812,7 @@ Reveal.initialize({
 }).then(()=>{
   if (PRINT) return;
   document.querySelector('.reveal .slides').appendChild(document.getElementById('stage'));
-  buildRail(); initRaco(); prepAll();
+  buildRail(); initRaco(); prepAll(); initEditor();
   setTimeout(()=>document.getElementById('hint').style.opacity=0,14000);
   Reveal.addKeyBinding({keyCode:73,key:'I',description:'Replay intro'},()=>{ Reveal.slide(0); startIntro(); });
   if(Reveal.getIndices().h===0) startIntro();
@@ -984,7 +1092,7 @@ function startIntro(){
   gsap.set(R.bubble,{opacity:0});
   R.inVan=true; R.fy=700; gsap.set(R.wrap,{autoAlpha:0});            // Raco is riding in the van
   // reset the title slide so it can make its entrance afterwards
-  const s0=Reveal.getSlide(0); gsap.set(s0.querySelectorAll('.a-up'),{opacity:0}); gsap.set(s0.querySelectorAll('.a-letters .ch'),{opacity:0});
+  const s0=document.querySelector('.reveal .slides > section'); if(s0){ gsap.set(s0.querySelectorAll('.a-up'),{opacity:0}); gsap.set(s0.querySelectorAll('.a-letters .ch'),{opacity:0}); }
   I.querySelectorAll('.ttl .w').forEach(w=>{ if(!w.dataset.split){ w.dataset.split=1; w.innerHTML=[...w.textContent].map(c=>`<span class="ch">${c}</span>`).join(''); }});
   gsap.set(I,{x:0}); gsap.set(I.querySelector('.curtain'),{opacity:1}); gsap.set('#intro .bar',{height:'12vh'});
   gsap.set(['#in-cap','#in-1','#in-2','#in-3','#in-ttl','#in-sub','#in-flash'],{opacity:0,y:0,scale:1,filter:'blur(0px)'});

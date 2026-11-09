@@ -10,7 +10,15 @@ An animated HTML presentation (reveal.js + GSAP + a WebGL dithered Andes backgro
 - `←` `→` or space to move between slides · `F` fullscreen · `S` speaker notes · click Raco for a fun fact
 - PDF: open the deck with `?print-pdf` (e.g. `es.html?print-pdf`), then print → Save as PDF (static version, no animation)
 
-## Editing
+## Editing in the browser
+
+Press **E** (or click **✎ Edit** / **✎ Editar**) on any slide, click any text and type.
+The toolbar has **◀ ▶** to move between slides, a box for what Raco says on that slide,
+**⬇ Download HTML** (saves a copy of the deck with your edits built in) and **↺ Reset**.
+Edits auto-save in your browser only. To publish them, replace `index.html` / `es.html`
+in this repo with the downloaded file.
+
+## Editing the source
 
 `index.html` (English) is the source. After changing it, regenerate the Spanish version:
 
