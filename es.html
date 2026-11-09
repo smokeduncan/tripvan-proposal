@@ -187,7 +187,7 @@ html,body{margin:0;height:100%;background:var(--ink-deep);color:var(--text);}
 #raco-wrap{position:absolute;left:0;top:0;width:220px;height:323px;pointer-events:auto;cursor:pointer;transform-origin:50% 100%;}
 #raco-flip{width:100%;height:100%;transform-origin:50% 50%;}
 #raco{width:100%;height:100%;overflow:visible;display:block;}
-#bubble{position:absolute;top:-78px;width:250px;padding:12px 16px 13px;border-radius:16px;background:#f4ead7;color:var(--ink);
+#bubble{position:absolute;left:0;top:0;width:250px;pointer-events:none;z-index:2;padding:12px 16px 13px;border-radius:16px;background:#f4ead7;color:var(--ink);
   font-size:16px;line-height:1.35;font-weight:500;box-shadow:0 14px 30px rgba(0,0,0,.4);opacity:0;transform-origin:50% 100%;}
 #bubble .who{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:#8A5326;font-weight:700;display:block;margin-bottom:3px;}
 #bubble::after{content:"";position:absolute;bottom:-9px;left:var(--tail,50%);width:18px;height:18px;background:#f4ead7;transform:rotate(45deg);border-radius:3px;}
@@ -198,6 +198,30 @@ html,body{margin:0;height:100%;background:var(--ink-deep);color:var(--text);}
 #van{position:absolute;top:2px;width:46px;margin-left:-23px;}
 #footer{position:absolute;left:110px;right:110px;top:820px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--dim);text-transform:uppercase;}
 #footer .brand{color:var(--gold);font-weight:700;}
+#bigvan{position:absolute;left:0;top:0;width:420px;height:266px;transform-origin:0 0;display:none;pointer-events:none;}
+#bigvan svg{width:100%;height:100%;overflow:visible;display:block;}
+.puff{position:absolute;border-radius:50%;background:#86A19E;pointer-events:none;}
+
+/* ---------- cinematic intro ---------- */
+#intro{position:fixed;inset:0;z-index:100;pointer-events:none;display:none;overflow:hidden;}
+html.intro-on #intro{display:block;}
+#intro .curtain{position:absolute;inset:0;background:#040a0a;}
+#intro .bar{position:absolute;left:0;right:0;height:12vh;background:#000;z-index:3;}
+#intro .bar.t{top:0;} #intro .bar.b{bottom:0;}
+#intro .cap{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font-family:var(--mono);font-size:1.05vw;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;}
+#intro .line{position:absolute;left:0;right:0;top:36%;text-align:center;font-family:var(--serif);font-style:italic;font-weight:400;color:var(--bone);font-size:5.2vw;line-height:1.05;text-shadow:0 0 40px rgba(0,0,0,.6);}
+#intro #in-1{font-size:10vw;top:30%;}
+#intro .line small{display:block;font-family:var(--mono);font-style:normal;font-size:1vw;letter-spacing:.5em;color:var(--gold);margin-top:2vh;}
+#intro .ttl{position:absolute;left:0;right:0;top:33%;text-align:center;font-family:var(--display);font-weight:700;font-size:9.5vw;letter-spacing:-.045em;color:var(--bone);line-height:1;white-space:nowrap;text-shadow:0 10px 60px rgba(0,0,0,.55);}
+#intro .ttl .ch{display:inline-block;}
+#intro .ttl .x{display:inline-block;font-family:var(--mono);font-weight:400;font-size:3.6vw;color:var(--gold);margin:0 1.6vw;vertical-align:.9em;}
+#intro .rule{position:absolute;left:34%;right:34%;top:54%;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transform:scaleX(0);}
+#intro .sub{position:absolute;left:0;right:0;top:57%;text-align:center;font-family:var(--mono);font-size:1.25vw;letter-spacing:.5em;color:var(--gold-soft);text-transform:uppercase;}
+#intro .flash{position:absolute;inset:0;background:#fff4dc;opacity:0;z-index:2;}
+#intro .skip{position:absolute;right:2.2vw;bottom:calc(12vh + 1.4vw);z-index:4;pointer-events:auto;cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--clay);background:rgba(8,19,19,.55);border:1px solid var(--line-strong);border-radius:99px;padding:8px 14px;}
+#intro .skip:hover{color:var(--gold);border-color:var(--gold);}
+html.intro-on .reveal .controls{opacity:0;}
+html.print-pdf #intro{display:none !important;}
 #hint{position:fixed;right:70px;top:16px;transition:opacity 1s;z-index:5;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--dim);}
 
 #lang{position:fixed;left:18px;top:14px;z-index:6;display:flex;gap:4px;font-family:var(--mono);font-size:12px;letter-spacing:.14em;}
@@ -213,7 +237,20 @@ html.print-pdf .reveal .slides section{background:radial-gradient(ellipse at 70%
 <canvas id="bg"></canvas>
 <div id="vignette"></div>
 <nav id="lang"><a href="index.html">EN</a><a href="es.html" class="on">ES</a></nav>
-<div id="hint">← → navegar · haz clic en Raco · F pantalla completa</div>
+<div id="hint">← → navegar · haz clic en Raco · F pantalla completa · I repetir intro</div>
+<div id="intro" aria-hidden="true">
+  <div class="curtain"></div>
+  <div class="cap" id="in-cap">Sondri presenta</div>
+  <div class="line" id="in-1">Chile.</div>
+  <div class="line" id="in-2">Destino del Año.<small>— FORBES</small></div>
+  <div class="line" id="in-3">¿Pero quién es dueño del viajero?</div>
+  <div class="ttl" id="in-ttl"><span class="w">TripVan</span><span class="x">×</span><span class="w">Sondri</span></div>
+  <div class="rule" id="in-rule"></div>
+  <div class="sub" id="in-sub">La ruta digital</div>
+  <div class="flash" id="in-flash"></div>
+  <div class="bar t"></div><div class="bar b"></div>
+  <button class="skip" id="in-skip">Saltar intro ⏵</button>
+</div>
 
 <!-- icon sprite -->
 <svg width="0" height="0" style="position:absolute">
@@ -243,7 +280,7 @@ html.print-pdf .reveal .slides section{background:radial-gradient(ellipse at 70%
 <div class="slides">
 
 <!-- ===================== 1 · TITLE ===================== -->
-<section data-raco="1120,470,1,-1,wave" data-say="¡Hola! Soy Raco, guardián del Cajón del Maipo. Acompáñame, te muestro la propuesta." data-warm="0.25">
+<section data-raco="1230,700,-1,wave" data-say="¡Hola! Soy Raco, guardián del Cajón del Maipo. Acompáñame, te muestro la propuesta." data-warm="0.25">
   <div class="sl s1">
     <img class="ruta a-up" src="assets/logo-ruta-sostenible-hd.png" alt="Ruta Sostenible" />
     <div class="eyebrow a-up">Una propuesta para</div>
@@ -259,7 +296,7 @@ html.print-pdf .reveal .slides section{background:radial-gradient(ellipse at 70%
 </section>
 
 <!-- ===================== 2 · MEET TRIPVAN ===================== -->
-<section data-raco="40,492,1,1,proud" data-say="Esta es mi casa. Doce paradas, una van y cero apuro, po." data-warm="0.1">
+<section data-raco="160,805,1,proud" data-say="Esta es mi casa. Doce paradas, una van y cero apuro, po." data-warm="0.1">
   <div class="sl s2 zone-l">
     <div class="col">
       <div class="eyebrow a-up">El cliente · tripvan.cl</div>
@@ -286,7 +323,7 @@ html.print-pdf .reveal .slides section{background:radial-gradient(ellipse at 70%
 </section>
 
 <!-- ===================== 3 · SITUATION ===================== -->
-<section data-raco="1340,492,1,-1,worried" data-say="¿Hasta un 30% para las OTA? Eso es mucha alfalfa, cachai…" data-warm="1">
+<section data-raco="1450,520,-1,worried" data-say="¿Hasta un 30% para las OTA? Eso es mucha alfalfa, cachai…" data-warm="1">
   <div class="sl zone-r">
     <div class="eyebrow a-up">La situación</div>
     <h2 class="h2 a-up">Hoy, TripVan <em>arrienda</em> su demanda.</h2>
@@ -307,7 +344,7 @@ html.print-pdf .reveal .slides section{background:radial-gradient(ellipse at 70%
 </section>
 
 <!-- ===================== 4 · PLAYBOOK ===================== -->
-<section data-raco="40,492,1,1,point" data-say="Si funcionó en los Ghats de la India, ¡en los Andes va a funcionar al tiro!" data-warm="0.35">
+<section data-raco="170,620,1,point" data-say="Si funcionó en los Ghats de la India, ¡en los Andes va a funcionar al tiro!" data-warm="0.35">
   <div class="sl zone-l">
     <div class="eyebrow a-up">Un modelo probado</div>
     <h2 class="h2 a-up">Ya vimos este camino funcionar: <em>BMC Adventures.</em></h2>
@@ -336,7 +373,7 @@ html.print-pdf .reveal .slides section{background:radial-gradient(ellipse at 70%
 </section>
 
 <!-- ===================== 5 · SOLUTION ===================== -->
-<section data-raco="40,492,1,1,jump" data-say="Tres campamentos, una cumbre. Me conozco todos los senderos." data-warm="0.4">
+<section data-raco="160,805,1,jump" data-say="Tres campamentos, una cumbre. Me conozco todos los senderos." data-warm="0.4">
   <div class="sl zone-l">
     <div class="eyebrow a-up">La solución</div>
     <h2 class="h2 a-up">Tres cuadrantes. <em>Una alianza que se profundiza.</em></h2>
@@ -353,7 +390,7 @@ html.print-pdf .reveal .slides section{background:radial-gradient(ellipse at 70%
 </section>
 
 <!-- ===================== 6 · Q1 FOUNDATION ===================== -->
-<section data-raco="1340,492,1,-1,point" data-say="Pregúntale a una IA por “el mejor paseo por el día desde Santiago”… debería decir TripVan." data-warm="0.15">
+<section data-raco="1440,805,-1,point" data-say="Pregúntale a una IA por “el mejor paseo por el día desde Santiago”… debería decir TripVan." data-warm="0.15">
   <div class="sl zone-r">
     <div class="bignum">01</div>
     <div class="eyebrow a-up">Cuadrante 1 · Base</div>
@@ -372,7 +409,7 @@ html.print-pdf .reveal .slides section{background:radial-gradient(ellipse at 70%
 </section>
 
 <!-- ===================== 7 · Q2 ACCELERATION ===================== -->
-<section data-raco="30,492,0.78,1,wave" data-say="A los creadores de contenido les encantan las llamas. Es un dato, nomás." data-warm="0.6">
+<section data-raco="140,805,1,wave" data-say="A los creadores de contenido les encantan las llamas. Es un dato, nomás." data-warm="0.6">
   <div class="sl zone-l" style="padding-left:300px">
     <div class="bignum" style="right:90px">02</div>
     <div class="eyebrow a-up">Cuadrante 2 · Aceleración</div>
@@ -401,7 +438,7 @@ html.print-pdf .reveal .slides section{background:radial-gradient(ellipse at 70%
 </section>
 
 <!-- ===================== 8 · Q3 JV ===================== -->
-<section data-raco="1340,492,1,-1,nod" data-say="Mitad y mitad. Mismo pasto para todos. Bien justo, po." data-warm="0.3">
+<section data-raco="1450,480,-1,nod" data-say="Mitad y mitad. Mismo pasto para todos. Bien justo, po." data-warm="0.3">
   <div class="sl zone-r">
     <div class="bignum">03</div>
     <div class="eyebrow a-up">Cuadrante 3 · Eficiencia</div>
@@ -433,7 +470,7 @@ html.print-pdf .reveal .slides section{background:radial-gradient(ellipse at 70%
 </section>
 
 <!-- ===================== 9 · END TO END ===================== -->
-<section data-raco="1330,492,1,-1,celebrate" data-say="¡Vamos! Acompáñame, construyámoslo juntos. ¡Va a quedar bacán!" data-warm="0.9">
+<section data-raco="1430,805,-1,celebrate" data-say="¡Vamos! Acompáñame, construyámoslo juntos. ¡Va a quedar bacán!" data-warm="0.9">
   <div class="sl zone-r">
     <div class="eyebrow a-up">La alianza, de principio a fin</div>
     <h2 class="h2 a-up">Cómo Sondri <em>crece junto a</em> TripVan.</h2>
@@ -477,8 +514,32 @@ html.print-pdf .reveal .slides section{background:radial-gradient(ellipse at 70%
   <div id="footer"><span class="brand">Sondri</span><span>TripVan × Sondri — Propuesta</span><span id="pageno">01 / 09</span></div>
   <div id="rail"><div class="ln"></div><svg id="van" viewBox="0 0 56 34"><use href="#vanglyph"/></svg></div>
 
+  <div id="bubble"><span class="who">RACO · GUARDIÁN DEL CAJÓN</span><span id="say"></span></div>
+  <div id="bigvan">
+    <svg viewBox="0 0 300 190">
+      <defs><linearGradient id="beam" x1="0" x2="1"><stop offset="0" stop-color="#ffe7b3" stop-opacity=".55"/><stop offset="1" stop-color="#ffe7b3" stop-opacity="0"/></linearGradient></defs>
+      <ellipse cx="150" cy="178" rx="138" ry="8" fill="#000" opacity=".35"/>
+      <path d="M286 124 L470 92 L470 172 Z" fill="url(#beam)"/>
+      <g id="bv-body">
+        <rect x="168" y="49" width="44" height="7" rx="2" fill="#22302F"/>
+        <!-- Raco riding with his head out of the sunroof (live clone of his head: he still blinks) -->
+        <rect x="177" y="22" width="26" height="34" rx="9" fill="#F1DDB8"/>
+        <path d="M173 40 Q190 50 207 38 L194 60 Q190 64 186 60 Z" fill="#1E5153"/>
+        <use href="#r-head" transform="translate(70.4,-50) scale(.55)"/>
+        <path d="M10 72 Q10 52 30 52 H200 Q222 52 236 68 L280 110 Q292 118 292 130 V152 H10 Z" fill="#f4f1ea"/>
+        <path d="M206 64 H222 Q232 64 241 74 L268 104 H206 Z" fill="#2a4a50"/>
+        <rect x="26" y="64" width="46" height="32" rx="5" fill="#2a4a50"/><rect x="80" y="64" width="46" height="32" rx="5" fill="#2a4a50"/><rect x="134" y="64" width="60" height="32" rx="5" fill="#2a4a50"/>
+        <rect x="10" y="110" width="282" height="6" fill="#ffcc78"/>
+        <text x="116" y="140" text-anchor="middle" font-family="Space Grotesk" font-weight="700" font-size="17" fill="#1E5153" letter-spacing="1">TRIPVAN</text>
+        <path d="M110 124 l6 -7 4 4 4 -6 7 9" fill="none" stroke="#1E5153" stroke-width="1.6"/>
+        <circle cx="286" cy="126" r="5" fill="#ffe7b3"/><rect x="8" y="104" width="5" height="14" rx="2" fill="#d0473a"/>
+        <rect x="6" y="146" width="290" height="8" rx="4" fill="#cfd3cf"/>
+      </g>
+      <g id="bv-w1"><circle cx="72" cy="152" r="22" fill="#141414"/><circle cx="72" cy="152" r="10" fill="#9aa09c"/><path d="M72 142 V162 M62 152 H82" stroke="#141414" stroke-width="3"/></g>
+      <g id="bv-w2"><circle cx="234" cy="152" r="22" fill="#141414"/><circle cx="234" cy="152" r="10" fill="#9aa09c"/><path d="M234 142 V162 M224 152 H244" stroke="#141414" stroke-width="3"/></g>
+    </svg>
+  </div>
   <div id="raco-wrap" title="Raco — haz clic">
-    <div id="bubble"><span class="who">RACO · GUARDIÁN DEL CAJÓN</span><span id="say"></span></div>
     <div id="raco-flip">
     <!-- Original cartoon interpretation of TripVan's mascot Raco -->
     <svg id="raco" viewBox="0 0 300 440">
@@ -557,7 +618,7 @@ gsap.ticker.lagSmoothing(0); gsap.config({nullTargetWarn:false});
 /* =====================================================================
    1. WebGL background — Andean ridgelines, Bayer-dithered
    ===================================================================== */
-const U = { pan: 0, warm: .25, mx: .7, my: .5, click: 99 };
+const U = { pan: 0, warm: .25, mx: .7, my: .5, click: 99, bright: 1, lift: 0 };
 (function initGL(){
   if (PRINT) return;
   const cv = document.getElementById('bg');
@@ -565,7 +626,7 @@ const U = { pan: 0, warm: .25, mx: .7, my: .5, click: 99 };
   if (!gl) return;
   const vs = `attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
   const fs = `precision mediump float;
-  uniform vec2 uRes; uniform float uTime,uPan,uWarm,uClick; uniform vec2 uMouse;
+  uniform vec2 uRes; uniform float uTime,uPan,uWarm,uClick,uBright,uLift; uniform vec2 uMouse;
   float h21(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}
   float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
     return mix(mix(h21(i),h21(i+vec2(1,0)),f.x),mix(h21(i+vec2(0,1)),h21(i+vec2(1,1)),f.x),f.y);}
@@ -583,7 +644,7 @@ const U = { pan: 0, warm: .25, mx: .7, my: .5, click: 99 };
     // four ridge layers, far -> near
     for(int k=0;k<4;k++){
       float fk=float(k);
-      float base=.66-fk*.13;
+      float base=.66-fk*.13+uLift*(1.+fk*.35);
       float h=base+(fbm(vec2(uv.x*(1.3+fk*.9)+uPan*(.10+.14*fk)+fk*7.3,fk*3.1))-.5)*(.34-fk*.04);
       if(uv.y<h){
         sky=0.;
@@ -602,6 +663,7 @@ const U = { pan: 0, warm: .25, mx: .7, my: .5, click: 99 };
     float d=distance(q,m);
     v+=.22*exp(-d*d*28.);
     float ring=uClick*.9; v+=.35*exp(-pow((d-ring)*22.,2.))*exp(-uClick*1.4);
+    v*=uBright;
     float t=B8(gl_FragCoord.xy);
     float l=floor(clamp(v,0.,1.)*3.4+t);
     vec3 c0=vec3(.047,.102,.102), c1=vec3(.075,.19,.19), c2=vec3(.13,.33,.33);
@@ -615,7 +677,7 @@ const U = { pan: 0, warm: .25, mx: .7, my: .5, click: 99 };
   const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
   const loc=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
   const L=n=>gl.getUniformLocation(pr,n);
-  const uRes=L('uRes'),uTime=L('uTime'),uPan=L('uPan'),uWarm=L('uWarm'),uMouse=L('uMouse'),uClick=L('uClick');
+  const uRes=L('uRes'),uTime=L('uTime'),uPan=L('uPan'),uWarm=L('uWarm'),uMouse=L('uMouse'),uClick=L('uClick'),uBright=L('uBright'),uLift=L('uLift');
   const sm={x:U.mx,y:U.my};
   function resize(){cv.width=Math.ceil(innerWidth/3);cv.height=Math.ceil(innerHeight/3);gl.viewport(0,0,cv.width,cv.height);}
   addEventListener('resize',resize);resize();
@@ -626,7 +688,7 @@ const U = { pan: 0, warm: .25, mx: .7, my: .5, click: 99 };
     const dt=(now-last)/1000;last=now;U.click+=dt;
     sm.x+=(U.mx-sm.x)*.06;sm.y+=(U.my-sm.y)*.06;
     gl.uniform2f(uRes,cv.width,cv.height);gl.uniform1f(uTime,now/1000);gl.uniform1f(uPan,U.pan);
-    gl.uniform1f(uWarm,U.warm);gl.uniform2f(uMouse,sm.x,sm.y);gl.uniform1f(uClick,U.click);
+    gl.uniform1f(uWarm,U.warm);gl.uniform1f(uBright,U.bright);gl.uniform1f(uLift,U.lift);gl.uniform2f(uMouse,sm.x,sm.y);gl.uniform1f(uClick,U.click);
     gl.drawArrays(gl.TRIANGLES,0,3);requestAnimationFrame(frame);
   })(last);
 })();
@@ -643,8 +705,10 @@ Reveal.initialize({
   if (PRINT) return;
   document.querySelector('.reveal .slides').appendChild(document.getElementById('stage'));
   buildRail(); initRaco(); prepAll();
-  setTimeout(()=>document.getElementById('hint').style.opacity=0,9000);
-  onSlide(Reveal.getCurrentSlide(), Reveal.getIndices().h, true);
+  setTimeout(()=>document.getElementById('hint').style.opacity=0,14000);
+  Reveal.addKeyBinding({keyCode:73,key:'I',description:'Replay intro'},()=>{ Reveal.slide(0); startIntro(); });
+  if(Reveal.getIndices().h===0) startIntro();
+  else onSlide(Reveal.getCurrentSlide(), Reveal.getIndices().h, true);
 });
 Reveal.on('slidechanged', e => { if(!PRINT) onSlide(e.currentSlide, e.indexh, false); });
 
@@ -663,6 +727,7 @@ function prepAll(){
   document.querySelectorAll('.a-letters').forEach(el=>{
     el.innerHTML=[...el.textContent].map(c=>`<span class="ch">${c}</span>`).join('');
   });
+  gsap.set('.a-letters .ch',{opacity:0});
 }
 function enter(s){
   const tl=gsap.timeline();
@@ -738,13 +803,31 @@ function moveRail(i){
 
 /* =====================================================================
    5. Raco — the guide
+   Position is tracked by his FEET (fx, fy) in 1600×900 slide space.
+   Depth rule: lower on screen = closer = bigger; higher = farther = smaller.
+   Moving right: walk off the left edge → ride the TripVan van across and
+   out the right edge → walk back in to the spot. Left / up / down: walk.
    ===================================================================== */
-const R={};
+const R={fx:-200, fy:700, face:1, inVan:false};
+const RW=220, FOOT=311, EARS=280;            // wrapper width, feet & ear-tip offsets (px at scale 1)
+const depth=fy=>gsap.utils.clamp(.42,1.08,.5+.5*(fy-400)/410);
+function apply(){
+  const s=depth(R.fy);
+  gsap.set(R.wrap,{x:R.fx-RW/2,y:R.fy-FOOT,scale:s});
+  placeBubble(s);
+}
+function placeBubble(s=depth(R.fy)){
+  const b=R.bubble, bw=250, bh=b.offsetHeight||64;
+  const headX=R.fx+R.face*.23*RW*s, headTop=R.fy-EARS*s;
+  const left=gsap.utils.clamp(12,1600-bw-12,headX-bw/2);
+  b.style.left=left+'px'; b.style.top=(headTop-bh-12)+'px';
+  b.style.setProperty('--tail',gsap.utils.clamp(18,bw-36,headX-left-9)+'px');
+}
 function initRaco(){
   R.wrap=document.getElementById('raco-wrap'); R.flip=document.getElementById('raco-flip');
   R.bubble=document.getElementById('bubble'); R.say=document.getElementById('say');
-  R.x=-320; R.y=510; R.face=1;
-  gsap.set(R.wrap,{x:R.x,y:R.y});
+  R.van=document.getElementById('bigvan');
+  gsap.set(R.wrap,{transformOrigin:'50% 100%'}); apply();
   gsap.set('.lid',{scaleY:0,transformOrigin:'50% 0%'});
   // walk cycle
   R.walk=gsap.timeline({paused:true,repeat:-1})
@@ -756,6 +839,9 @@ function initRaco(){
     .to(['#leg-ff','#leg-bn'],{rotate:0,duration:.22,ease:'sine.inOut'},.66)
     .to('#r-all',{y:-6,duration:.22,yoyo:true,repeat:3,ease:'sine.inOut'},0)
     .to('#r-neck',{rotate:-3,svgOrigin:'207 292',duration:.44,yoyo:true,repeat:1,ease:'sine.inOut'},0);
+  // van parts
+  R.vanWheels=gsap.to(['#bv-w1','#bv-w2'],{rotate:360,transformOrigin:'50% 50%',duration:.32,ease:'none',repeat:-1,paused:true});
+  R.vanBob=gsap.to('#bv-body',{y:-2.5,duration:.14,yoyo:true,repeat:-1,ease:'sine.inOut',paused:true});
   // idle life
   (function blink(){gsap.timeline({onComplete:()=>gsap.delayedCall(2+Math.random()*3.5,blink)})
     .to('.lid',{scaleY:1,duration:.07}).to('.lid',{scaleY:0,duration:.12});})();
@@ -775,7 +861,7 @@ function initRaco(){
     pose('jump'); say(lines[Math.floor(Math.random()*lines.length)]);
   });
 }
-function face(dir){ if(dir===R.face) return; R.face=dir; gsap.to(R.flip,{scaleX:dir,duration:.25,ease:'power2.inOut'}); }
+function face(dir){ if(!dir || dir===R.face) return; R.face=dir; gsap.to(R.flip,{scaleX:dir,duration:.25,ease:'power2.inOut'}); placeBubble(); }
 function resetPose(){
   gsap.killTweensOf(['#r-head','#ear-far','#r-brow','#r-mouth','#r-mouth-open','#leg-fn']);
   gsap.to('#r-head',{rotate:0,x:0,y:0,duration:.4});
@@ -820,32 +906,66 @@ function pose(p){
   }
 }
 function say(text){
+  if(!text) return;
   gsap.killTweensOf(R.bubble); clearInterval(R.typer);
-  R.bubble.style.left = R.face===-1 ? '-70px' : '40px';
-  R.bubble.style.setProperty('--tail', R.face===-1 ? '200px' : '120px');
-  R.say.textContent='';
-  gsap.fromTo(R.bubble,{opacity:0,scale:.6,y:10},{opacity:1,scale:1,y:0,duration:.45,ease:'back.out(2)'});
+  R.say.textContent=text; placeBubble(); R.say.textContent='';   // measure with full text, then type it
+  gsap.fromTo(R.bubble,{opacity:0,scale:.6,y:10,transformOrigin:'50% 100%'},{opacity:1,scale:1,y:0,duration:.45,ease:'back.out(2)'});
   let i=0; R.typer=setInterval(()=>{R.say.textContent=text.slice(0,++i); if(i>=text.length)clearInterval(R.typer);},22);
   gsap.to(R.bubble,{opacity:0,y:-6,duration:.5,delay:Math.max(5,text.length*.07)});
 }
+function startWalk(dir){ face(dir); R.walk.timeScale(1.25).play(); }
+function stopWalk(){ R.walk.pause(); gsap.to(['#leg-fn','#leg-ff','#leg-bn','#leg-bf'],{rotate:0,duration:.2}); gsap.to('#r-all',{y:0,duration:.2}); }
+const legTime=(x0,y0,x1,y1)=>gsap.utils.clamp(.5,3.2,Math.hypot(x1-x0,y1-y0)/(560*(depth(y0)+depth(y1))/2));
+
+/* --- the TripVan van ------------------------------------------------- */
+function puff(){
+  const v=R.van, s=gsap.getProperty(v,'scale'), x=gsap.getProperty(v,'x'), y=gsap.getProperty(v,'y');
+  if(x<-200||x>1600) return;
+  const d=document.createElement('div'), sz=(14+Math.random()*16)*s;
+  d.className='puff'; d.style.cssText=`width:${sz}px;height:${sz}px;left:${x+4*s}px;top:${y+150*1.4*s-sz/2}px;opacity:.55`;
+  document.getElementById('stage').insertBefore(d,v);
+  gsap.to(d,{x:-60*s-Math.random()*40,y:-20*s-Math.random()*25,scale:2.4,opacity:0,duration:.9,ease:'power2.out',onComplete:()=>d.remove()});
+}
+function stopVan(){ clearInterval(R.dust); R.vanWheels&&R.vanWheels.pause(); R.vanBob&&R.vanBob.pause(); if(R.van){ gsap.killTweensOf(R.van); gsap.set(R.van,{display:'none'}); } }
+function vanRide(lane,dur){
+  const s=depth(lane), w=420*s, h=266*s;
+  return gsap.timeline({
+    onStart:()=>{ gsap.set(R.van,{display:'block',x:-w-80,y:lane-h,scale:s}); R.vanWheels.play(); R.vanBob.play();
+      clearInterval(R.dust); R.dust=setInterval(puff,70); },
+    onComplete:stopVan })
+  .fromTo(R.van,{x:-w-80},{x:1680,duration:dur,ease:'power1.inOut'})
+  .fromTo(R.van,{rotate:-1.5},{rotate:0,duration:.6,ease:'power2.out',transformOrigin:'0% 100%'},0);
+}
+
+/* --- where Raco goes on each slide ------------------------------------ */
 function goRaco(cfg){
-  const [x,y,s,f,p]=cfg.split(',').map((v,i)=>i<4?+v:v);
-  gsap.killTweensOf(R.wrap); gsap.to(R.bubble,{opacity:0,duration:.2});
-  const cx=gsap.getProperty(R.wrap,'x'), cy=gsap.getProperty(R.wrap,'y');
-  const dx=x-cx, dist=Math.hypot(dx,y-cy);
-  const arrive=()=>{ R.walk.pause(); gsap.to(['#leg-fn','#leg-ff','#leg-bn','#leg-bf'],{rotate:0,duration:.2});
-    gsap.to('#r-all',{y:0,duration:.2}); face(f); gsap.delayedCall(.25,()=>{pose(p); say(R.pending);}); };
-  R.x=x; R.y=y;
-  if(dist<12){ R.walk.pause(); gsap.to(R.wrap,{x,y,scale:s,duration:.4}); face(f); pose(p); say(R.pending); return; }
-  face(dx>=0?1:-1); R.walk.timeScale(dist>700?1.4:1).play();
-  gsap.to(R.wrap,{x,y,scale:s,duration:gsap.utils.clamp(.9,2.4,dist/620),ease:'power1.inOut',onComplete:arrive});
+  const parts=cfg.split(','), fx=+parts[0], fy=+parts[1], f=+parts[2], p=parts[3];
+  if(R.seq) R.seq.kill(); gsap.killTweensOf(R); stopVan();
+  gsap.to(R.bubble,{opacity:0,duration:.2});
+  if(R.inVan){ R.inVan=false; R.fx=1760; apply(); gsap.set(R.wrap,{autoAlpha:1}); }   // was mid-ride: he hops out off-camera right
+  const dx=fx-R.fx, dy=fy-R.fy;
+  const tl=R.seq=gsap.timeline({onComplete:()=>{ stopWalk(); face(f); gsap.delayedCall(.25,()=>{ pose(p); say(R.pending); }); }});
+  if(Math.abs(dx)<10 && Math.abs(dy)<10){ tl.to(R,{fx,fy,duration:.3,onUpdate:apply}); return; }
+  const rideRight = dx>60 && !(R.fx<0 && fx<800);
+  if(rideRight){
+    const exitX=-170, lane=gsap.utils.clamp(640,800,Math.max(R.fy,fy));
+    tl.call(startWalk,[-1])
+      .to(R,{fx:exitX,duration:legTime(R.fx,R.fy,exitX,R.fy),ease:'sine.in',onUpdate:apply})
+      .call(()=>{ stopWalk(); R.inVan=true; gsap.set(R.wrap,{autoAlpha:0}); })
+      .add(vanRide(lane,2.4),'+=0.05')
+      .call(()=>{ R.inVan=false; R.fx=1760; R.fy=fy; apply(); gsap.set(R.wrap,{autoAlpha:1}); startWalk(-1); })
+      .to(R,{fx,duration:legTime(1760,fy,fx,fy),ease:'sine.out',onUpdate:apply});
+  } else {
+    tl.call(startWalk,[Math.abs(dx)>10?(dx>0?1:-1):0])
+      .to(R,{fx,fy,duration:legTime(R.fx,R.fy,fx,fy),ease:'sine.inOut',onUpdate:apply});
+  }
 }
 function confetti(){
-  const layer=document.getElementById('stage');
+  const layer=document.getElementById('stage'), s=depth(R.fy);
   const cols=['#ffcc78','#5fc4bc','#E6F2F0','#F7C062','#1E5153'];
   for(let i=0;i<70;i++){
     const d=document.createElement('div');
-    d.style.cssText=`position:absolute;width:${6+Math.random()*8}px;height:${4+Math.random()*6}px;background:${cols[i%5]};border-radius:2px;left:${R.x+110}px;top:${R.y+60}px;`;
+    d.style.cssText=`position:absolute;width:${6+Math.random()*8}px;height:${4+Math.random()*6}px;background:${cols[i%5]};border-radius:2px;left:${R.fx}px;top:${R.fy-250*s}px;`;
     layer.appendChild(d);
     gsap.to(d,{x:(Math.random()-.5)*900,y:-200-Math.random()*400,rotate:Math.random()*720,duration:1+Math.random()*.6,ease:'power2.out'});
     gsap.to(d,{y:'+=650',opacity:0,duration:1.6,delay:1,ease:'power1.in',onComplete:()=>d.remove()});
@@ -853,14 +973,76 @@ function confetti(){
 }
 
 /* =====================================================================
-   6. Slide orchestration
+   6. Cinematic intro (plays when the deck opens on slide 1; I = replay)
+   ===================================================================== */
+function startIntro(){
+  if(R.introOn) return;
+  R.introOn=true; R.token=(R.token||0)+1;
+  const html=document.documentElement, I=document.getElementById('intro');
+  html.classList.add('intro-on'); Reveal.configure({keyboard:false});
+  if(R.seq) R.seq.kill(); gsap.killTweensOf(R); stopVan(); stopWalk();
+  gsap.set(R.bubble,{opacity:0});
+  R.inVan=true; R.fy=700; gsap.set(R.wrap,{autoAlpha:0});            // Raco is riding in the van
+  // reset the title slide so it can make its entrance afterwards
+  const s0=Reveal.getSlide(0); gsap.set(s0.querySelectorAll('.a-up'),{opacity:0}); gsap.set(s0.querySelectorAll('.a-letters .ch'),{opacity:0});
+  I.querySelectorAll('.ttl .w').forEach(w=>{ if(!w.dataset.split){ w.dataset.split=1; w.innerHTML=[...w.textContent].map(c=>`<span class="ch">${c}</span>`).join(''); }});
+  gsap.set(I,{x:0}); gsap.set(I.querySelector('.curtain'),{opacity:1}); gsap.set('#intro .bar',{height:'12vh'});
+  gsap.set(['#in-cap','#in-1','#in-2','#in-3','#in-ttl','#in-sub','#in-flash'],{opacity:0,y:0,scale:1,filter:'blur(0px)'});
+  gsap.set('#in-rule',{scaleX:0,opacity:1});
+  gsap.set(['#footer','#rail'],{opacity:0});
+  Object.assign(U,{bright:0,lift:-.55,pan:-10,warm:.12});
+  const IN={opacity:1,filter:'blur(0px)',scale:1,duration:1.15,ease:'power3.out'};
+  const OUT={opacity:0,filter:'blur(14px)',y:-34,duration:.7,ease:'power2.in'};
+  const tl=gsap.timeline({onComplete:finish});
+  tl.fromTo('#in-cap',{opacity:0,letterSpacing:'.15em'},{opacity:1,letterSpacing:'.65em',duration:1.8,ease:'power2.out'},.3)
+    .to('#in-cap',{opacity:0,duration:.6},1.9)
+    .to('#intro .curtain',{opacity:0,duration:2.8,ease:'power2.inOut'},1.6)
+    .to(U,{bright:1,duration:3.2,ease:'power2.out'},1.6)
+    .to(U,{lift:0,duration:5,ease:'power3.out'},1.6)
+    .to(U,{pan:0,duration:8,ease:'power2.out'},1.2)
+    .fromTo('#in-1',{opacity:0,filter:'blur(22px)',scale:1.25},IN,2.8)
+    .to('#in-1',OUT,4.4)
+    .fromTo('#in-2',{opacity:0,filter:'blur(20px)',scale:1.14},IN,4.7)
+    .to('#in-2',OUT,6.5)
+    .fromTo('#in-3',{opacity:0,filter:'blur(20px)',scale:1.12},IN,6.8)
+    .add(vanRide(690,2.9),7.2)
+    .to('#in-3',OUT,9.2)
+    .set('#in-ttl',{opacity:1},9.8)
+    .fromTo('#in-ttl .ch',{opacity:0,scale:2.8,filter:'blur(16px)'},{opacity:1,scale:1,filter:'blur(0px)',duration:.75,ease:'expo.out',stagger:.045},9.8)
+    .fromTo('#in-ttl .x',{opacity:0,rotate:-180,scale:0},{opacity:1,rotate:0,scale:1,duration:.6,ease:'back.out(3)'},10.25)
+    .set('#in-flash',{opacity:.8},10.4).to('#in-flash',{opacity:0,duration:1,ease:'power2.out'},10.4)
+    .to(I,{x:9,duration:.04,yoyo:true,repeat:9,ease:'none'},10.4)
+    .set(I,{x:0},10.85)
+    .to(U,{warm:.7,duration:1.2},10.4)
+    .to('#in-rule',{scaleX:1,duration:1,ease:'expo.out'},10.6)
+    .fromTo('#in-sub',{opacity:0,letterSpacing:'.1em'},{opacity:1,letterSpacing:'.55em',duration:1.3,ease:'power2.out'},10.7)
+    .to(['#in-ttl','#in-sub','#in-rule'],{opacity:0,scale:.94,filter:'blur(8px)',duration:.8,ease:'power2.in'},12.6)
+    .to('#intro .bar',{height:0,duration:1.1,ease:'power3.inOut'},12.8)
+    .to(U,{warm:.25,duration:1.2},12.8)
+    .to(['#footer','#rail'],{opacity:1,duration:.8},13.2);
+  const skip=()=>{ if(tl.progress()<1) tl.progress(1); };
+  const onKey=e=>{ e.preventDefault(); skip(); };
+  const btn=document.getElementById('in-skip');
+  addEventListener('keydown',onKey,true); btn.addEventListener('click',skip);
+  function finish(){
+    removeEventListener('keydown',onKey,true); btn.removeEventListener('click',skip);
+    stopVan(); Object.assign(U,{bright:1,lift:0,pan:0});
+    gsap.set(['#footer','#rail'],{opacity:1});
+    html.classList.remove('intro-on'); Reveal.configure({keyboard:true});
+    R.introOn=false; R.inVan=true; R.fy=700;                       // he hops out off-camera right…
+    onSlide(Reveal.getCurrentSlide(), Reveal.getIndices().h, true); // …and walks in to his spot
+  }
+}
+
+/* =====================================================================
+   7. Slide orchestration
    ===================================================================== */
 function onSlide(s, idx, first){
-  if(!R.wrap) return;
+  if(!R.wrap || R.introOn) return;
   enter(s);
   moveRail(idx);
   gsap.to(U,{pan:idx*1.15,warm:+(s.dataset.warm||.25),duration:2.4,ease:'power2.inOut'});
-  if(s.dataset.raco){ R.pending=s.dataset.say||''; const tk=R.token=(R.token||0)+1; setTimeout(()=>{ if(tk===R.token) goRaco(s.dataset.raco); }, first?600:150); }
+  if(s.dataset.raco){ R.pending=s.dataset.say||''; const tk=R.token=(R.token||0)+1; setTimeout(()=>{ if(tk===R.token) goRaco(s.dataset.raco); }, first?400:150); }
 }
 </script>
 </body>

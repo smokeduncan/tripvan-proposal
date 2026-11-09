@@ -25,7 +25,12 @@ R = [
 # head / chrome
 ('<html lang="en">', '<html lang="es-CL">'),
 ('<title>TripVan × Sondri — Proposal</title>', '<title>TripVan × Sondri — Propuesta</title>'),
-('← → navigate · click Raco · F fullscreen · S speaker view', '← → navegar · haz clic en Raco · F pantalla completa'),
+('← → navigate · click Raco · F fullscreen · S speaker view · I replay intro', '← → navegar · haz clic en Raco · F pantalla completa · I repetir intro'),
+('<div class="cap" id="in-cap">Sondri presents</div>', '<div class="cap" id="in-cap">Sondri presenta</div>'),
+('Destination of the Year.<small>— FORBES</small>', 'Destino del Año.<small>— FORBES</small>'),
+('But who owns the traveler?', '¿Pero quién es dueño del viajero?'),
+('<div class="sub" id="in-sub">The digital route</div>', '<div class="sub" id="in-sub">La ruta digital</div>'),
+('Skip intro ⏵', 'Saltar intro ⏵'),
 ('<span>TripVan × Sondri — Proposal</span>', '<span>TripVan × Sondri — Propuesta</span>'),
 ('title="Raco — click me"', 'title="Raco — haz clic"'),
 ('<a href="index.html" class="on">EN</a><a href="es.html">ES</a>', '<a href="index.html">EN</a><a href="es.html" class="on">ES</a>'),
