@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TripVan × Sondri — Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+<style>
+:root{
+  --ink:#0C1A1A; --ink-deep:#081313; --raise:#152020; --line:#263434; --line-strong:#334141;
+  --gold:#ffcc78; --gold-soft:#ffe7b3; --tan:#F7C062; --bone:#E6F2F0; --text:#C9DAD7; --clay:#86A19E; --dim:#7D8A89;
+  --teal:#1E5153; --glacier:#5fc4bc; --warn:#ff8a6b;
+  --display:'Space Grotesk',sans-serif; --mono:'Space Mono',monospace; --serif:'Fraunces',serif;
+}
+html,body{margin:0;height:100%;background:var(--ink-deep);color:var(--text);}
+#bg{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;image-rendering:pixelated;}
+#vignette{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 40%,transparent 30%,rgba(8,19,19,.55) 75%,rgba(8,19,19,.9) 100%);}
+.reveal{z-index:2;font-family:var(--display);color:var(--text);}
+.reveal .slides{text-align:left;}
+.reveal .slides>section{height:900px;padding:0;box-sizing:border-box;}
+.reveal .controls{color:var(--gold);}
+.reveal h1,.reveal h2,.reveal h3,.reveal p{margin:0;font-family:var(--display);text-transform:none;letter-spacing:0;}
+
+/* ---------- shared slide furniture ---------- */
+.sl{position:absolute;inset:0;padding:96px 110px 0;box-sizing:border-box;}
+.sl.zone-l{padding-left:350px;padding-right:90px;}
+.sl.zone-r{padding-right:340px;}
+.sl.zone-l::before,.sl.zone-r::before,.sl.scrim::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;}
+.sl.zone-r::before{background:linear-gradient(90deg,rgba(8,19,19,.86) 0%,rgba(8,19,19,.66) 62%,rgba(8,19,19,.15) 85%,transparent);}
+.sl.zone-l::before{background:linear-gradient(270deg,rgba(8,19,19,.86) 0%,rgba(8,19,19,.66) 62%,rgba(8,19,19,.15) 85%,transparent);}
+.sl.scrim::before{background:linear-gradient(180deg,rgba(8,19,19,.75),rgba(8,19,19,.55) 60%,rgba(8,19,19,.85));}
+.eyebrow{font-family:var(--mono);font-size:15px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:14px;}
+.eyebrow::before{content:"";width:34px;height:2px;background:var(--gold);}
+.h2{font-size:64px;font-weight:700;line-height:1.02;color:var(--bone);letter-spacing:-.02em;margin-top:18px !important;}
+.h2 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--gold);}
+.lede{font-size:23px;line-height:1.45;color:var(--text);max-width:900px;margin-top:20px !important;}
+.mono{font-family:var(--mono);}
+.gold{color:var(--gold);}
+.card{background:linear-gradient(160deg,rgba(21,32,32,.92),rgba(12,26,26,.88));border:1px solid var(--line-strong);border-radius:18px;position:relative;overflow:hidden;}
+.card::after{content:"";position:absolute;inset:0;border-radius:18px;pointer-events:none;
+  background:radial-gradient(400px 120px at 0% 0%,rgba(255,204,120,.08),transparent 70%);}
+.bignum{position:absolute;font-family:var(--display);font-weight:700;font-size:360px;line-height:.8;color:transparent;
+  -webkit-text-stroke:1.5px rgba(255,204,120,.22);right:330px;top:60px;letter-spacing:-.05em;pointer-events:none;}
+.ico{width:28px;height:28px;stroke:var(--gold);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ---------- S1 title ---------- */
+.s1 .wordmark{font-size:200px;font-weight:700;line-height:.86;letter-spacing:-.05em;color:var(--bone);margin-top:26px;}
+.s1 .wordmark .ch{display:inline-block;}
+.s1 .x{font-family:var(--mono);font-size:30px;color:var(--gold);margin-top:22px;letter-spacing:.3em;}
+.s1 .sub{font-size:34px;line-height:1.3;color:var(--bone);max-width:880px;margin-top:34px;font-weight:500;}
+.s1 .sub em{font-family:var(--serif);color:var(--gold);font-weight:400;}
+.chips{display:flex;gap:12px;margin-top:38px;}
+.chip{font-family:var(--mono);font-size:15px;letter-spacing:.12em;padding:10px 18px;border:1px solid var(--line-strong);border-radius:99px;color:var(--bone);background:rgba(12,26,26,.7);}
+.chip b{color:var(--gold);margin-right:8px;font-weight:400;}
+.s1 .meta{position:absolute;left:110px;bottom:110px;font-size:17px;color:var(--clay);line-height:1.6;}
+.s1 .meta strong{color:var(--bone);font-weight:600;}
+.s1 .ruta{position:absolute;right:110px;top:90px;width:230px;opacity:.85;}
+
+/* ---------- S2 meet ---------- */
+.s2 .col{width:560px;}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:34px;}
+.fact{padding:16px 14px 14px;}
+.fact .v{font-size:23px;font-weight:700;color:var(--bone);letter-spacing:-.02em;white-space:nowrap;}
+.fact .l{font-size:14.5px;color:var(--clay);margin-top:6px;line-height:1.35;}
+.photo{position:absolute;border-radius:14px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.55);border:4px solid #f4ead7;}
+.photo img{width:100%;height:100%;object-fit:cover;display:block;margin:0;}
+.photo .cap{position:absolute;left:10px;bottom:8px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:#fff;background:rgba(8,19,19,.7);padding:4px 8px;border-radius:6px;}
+.marquee{position:absolute;left:350px;right:90px;top:776px;overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:9px 0;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
+.marquee .track{display:inline-flex;white-space:nowrap;font-family:var(--mono);font-size:14px;letter-spacing:.18em;color:var(--clay);animation:mq 38s linear infinite;}
+.marquee .track span{margin-right:28px;}
+.marquee .track i{color:var(--gold);font-style:normal;margin-right:28px;}
+@keyframes mq{to{transform:translateX(-50%);}}
+
+/* ---------- S3 situation ---------- */
+.otas{display:flex;gap:22px;margin-top:38px;}
+.ota{width:356px;padding:24px 26px;display:flex;align-items:center;gap:22px;}
+.ring{width:96px;height:96px;flex:none;}
+.ring circle{fill:none;stroke-width:9;}
+.ring .bgc{stroke:var(--line-strong);}
+.ring .fg{stroke:var(--gold);stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;}
+.ota .n{font-size:24px;font-weight:700;color:var(--bone);}
+.ota .p{font-size:34px;font-weight:700;color:var(--gold);letter-spacing:-.02em;margin-top:2px;}
+.ota .k{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase;margin-top:2px;}
+.seat{margin-top:34px;padding:24px 28px;}
+.seat .top{display:flex;justify-content:space-between;font-family:var(--mono);font-size:14px;letter-spacing:.14em;color:var(--clay);text-transform:uppercase;}
+.seatbar{position:relative;height:46px;border-radius:10px;background:var(--teal);margin-top:14px;overflow:hidden;}
+.seatbar .keep{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-weight:600;color:var(--bone);font-size:18px;}
+.seatbar .cut{position:absolute;right:0;top:0;bottom:0;width:30%;background:repeating-linear-gradient(-45deg,var(--gold) 0 10px,#f0b65a 10px 20px);display:flex;align-items:center;justify-content:center;color:var(--ink);font-weight:700;font-size:17px;}
+.seatbar .cut::before{content:"";position:absolute;left:33.3%;top:0;bottom:0;border-left:2px dashed rgba(12,26,26,.6);}
+.seat .big{font-size:27px;color:var(--bone);margin-top:16px;font-weight:500;}
+.seat .big b{color:var(--gold);}
+.risk{margin-top:26px;font-size:20px;line-height:1.45;color:var(--text);border-left:3px solid var(--warn);padding-left:18px;max-width:1080px;}
+.risk b{color:var(--bone);}
+
+/* ---------- S4 playbook ---------- */
+.stats{display:flex;gap:18px;margin-top:40px;}
+.stat{flex:1;padding:26px 24px;}
+.stat .v{font-size:68px;font-weight:700;color:var(--bone);letter-spacing:-.04em;line-height:1;}
+.stat .l{font-family:var(--mono);font-size:13px;letter-spacing:.16em;color:var(--clay);text-transform:uppercase;margin-top:12px;}
+.arc{margin-top:14px;width:100%;height:104px;}
+.proves{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;align-items:center;}
+.proves .lab{font-family:var(--mono);font-size:13px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-right:10px;}
+.pill{display:flex;align-items:center;gap:10px;font-size:18px;color:var(--bone);padding:10px 16px;border:1px solid var(--line-strong);border-radius:12px;background:rgba(21,32,32,.85);}
+.pill .ico{width:18px;height:18px;stroke:var(--glacier);stroke-width:2.4;}
+
+/* ---------- S5 solution ---------- */
+.camps{position:relative;height:440px;margin-top:20px;}
+.camp{position:absolute;width:350px;padding:26px 26px 24px;}
+.camp .no{font-family:var(--mono);font-size:14px;letter-spacing:.2em;color:var(--gold);}
+.camp .t{font-size:34px;font-weight:700;color:var(--bone);margin-top:6px;}
+.camp .s{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--gold-soft);margin-top:2px;}
+.camp .d{font-size:17px;line-height:1.45;color:var(--text);margin-top:12px;min-height:50px;}
+.camp .price{margin-top:16px;padding-top:14px;border-top:1px solid var(--line-strong);font-size:24px;font-weight:700;color:var(--gold);}
+.camp .flag{position:absolute;right:20px;top:22px;width:26px;height:26px;}
+.deepen{display:flex;align-items:center;gap:16px;margin-top:10px;font-size:22px;color:var(--bone);font-weight:600;}
+.deepen .arr{color:var(--gold);font-family:var(--mono);}
+.deepen small{font-weight:400;color:var(--clay);font-size:18px;margin-left:18px;}
+
+/* ---------- tiles (Q1/Q2/Q3) ---------- */
+.tiles{display:grid;gap:16px;margin-top:30px;}
+.tiles.c3{grid-template-columns:repeat(3,1fr);}
+.tiles.c2{grid-template-columns:repeat(2,1fr);}
+.tile{padding:20px 22px;}
+.tile .hd{display:flex;align-items:center;gap:12px;}
+.tile .t{font-size:21px;font-weight:700;color:var(--bone);}
+.tile .d{font-size:16.5px;line-height:1.45;color:var(--text);margin-top:10px;}
+.tile .d b{color:var(--gold-soft);font-weight:500;}
+.commercial{margin-top:20px;display:flex;align-items:center;justify-content:space-between;padding:18px 26px;border-radius:14px;
+  background:linear-gradient(90deg,rgba(255,204,120,.16),rgba(255,204,120,.04));border:1px solid rgba(255,204,120,.45);}
+.commercial .k{font-family:var(--mono);font-size:14px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;}
+.commercial .v{font-size:28px;font-weight:700;color:var(--bone);}
+.commercial .v span{color:var(--gold);}
+
+/* Q2 */
+.q2grid{display:grid;grid-template-columns:1fr 470px;gap:22px;margin-top:26px;}
+.q2grid .tiles{margin-top:0;gap:12px;}
+.q2grid .tile{padding:16px 18px;}
+.q2grid .tile .t{font-size:18.5px;}
+.q2grid .tile .d{font-size:15px;margin-top:7px;}
+.bench{padding:22px 24px;}
+.bench .ttl{font-family:var(--mono);font-size:13px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;}
+.brow{margin-top:16px;}
+.brow .lb{display:flex;justify-content:space-between;font-size:16px;color:var(--text);}
+.brow .lb b{color:var(--bone);}
+.brow .tr{height:16px;border-radius:8px;background:rgba(51,65,65,.6);margin-top:7px;overflow:hidden;}
+.brow .fl{height:100%;border-radius:8px;background:var(--clay);}
+.brow.me .lb b,.brow.me .lb span{color:var(--gold);}
+.brow.me .fl{background:linear-gradient(90deg,var(--tan),var(--gold));box-shadow:0 0 18px rgba(255,204,120,.6);}
+.bench .call{margin-top:20px;padding-top:16px;border-top:1px solid var(--line-strong);}
+.bench .call .v{font-size:26px;font-weight:700;color:var(--bone);}
+.bench .call .v span{color:var(--gold);}
+.bench .call p{font-size:14.5px;line-height:1.5;color:var(--clay);margin-top:8px !important;}
+
+/* Q3 */
+.q3grid{display:grid;grid-template-columns:380px 1fr;gap:30px;margin-top:26px;align-items:start;}
+.donutwrap{padding:22px;text-align:center;}
+.donut{width:250px;height:250px;margin:0 auto;display:block;}
+.donut circle{fill:none;stroke-width:34;}
+.donutwrap .lg{display:flex;justify-content:space-between;margin-top:14px;font-family:var(--mono);font-size:14px;letter-spacing:.14em;}
+.donutwrap .lg b{display:block;font-family:var(--display);font-size:30px;letter-spacing:-.02em;}
+.donutwrap p{font-size:15px;line-height:1.5;color:var(--clay);margin-top:12px !important;text-align:left;}
+.why{margin-top:18px;padding:16px 22px;border-left:3px solid var(--gold);background:rgba(255,204,120,.06);border-radius:0 12px 12px 0;font-size:17px;line-height:1.5;}
+.why b{color:var(--gold);font-family:var(--mono);font-weight:400;letter-spacing:.14em;font-size:13px;display:block;margin-bottom:4px;}
+
+/* S9 */
+.road{position:relative;height:360px;margin-top:18px;}
+.road svg.path{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
+.station{position:absolute;width:330px;padding:22px 24px;}
+.station .ph{font-family:var(--mono);font-size:13px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;}
+.station .t{font-size:30px;font-weight:700;color:var(--bone);margin-top:4px;}
+.station .r{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--gold-soft);}
+.station .m{font-size:24px;font-weight:700;color:var(--gold);margin-top:12px;}
+.station .d{font-size:15.5px;color:var(--clay);margin-top:2px;}
+.closing{font-size:62px;font-weight:700;letter-spacing:-.03em;color:var(--bone);line-height:1.02;margin-top:6px;}
+.closing em{font-family:var(--serif);font-weight:400;color:var(--gold);}
+.cta{display:inline-flex;align-items:center;gap:14px;margin-top:22px;font-size:21px;color:var(--bone);padding:14px 22px;border-radius:99px;
+  background:linear-gradient(90deg,var(--gold),var(--tan));color:var(--ink);font-weight:700;}
+.strip{position:absolute;right:340px;top:640px;display:flex;gap:10px;}
+.strip .photo{position:relative;width:118px;height:150px;border-width:3px;border-radius:10px;}
+
+/* ---------- persistent stage layer (Raco + route rail) ---------- */
+#stage{position:absolute;left:0;top:0;width:1600px;height:900px;pointer-events:none;z-index:40;}
+#raco-wrap{position:absolute;left:0;top:0;width:220px;height:323px;pointer-events:auto;cursor:pointer;transform-origin:50% 100%;}
+#raco-flip{width:100%;height:100%;transform-origin:50% 50%;}
+#raco{width:100%;height:100%;overflow:visible;display:block;}
+#bubble{position:absolute;top:-78px;width:250px;padding:12px 16px 13px;border-radius:16px;background:#f4ead7;color:var(--ink);
+  font-size:16px;line-height:1.35;font-weight:500;box-shadow:0 14px 30px rgba(0,0,0,.4);opacity:0;transform-origin:50% 100%;}
+#bubble .who{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:#8A5326;font-weight:700;display:block;margin-bottom:3px;}
+#bubble::after{content:"";position:absolute;bottom:-9px;left:var(--tail,50%);width:18px;height:18px;background:#f4ead7;transform:rotate(45deg);border-radius:3px;}
+#rail{position:absolute;left:110px;right:110px;top:842px;height:40px;}
+#rail .ln{position:absolute;left:0;right:0;top:28px;border-top:2px dashed var(--line-strong);}
+#rail .dot{position:absolute;top:23px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--ink);border:2px solid var(--line-strong);transition:all .5s;}
+#rail .dot.on{background:var(--gold);border-color:var(--gold);box-shadow:0 0 12px rgba(255,204,120,.7);}
+#van{position:absolute;top:2px;width:46px;margin-left:-23px;}
+#footer{position:absolute;left:110px;right:110px;top:820px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--dim);text-transform:uppercase;}
+#footer .brand{color:var(--gold);font-weight:700;}
+#hint{position:fixed;right:70px;top:16px;transition:opacity 1s;z-index:5;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--dim);}
+
+#lang{position:fixed;left:18px;top:14px;z-index:6;display:flex;gap:4px;font-family:var(--mono);font-size:12px;letter-spacing:.14em;}
+#lang a{color:var(--dim);text-decoration:none;padding:5px 9px;border:1px solid var(--line-strong);border-radius:99px;background:rgba(8,19,19,.6);}
+#lang a.on{color:var(--ink);background:var(--gold);border-color:var(--gold);}
+html.print-pdf #lang{display:none !important;}
+/* print / pdf: static, no WebGL, no overlay */
+html.print-pdf #bg,html.print-pdf #vignette,html.print-pdf #stage,html.print-pdf #hint{display:none !important;}
+html.print-pdf .reveal .slides section{background:radial-gradient(ellipse at 70% 0%,#163636,#0C1A1A 60%) !important;}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div id="vignette"></div>
+<nav id="lang"><a href="index.html" class="on">EN</a><a href="es.html">ES</a></nav>
+<div id="hint">← → navigate · click Raco · F fullscreen · S speaker view</div>
+
+<!-- icon sprite -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-web" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M6.5 6.5h.01M9.5 6.5h.01"/></symbol>
+    <symbol id="i-seo" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></symbol>
+    <symbol id="i-ai" viewBox="0 0 24 24"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8z"/><path d="M19 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></symbol>
+    <symbol id="i-content" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 11h7M9 15h7M9 7h4"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 10h8"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4M4 20h16"/><path d="M8 16v-4M12 16V8M16 16v-6"/></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z"/></symbol>
+    <symbol id="i-app" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".8"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/><path d="M17 3v3M15.5 4.5h3"/></symbol>
+    <symbol id="i-group" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 14.5c3 0 6 2 6 5.5"/></symbol>
+    <symbol id="i-sprout" viewBox="0 0 24 24"><path d="M12 21v-9"/><path d="M12 12c0-4-3-6-7-6 0 4 3 6 7 6zM12 10c0-4 3-6 7-6 0 4-3 6-7 6z"/></symbol>
+    <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M3 7h18v3a2 2 0 0 0 0 4v3H3v-3a2 2 0 0 0 0-4z"/><path d="M14 7v10" stroke-dasharray="2 2"/></symbol>
+    <symbol id="i-farm" viewBox="0 0 24 24"><path d="M3 20h18M5 20v-8l7-5 7 5v8"/><path d="M10 20v-5h4v5"/></symbol>
+    <symbol id="i-gov" viewBox="0 0 24 24"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
+  </defs>
+</svg>
+
+<div class="reveal">
+<div class="slides">
+
+<!-- ===================== 1 · TITLE ===================== -->
+<section data-raco="1120,470,1,-1,wave" data-say="¡Hola! I'm Raco — guardian of the Cajón del Maipo. Let me show you around." data-warm="0.25">
+  <div class="sl s1">
+    <img class="ruta a-up" src="assets/logo-ruta-sostenible-hd.png" alt="Ruta Sostenible" />
+    <div class="eyebrow a-up">A proposal for</div>
+    <div class="wordmark a-letters">TripVan</div>
+    <div class="x a-up">× SONDRI</div>
+    <div class="sub a-up">The digital journey — from OTA-dependence to <em>an owned growth engine.</em></div>
+    <div class="chips a-up">
+      <span class="chip"><b>01</b>Foundation</span><span class="chip"><b>02</b>Acceleration</span><span class="chip"><b>03</b>Efficiency</span>
+    </div>
+    <div class="meta a-up">Prepared for <strong>Hernán, TripVan</strong> · Cajón del Maipo<br/>Chile — Forbes “Destination of the Year”</div>
+  </div>
+  <aside class="notes">Open: Chile is on a global stage. TripVan has the product; this is about owning the demand.</aside>
+</section>
+
+<!-- ===================== 2 · MEET TRIPVAN ===================== -->
+<section data-raco="40,492,1,1,proud" data-say="This is my home. Twelve stops, one van, zero rush." data-warm="0.1">
+  <div class="sl s2 zone-l">
+    <div class="col">
+      <div class="eyebrow a-up">The client · tripvan.cl</div>
+      <h2 class="h2 a-up">TripVan connects the <em>Cajón del Maipo.</em></h2>
+      <p class="lede a-up" style="font-size:20px">An organised passenger route through the Andes outside Santiago. <b style="color:var(--bone)">“We connect the route. You live every stop.”</b> Every stop is a local producer, a landscape or a story.</p>
+      <div class="facts">
+        <div class="card fact a-up"><div class="v"><span data-count="12">12</span></div><div class="l">connected stops on the Ruta Sostenible</div></div>
+        <div class="card fact a-up"><div class="v">05:00–15:30</div><div class="l">a full mountain day, hotel pickup</div></div>
+        <div class="card fact a-up"><div class="v">ES·EN·PT</div><div class="l">multilingual guiding &amp; content</div></div>
+        <div class="card fact a-up"><div class="v">$<span data-count="75" data-suffix=".000">75.000</span></div><div class="l">CLP per adult · $50.000 child (4–10)</div></div>
+        <div class="card fact a-up"><div class="v"><span data-count="10">10</span>+ yrs</div><div class="l">on the ground in the Cajón</div></div>
+        <div class="card fact a-up"><div class="v">Raco</div><div class="l">an owned mascot &amp; audio-guide — a brand asset OTAs can’t copy</div></div>
+      </div>
+    </div>
+    <div class="photo ph-in" style="left:950px;top:120px;width:390px;height:260px;transform:rotate(-3deg)"><img src="assets/tripvan-transit-guide.jpg" alt="TripVan van in the Cajón"/><span class="cap">THE VAN · RUTA SOSTENIBLE</span></div>
+    <div class="photo ph-in" style="left:1300px;top:96px;width:220px;height:390px;transform:rotate(4deg)"><img src="assets/embalse-el-yeso.jpg" alt="Embalse El Yeso"/><span class="cap">EMBALSE EL YESO</span></div>
+    <div class="photo ph-in" style="left:990px;top:420px;width:400px;height:266px;transform:rotate(2deg)"><img src="assets/7E01413A-D40F-41B9-8289-F03EA6880615.jpeg" alt="Travelers at El Yeso"/><span class="cap">REAL TRAVELERS · MAY 2026</span></div>
+    <div class="marquee"><div class="track">
+      <span>SAN JOSÉ DE MAIPO</span><i>◆</i><span>PARQUE ALMENDRO</span><i>◆</i><span>EMBALSE EL YESO</span><i>◆</i><span>PARQUE CORDILLERA</span><i>◆</i><span>CORDILLERA &amp; NIEVE</span><i>◆</i><span>CABRERÍA</span><i>◆</i><span>ENCUENTRO CON RACO</span><i>◆</i><span>CASA CHOCOLATE</span><i>◆</i><span>CASA BOSQUE</span><i>◆</i>
+      <span>SAN JOSÉ DE MAIPO</span><i>◆</i><span>PARQUE ALMENDRO</span><i>◆</i><span>EMBALSE EL YESO</span><i>◆</i><span>PARQUE CORDILLERA</span><i>◆</i><span>CORDILLERA &amp; NIEVE</span><i>◆</i><span>CABRERÍA</span><i>◆</i><span>ENCUENTRO CON RACO</span><i>◆</i><span>CASA CHOCOLATE</span><i>◆</i><span>CASA BOSQUE</span><i>◆</i>
+    </div></div>
+  </div>
+  <aside class="notes">Facts pulled from tripvan.cl: 12-stop route, 05:00–15:30, CLP 75.000 adult / 50.000 child, ES/EN/PT, 10+ years, Raco mascot.</aside>
+</section>
+
+<!-- ===================== 3 · SITUATION ===================== -->
+<section data-raco="1340,492,1,-1,worried" data-say="Up to 30% to the OTAs? That's a lot of alfalfa…" data-warm="1">
+  <div class="sl zone-r">
+    <div class="eyebrow a-up">The situation</div>
+    <h2 class="h2 a-up">Today, TripVan <em>rents</em> its demand.</h2>
+    <p class="lede a-up">Chile just won Forbes “Destination of the Year” again — demand is rising. But bookings flow through third-party platforms that take a heavy cut on every sale and own the customer relationship.</p>
+    <div class="otas">
+      <div class="card ota a-up"><svg class="ring" viewBox="0 0 100 100"><circle class="bgc" cx="50" cy="50" r="40"/><circle class="fg" cx="50" cy="50" r="40" data-p="25"/></svg><div><div class="n">Expedia</div><div class="p">15–25%</div><div class="k">commission / booking</div></div></div>
+      <div class="card ota a-up"><svg class="ring" viewBox="0 0 100 100"><circle class="bgc" cx="50" cy="50" r="40"/><circle class="fg" cx="50" cy="50" r="40" data-p="30"/></svg><div><div class="n">GetYourGuide</div><div class="p">20–30%</div><div class="k">commission / booking</div></div></div>
+      <div class="card ota a-up"><svg class="ring" viewBox="0 0 100 100"><circle class="bgc" cx="50" cy="50" r="40"/><circle class="fg" cx="50" cy="50" r="40" data-p="25"/></svg><div><div class="n">Viator</div><div class="p">~25%</div><div class="k">commission / booking</div></div></div>
+    </div>
+    <div class="card seat a-up">
+      <div class="top"><span>One adult seat · CLP 75.000</span><span>OTA cut 20–30%</span></div>
+      <div class="seatbar"><span class="keep">TripVan keeps</span><div class="cut" data-w="30">OTA</div></div>
+      <div class="big">CLP <b><span data-count="15" data-suffix=".000">15.000</span>–<span data-count="22.5" data-dec="1" data-fmt="clp">22.500</span></b> walks out the door — per adult, per booking.</div>
+    </div>
+    <p class="risk a-up"><b>The risk:</b> every booking loses 20–30% to OTAs — and they, not TripVan, own the customer, the data, and the repeat sale.</p>
+  </div>
+  <aside class="notes">CLP math: 20% and 30% of a CLP 75.000 adult seat (tripvan.cl price).</aside>
+</section>
+
+<!-- ===================== 4 · PLAYBOOK ===================== -->
+<section data-raco="40,492,1,1,point" data-say="If it worked in the Western Ghats, it'll work in the Andes." data-warm="0.35">
+  <div class="sl zone-l">
+    <div class="eyebrow a-up">The proven playbook</div>
+    <h2 class="h2 a-up">We’ve seen this journey work: <em>BMC Adventures.</em></h2>
+    <p class="lede a-up">A South-India trekking operator that built an owned digital platform — direct booking, content-led acquisition, and a loyal community. The same arc TripVan can take in Chile.</p>
+    <div class="stats">
+      <div class="card stat a-up"><div class="v"><span data-count="200">200</span>K</div><div class="l">participants</div></div>
+      <div class="card stat a-up"><div class="v"><span data-count="50">50</span>K</div><div class="l">members</div></div>
+      <div class="card stat a-up"><div class="v"><span data-count="10">10</span>K</div><div class="l">adventure events</div></div>
+      <div class="card stat a-up"><div class="v" style="color:var(--gold)">Direct</div><div class="l">booking engine</div></div>
+    </div>
+    <svg class="arc a-up" viewBox="0 0 1160 120" preserveAspectRatio="none">
+      <path class="draw" d="M30 96 C 300 -10, 860 -10, 1130 96" fill="none" stroke="#ffcc78" stroke-width="2" stroke-dasharray="6 8"/>
+      <circle cx="30" cy="96" r="7" fill="#ffcc78"/><circle cx="1130" cy="96" r="7" fill="#5fc4bc"/>
+      <text x="30" y="118" fill="#86A19E" font-family="Space Mono" font-size="13" letter-spacing="2">SOUTH INDIA · BMC</text>
+      <text x="1130" y="118" fill="#86A19E" font-family="Space Mono" font-size="13" letter-spacing="2" text-anchor="end">CAJÓN DEL MAIPO · TRIPVAN</text>
+      <g id="arc-plane"><circle r="10" fill="#0C1A1A" stroke="#ffcc78" stroke-width="2"/><path d="M-5 0h10M2-4l4 4-4 4" stroke="#ffcc78" stroke-width="2" fill="none"/></g>
+    </svg>
+    <div class="proves">
+      <span class="lab a-up">What it proves</span>
+      <span class="pill a-up"><svg class="ico"><use href="#i-check"/></svg>Own the website &amp; booking</span>
+      <span class="pill a-up"><svg class="ico"><use href="#i-check"/></svg>Win on SEO / content</span>
+      <span class="pill a-up"><svg class="ico"><use href="#i-check"/></svg>Build community</span>
+      <span class="pill a-up"><svg class="ico"><use href="#i-check"/></svg>Land corporate &amp; group clients</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 5 · SOLUTION ===================== -->
+<section data-raco="40,492,1,1,jump" data-say="Three camps. One summit. I know every trail up there." data-warm="0.4">
+  <div class="sl zone-l">
+    <div class="eyebrow a-up">The solution</div>
+    <h2 class="h2 a-up">Three quadrants. <em>A deepening partnership.</em></h2>
+    <div class="camps">
+      <svg style="position:absolute;inset:0;width:100%;height:100%;overflow:visible" viewBox="0 0 1160 440" preserveAspectRatio="none">
+        <path class="draw" d="M175 150 C 300 150, 330 90, 590 90 S 880 30, 985 30" fill="none" stroke="#ffcc78" stroke-width="2.5" stroke-dasharray="4 9"/>
+      </svg>
+      <div class="card camp a-up" style="left:0;top:150px"><svg class="flag ico"><use href="#i-flag"/></svg><div class="no">01 · CAMP ONE</div><div class="t">Foundation</div><div class="s">Digital Strategy</div><div class="d">Website, SEO &amp; AEO — take TripVan on its digital journey.</div><div class="price">$2,500 / month</div></div>
+      <div class="card camp a-up" style="left:405px;top:90px"><svg class="flag ico"><use href="#i-flag"/></svg><div class="no">02 · CAMP TWO</div><div class="t">Acceleration</div><div class="s">Growth Engine</div><div class="d">Drive bookings directly; shift to a performance share.</div><div class="price">~10% per transaction</div></div>
+      <div class="card camp a-up" style="left:810px;top:30px;border-color:rgba(255,204,120,.55)"><svg class="flag ico"><use href="#i-flag"/></svg><div class="no">03 · SUMMIT</div><div class="t">Efficiency</div><div class="s">50/50 Joint Venture</div><div class="d">Co-own the sustainable-farming innovation for farmers.</div><div class="price">50 / 50 split</div></div>
+    </div>
+    <div class="deepen a-up">Vendor <span class="arr">→</span> Growth partner <span class="arr">→</span> Co-owner <small>The relationship deepens at every stage.</small></div>
+  </div>
+</section>
+
+<!-- ===================== 6 · Q1 FOUNDATION ===================== -->
+<section data-raco="1340,492,1,-1,point" data-say="Ask an AI “best day trip from Santiago”… it should say TripVan." data-warm="0.15">
+  <div class="sl zone-r">
+    <div class="bignum">01</div>
+    <div class="eyebrow a-up">Quadrant 1 · Foundation</div>
+    <h2 class="h2 a-up">Digital <em>Strategy</em></h2>
+    <p class="lede a-up">Take TripVan on the same digital journey that built BMC — off the OTAs, onto an owned platform it controls.</p>
+    <div class="tiles c3">
+      <div class="card tile a-up"><div class="hd"><svg class="ico"><use href="#i-web"/></svg><div class="t">Website &amp; direct booking</div></div><div class="d">Turn tripvan.cl — already ES/EN/PT with CLP/USD/BRL — into a conversion engine with <b>real-time availability</b>. No OTA commission on a direct sale.</div></div>
+      <div class="card tile a-up"><div class="hd"><svg class="ico"><use href="#i-seo"/></svg><div class="t">SEO foundation</div></div><div class="d">Destination pages — <b>Cajón del Maipo, Embalse El Yeso, San José de Maipo, snow day trips from Santiago</b> — plus technical SEO, schema &amp; Google Business.</div></div>
+      <div class="card tile a-up"><div class="hd"><svg class="ico"><use href="#i-ai"/></svg><div class="t">AEO — AI search</div></div><div class="d">Answer-Engine-Optimized content so TripVan surfaces in <b>ChatGPT, Gemini &amp; AI Overviews</b>, not just Google.</div></div>
+      <div class="card tile a-up"><div class="hd"><svg class="ico"><use href="#i-content"/></svg><div class="t">Content engine</div></div><div class="d">Forbes “Destination of the Year” anchor article + an evergreen blog, set up to publish consistently.</div></div>
+      <div class="card tile a-up"><div class="hd"><svg class="ico"><use href="#i-chat"/></svg><div class="t">Own the audience</div></div><div class="d">WhatsApp booking + email capture &amp; newsletter — a <b>first-party list</b> TripVan keeps, unlike OTA customers.</div></div>
+      <div class="card tile a-up"><div class="hd"><svg class="ico"><use href="#i-chart"/></svg><div class="t">Analytics &amp; tracking</div></div><div class="d">Conversion tracking and a simple dashboard so every channel’s bookings are measurable from day one.</div></div>
+    </div>
+    <div class="commercial a-up"><span class="k">Commercial model</span><span class="v"><span>$2,500</span> / month · fixed service retainer</span></div>
+  </div>
+</section>
+
+<!-- ===================== 7 · Q2 ACCELERATION ===================== -->
+<section data-raco="30,492,0.78,1,wave" data-say="Creators love llamas. Just saying." data-warm="0.6">
+  <div class="sl zone-l" style="padding-left:300px">
+    <div class="bignum" style="right:90px">02</div>
+    <div class="eyebrow a-up">Quadrant 2 · Acceleration</div>
+    <h2 class="h2 a-up">Pour fuel on <em>the foundation.</em></h2>
+    <p class="lede a-up" style="font-size:20px">Once the foundation is driving bookings, Sondri scales demand — and shifts from a flat fee to a cut of the transactions it drives.</p>
+    <div class="q2grid">
+      <div class="tiles c2">
+        <div class="card tile a-up"><div class="hd"><svg class="ico"><use href="#i-video"/></svg><div class="t">Content at scale</div></div><div class="d">Blog, video &amp; social + multi-platform syndication, AI-assisted — with <b>Raco as on-screen guide</b>.</div></div>
+        <div class="card tile a-up"><div class="hd"><svg class="ico"><use href="#i-star"/></svg><div class="t">Influencer &amp; creator program</div></div><div class="d">Recruit creators; build the influencer-tourism flow with direct booking.</div></div>
+        <div class="card tile a-up"><div class="hd"><svg class="ico"><use href="#i-app"/></svg><div class="t">Data Aggregator App</div></div><div class="d">Providers, tours &amp; creator performance in one booking + analytics hub.</div></div>
+        <div class="card tile a-up"><div class="hd"><svg class="ico"><use href="#i-target"/></svg><div class="t">Paid acquisition</div></div><div class="d">Google / Meta campaigns + retargeting to compound the organic base.</div></div>
+        <div class="card tile a-up"><div class="hd"><svg class="ico"><use href="#i-moon"/></svg><div class="t">Premium “Stargazing Line”</div></div><div class="d">Launch &amp; market the sustainability tour ($100+/head) under Andean night skies.</div></div>
+        <div class="card tile a-up"><div class="hd"><svg class="ico"><use href="#i-group"/></svg><div class="t">Corporate &amp; group channel</div></div><div class="d">Corporate retreats &amp; group tours — the BMC playbook.</div></div>
+      </div>
+      <div class="card bench a-up">
+        <div class="ttl">The cut — benchmarked</div>
+        <div class="brow"><div class="lb"><span>OTA marketplaces</span><b>30%</b></div><div class="tr"><div class="fl" data-w="100"></div></div></div>
+        <div class="brow"><div class="lb"><span>Expedia activities</span><b>25%</b></div><div class="tr"><div class="fl" data-w="83"></div></div></div>
+        <div class="brow"><div class="lb"><span>Affiliate payout</span><b>10%</b></div><div class="tr"><div class="fl" data-w="33"></div></div></div>
+        <div class="brow me"><div class="lb"><span>Sondri (rec.)</span><b>10%</b></div><div class="tr"><div class="fl" data-w="33"></div></div></div>
+        <div class="call"><div class="v"><span>10%</span> of each transaction Sondri drives</div>
+          <p>The $2,500 retainer tapers as the cut grows. Top of the affiliate band (we own the whole funnel), far below the 20–30% OTAs charge — so TripVan wins on every booking moved in-house.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 8 · Q3 JV ===================== -->
+<section data-raco="1340,492,1,-1,nod" data-say="Equal shares. Equal hay. Very fair." data-warm="0.3">
+  <div class="sl zone-r">
+    <div class="bignum">03</div>
+    <div class="eyebrow a-up">Quadrant 3 · Efficiency</div>
+    <h2 class="h2 a-up">A <em>50/50</em> joint venture.</h2>
+    <p class="lede a-up" style="font-size:21px">Sondri and TripVan jointly build a sustainable-farming innovation for farmers — equal IP, equal capital, equal upside.</p>
+    <div class="q3grid">
+      <div class="card donutwrap a-up">
+        <svg class="donut" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="74" stroke="#263434"/>
+          <circle class="seg" data-seg="0" cx="100" cy="100" r="74" stroke="#ffcc78" transform="rotate(90 100 100)"/>
+          <circle class="seg" data-seg="1" cx="100" cy="100" r="74" stroke="#5fc4bc" transform="rotate(-90 100 100)"/>
+          <text x="100" y="98" text-anchor="middle" fill="#E6F2F0" font-family="Space Grotesk" font-weight="700" font-size="34">50/50</text>
+          <text x="100" y="122" text-anchor="middle" fill="#86A19E" font-family="Space Mono" font-size="10" letter-spacing="2">NEW FIRM</text>
+        </svg>
+        <div class="lg"><span class="gold">SONDRI<b>50%</b></span><span style="color:var(--glacier);text-align:right">TRIPVAN<b>50%</b></span></div>
+        <p>Shared ownership of a new firm — not a service relationship. Both parties co-invest and co-own the IP and the revenue.</p>
+      </div>
+      <div>
+        <div class="tiles c2" style="margin-top:0">
+          <div class="card tile a-up"><div class="hd"><svg class="ico"><use href="#i-sprout"/></svg><div class="t">Sustainable farm innovation</div></div><div class="d">Hydrogel-planting experience + IoT farm tech &amp; water monitoring, built jointly.</div></div>
+          <div class="card tile a-up"><div class="hd"><svg class="ico"><use href="#i-ticket"/></svg><div class="t">Charge passengers</div></div><div class="d">Premium stargazing + farm &amp; local-producer tours at <b>$100+/head</b>.</div></div>
+          <div class="card tile a-up"><div class="hd"><svg class="ico"><use href="#i-farm"/></svg><div class="t">Charge farmers</div></div><div class="d">Farmers pay to host the tourist-planting experience on their land.</div></div>
+          <div class="card tile a-up"><div class="hd"><svg class="ico"><use href="#i-gov"/></svg><div class="t">Govt. funding</div></div><div class="d">Startup Chile + subsidies fund the sustainable-tech build (non-dilutive).</div></div>
+        </div>
+        <div class="why a-up"><b>WHY 50/50</b>Equal IP and equal capital/risk on a net-new product line — distinct from the Q1 retainer and Q2 revenue share. The deepest tier of the partnership: <span class="gold">co-owner, not vendor.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 9 · END TO END ===================== -->
+<section data-raco="1330,492,1,-1,celebrate" data-say="¡Vamos! Acompáñame — let's build it together." data-warm="0.9">
+  <div class="sl zone-r">
+    <div class="eyebrow a-up">The partnership, end to end</div>
+    <h2 class="h2 a-up">How Sondri <em>grows with</em> TripVan.</h2>
+    <div class="road">
+      <svg class="path" viewBox="0 0 1150 360" preserveAspectRatio="none">
+        <path id="roadpath" class="draw" d="M10 320 C 160 330, 300 250, 470 262 S 760 300, 880 250 S 1060 190, 1140 196" fill="none" stroke="#334141" stroke-width="14" stroke-linecap="round"/>
+        <path class="draw" d="M10 320 C 160 330, 300 250, 470 262 S 760 300, 880 250 S 1060 190, 1140 196" fill="none" stroke="#ffcc78" stroke-width="2" stroke-dasharray="10 12"/>
+        <g fill="#ffcc78"><circle cx="165" cy="300" r="7"/><circle cx="560" cy="276" r="7"/><circle cx="955" cy="219" r="8"/></g>
+        <g id="roadvan"><use href="#vanglyph" x="-28" y="-30" width="56" height="34"/></g>
+      </svg>
+      <div class="card station a-up" style="left:0;top:96px"><div class="ph">Foundation</div><div class="t">Service provider</div><div class="m">$2,500 / mo</div><div class="d">Website · SEO · AEO</div></div>
+      <div class="card station a-up" style="left:395px;top:66px"><div class="ph">Acceleration</div><div class="t">Growth partner</div><div class="m">~10% / txn</div><div class="d">Drives direct bookings</div></div>
+      <div class="card station a-up" style="left:790px;top:12px;border-color:rgba(255,204,120,.55)"><div class="ph">Efficiency</div><div class="t">Co-owner</div><div class="m">50 / 50 JV</div><div class="d">Sustainability innovation</div></div>
+    </div>
+    <div class="closing a-up">From renting demand<br/>to <em>owning growth.</em></div>
+    <div class="cta a-up">Let’s build TripVan’s digital future together · sondri.ai →</div>
+    <div class="strip">
+      <div class="photo ph-in"><img src="assets/A38E34CC-7A76-4670-92BE-AB768BAA75D7.jpeg" alt=""/></div>
+      <div class="photo ph-in"><img src="assets/49E12963-5124-449E-BE52-5A23ACDC53A4.jpeg" alt=""/></div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+
+<!-- van glyph, reused -->
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="vanglyph" viewBox="0 0 56 34">
+    <path d="M3 8 Q3 4 7 4 H38 Q43 4 46 9 L53 18 V26 H3 Z" fill="#f4f1ea"/>
+    <path d="M38 7 H41 Q43 7 45 10 L50 17 H38 Z" fill="#2a4a50"/>
+    <rect x="8" y="8" width="8" height="7" rx="1.5" fill="#2a4a50"/><rect x="19" y="8" width="8" height="7" rx="1.5" fill="#2a4a50"/><rect x="29" y="8" width="7" height="7" rx="1.5" fill="#2a4a50"/>
+    <rect x="3" y="18" width="50" height="2.5" fill="#ffcc78"/>
+    <circle cx="13" cy="27" r="5" fill="#111"/><circle cx="13" cy="27" r="2" fill="#888"/>
+    <circle cx="43" cy="27" r="5" fill="#111"/><circle cx="43" cy="27" r="2" fill="#888"/>
+  </symbol>
+</defs></svg>
+
+<!-- persistent stage: moved into .slides at runtime so it scales with the deck -->
+<div id="stage">
+  <div id="footer"><span class="brand">Sondri</span><span>TripVan × Sondri — Proposal</span><span id="pageno">01 / 09</span></div>
+  <div id="rail"><div class="ln"></div><svg id="van" viewBox="0 0 56 34"><use href="#vanglyph"/></svg></div>
+
+  <div id="raco-wrap" title="Raco — click me">
+    <div id="bubble"><span class="who">RACO · GUARDIÁN DEL CAJÓN</span><span id="say"></span></div>
+    <div id="raco-flip">
+    <!-- Original cartoon interpretation of TripVan's mascot Raco -->
+    <svg id="raco" viewBox="0 0 300 440">
+      <ellipse id="r-shadow" cx="140" cy="414" rx="100" ry="9" fill="#000" opacity=".35"/>
+      <g id="r-all">
+        <!-- tail -->
+        <g id="r-tail"><circle cx="44" cy="262" r="14" fill="#9A5E2C"/><circle cx="35" cy="276" r="11" fill="#9A5E2C"/><circle cx="45" cy="285" r="10" fill="#9A5E2C"/></g>
+        <!-- far legs -->
+        <g id="leg-bf"><rect x="86" y="312" width="18" height="92" rx="9" fill="#8A5326"/><rect x="85" y="398" width="20" height="14" rx="5" fill="#2e1c10"/></g>
+        <g id="leg-ff"><rect x="196" y="312" width="18" height="92" rx="9" fill="#8A5326"/><rect x="195" y="398" width="20" height="14" rx="5" fill="#2e1c10"/></g>
+        <!-- body -->
+        <g id="r-body">
+          <path d="M40 270 C40 225 90 225 130 228 C175 230 225 228 228 268 C232 300 222 325 205 330 Q195 342 182 330 Q170 342 158 330 Q146 342 134 330 Q122 342 110 330 Q98 342 86 330 Q74 342 62 330 C45 322 40 300 40 270 Z" fill="#B8743A"/>
+          <g fill="none" stroke="#9A5E2C" stroke-width="3" stroke-linecap="round" opacity=".7">
+            <path d="M68 258 q10 -9 20 0"/><path d="M104 248 q10 -9 20 0"/><path d="M84 296 q10 -9 20 0"/><path d="M122 290 q10 -9 20 0"/><path d="M58 284 q8 -7 16 0"/>
+          </g>
+          <path d="M150 230 C147 270 150 300 152 335" fill="none" stroke="#4a2f18" stroke-width="9" stroke-linecap="round"/>
+          <circle cx="151" cy="282" r="5" fill="#C9963F"/>
+        </g>
+        <!-- near legs -->
+        <g id="leg-bn"><rect x="61" y="314" width="19" height="92" rx="9.5" fill="#B8743A"/><rect x="60" y="400" width="21" height="14" rx="5" fill="#3a2414"/></g>
+        <g id="leg-fn"><rect x="172" y="314" width="19" height="92" rx="9.5" fill="#B8743A"/><rect x="171" y="400" width="21" height="14" rx="5" fill="#3a2414"/></g>
+        <!-- neck + head -->
+        <g id="r-neck">
+          <path d="M180 292 C178 230 184 178 190 140 L236 138 C234 180 232 235 234 292 Z" fill="#F1DDB8"/>
+          <g fill="none" stroke="#dcc39a" stroke-width="2.5" stroke-linecap="round"><path d="M192 190 q6 -6 12 0"/><path d="M212 205 q6 -6 12 0"/><path d="M196 214 q5 -5 10 0"/></g>
+          <circle cx="190" cy="292" r="16" fill="#F1DDB8"/><circle cx="209" cy="297" r="17" fill="#F1DDB8"/><circle cx="228" cy="290" r="15" fill="#F1DDB8"/>
+          <!-- bandana -->
+          <path d="M182 228 Q208 244 234 224" fill="none" stroke="#4a2f18" stroke-width="7" stroke-linecap="round"/>
+          <path d="M179 225 Q208 245 237 221 L217 278 Q209 287 201 278 Z" fill="#1E5153" stroke="#143a3c" stroke-width="2"/>
+          <path d="M200 243 L205 236 L208 239 L211 234 L217 243" fill="none" stroke="#f3e3c3" stroke-width="1.4" stroke-linejoin="round"/>
+          <text x="208" y="254" text-anchor="middle" font-family="Space Grotesk" font-weight="700" font-size="8.5" fill="#f3e3c3" letter-spacing=".5">TRIPVAN</text>
+          <g id="r-medal">
+            <line x1="209" y1="270" x2="209" y2="289" stroke="#4a2f18" stroke-width="2.5"/>
+            <circle cx="209" cy="299" r="11" fill="#C9963F" stroke="#8a6420" stroke-width="2"/>
+            <path d="M203 303 L209 293 L215 303 Z" fill="none" stroke="#6e4f17" stroke-width="1.6"/>
+          </g>
+          <g id="r-head">
+            <g id="ear-far"><path d="M191 94 C184 68 188 44 196 34 C206 46 210 70 207 94 Z" fill="#9A5E2C"/><path d="M195 90 C191 72 194 56 197 48 C202 58 204 74 202 90 Z" fill="#5a3220"/></g>
+            <g id="ear-near"><path d="M221 92 C216 64 222 40 232 30 C242 42 244 66 239 92 Z" fill="#B8743A"/><path d="M225 88 C222 68 227 50 232 42 C237 52 238 70 235 88 Z" fill="#6b3a22"/></g>
+            <ellipse cx="212" cy="118" rx="36" ry="34" fill="#F1DDB8"/>
+            <ellipse cx="244" cy="136" rx="27" ry="20" fill="#F8EBD3"/>
+            <g fill="#C07A3D"><circle cx="195" cy="90" r="12"/><circle cx="210" cy="83" r="13"/><circle cx="225" cy="89" r="11"/><circle cx="203" cy="97" r="9"/><circle cx="219" cy="97" r="8"/></g>
+            <!-- far eye -->
+            <ellipse cx="202" cy="110" rx="6.5" ry="9" fill="#fff"/><circle cx="203" cy="112" r="5" fill="#2a1a10"/>
+            <ellipse class="lid" cx="202" cy="110" rx="7.5" ry="10" fill="#F1DDB8"/>
+            <!-- near eye -->
+            <ellipse cx="229" cy="110" rx="9" ry="11" fill="#fff"/>
+            <g id="r-pupil"><circle cx="231" cy="112" r="6.5" fill="#2a1a10"/><circle cx="233.5" cy="108.5" r="2.3" fill="#fff"/></g>
+            <ellipse class="lid" cx="229" cy="110" rx="10" ry="12" fill="#F1DDB8"/>
+            <path d="M236 100 l6 -4 M238 104 l6 -2" stroke="#2a1a10" stroke-width="1.6" stroke-linecap="round"/>
+            <path id="r-brow" d="M219 95 Q229 90 239 96" fill="none" stroke="#8A5326" stroke-width="3" stroke-linecap="round"/>
+            <ellipse cx="237" cy="131" rx="7" ry="4" fill="#E8A08A" opacity=".55"/>
+            <ellipse cx="259" cy="127" rx="3.2" ry="2.3" fill="#2a1a10"/><ellipse cx="267" cy="129" rx="3" ry="2.2" fill="#2a1a10"/>
+            <path d="M263 132 L263 141" stroke="#2a1a10" stroke-width="2" stroke-linecap="round"/>
+            <path id="r-mouth" d="M249 142 Q259 151 270 141" fill="none" stroke="#2a1a10" stroke-width="2.6" stroke-linecap="round"/>
+            <path id="r-mouth-open" d="M249 142 Q259 162 270 141 Q259 147 249 142 Z" fill="#5a2620" opacity="0"/>
+          </g>
+        </g>
+      </g>
+    </svg>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script>
+const PRINT = /print-pdf/gi.test(location.search);
+if (PRINT) document.documentElement.classList.add('print-pdf');
+gsap.ticker.lagSmoothing(0); gsap.config({nullTargetWarn:false});
+// safety net: if the browser starves rAF (background panes, some screen-share tools), keep GSAP's clock moving
+{ let lf=-1; setInterval(()=>{ if(gsap.ticker.frame===lf) gsap.ticker.tick(); lf=gsap.ticker.frame; },50); }
+
+/* =====================================================================
+   1. WebGL background — Andean ridgelines, Bayer-dithered
+   ===================================================================== */
+const U = { pan: 0, warm: .25, mx: .7, my: .5, click: 99 };
+(function initGL(){
+  if (PRINT) return;
+  const cv = document.getElementById('bg');
+  const gl = cv.getContext('webgl', { antialias:false, premultipliedAlpha:false });
+  if (!gl) return;
+  const vs = `attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
+  const fs = `precision mediump float;
+  uniform vec2 uRes; uniform float uTime,uPan,uWarm,uClick; uniform vec2 uMouse;
+  float h21(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}
+  float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);
+    return mix(mix(h21(i),h21(i+vec2(1,0)),f.x),mix(h21(i+vec2(0,1)),h21(i+vec2(1,1)),f.x),f.y);}
+  float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*noise(p);p*=2.03;a*=.5;}return v;}
+  float B2(vec2 a){a=floor(a);return fract(a.x/2.+a.y*a.y*.75);}
+  float B4(vec2 a){return B2(.5*a)*.25+B2(a);}
+  float B8(vec2 a){return B4(.5*a)*.25+B2(a);}
+  void main(){
+    vec2 cell=floor(gl_FragCoord.xy);
+    vec2 uv=cell/uRes; float asp=uRes.x/uRes.y;
+    // night sky, brighter toward horizon glow
+    float v=mix(.36,.04,smoothstep(.15,1.,uv.y));
+    v+=.12*fbm(vec2(uv.x*3.+uTime*.015+uPan*.05,uv.y*6.))*smoothstep(.35,.75,uv.y);
+    float sky=1.;
+    // four ridge layers, far -> near
+    for(int k=0;k<4;k++){
+      float fk=float(k);
+      float base=.66-fk*.13;
+      float h=base+(fbm(vec2(uv.x*(1.3+fk*.9)+uPan*(.10+.14*fk)+fk*7.3,fk*3.1))-.5)*(.34-fk*.04);
+      if(uv.y<h){
+        sky=0.;
+        v=.34-fk*.075;
+        float sn=smoothstep(.035,.0,h-uv.y)*(fk<2.?1.:.35);
+        v+=sn*.55;
+        v+=(noise(uv*vec2(60.,90.)+fk*13.)-.5)*.10;
+        v-=(h-uv.y)*.55;
+      }
+    }
+    // stars
+    float st=h21(cell*.731+.5);
+    if(sky>.5&&st>.9965) v=.62+.38*sin(uTime*2.+st*90.);
+    // pointer lantern + click ripple
+    vec2 m=vec2(uMouse.x*asp,uMouse.y), q=vec2(uv.x*asp,uv.y);
+    float d=distance(q,m);
+    v+=.22*exp(-d*d*28.);
+    float ring=uClick*.9; v+=.35*exp(-pow((d-ring)*22.,2.))*exp(-uClick*1.4);
+    float t=B8(gl_FragCoord.xy);
+    float l=floor(clamp(v,0.,1.)*3.4+t);
+    vec3 c0=vec3(.047,.102,.102), c1=vec3(.075,.19,.19), c2=vec3(.13,.33,.33);
+    vec3 c3=mix(vec3(.37,.70,.67),vec3(1.,.80,.47),uWarm);
+    vec3 col= l<.5?c0: l<1.5?c1: l<2.5?c2: c3;
+    gl_FragColor=vec4(col,1.);
+  }`;
+  const sh=(t,s)=>{const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);
+    if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(o));return o;};
+  const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);gl.useProgram(pr);
+  const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+  const loc=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+  const L=n=>gl.getUniformLocation(pr,n);
+  const uRes=L('uRes'),uTime=L('uTime'),uPan=L('uPan'),uWarm=L('uWarm'),uMouse=L('uMouse'),uClick=L('uClick');
+  const sm={x:U.mx,y:U.my};
+  function resize(){cv.width=Math.ceil(innerWidth/3);cv.height=Math.ceil(innerHeight/3);gl.viewport(0,0,cv.width,cv.height);}
+  addEventListener('resize',resize);resize();
+  addEventListener('pointermove',e=>{U.mx=e.clientX/innerWidth;U.my=1-e.clientY/innerHeight;});
+  addEventListener('pointerdown',e=>{U.mx=e.clientX/innerWidth;U.my=1-e.clientY/innerHeight;sm.x=U.mx;sm.y=U.my;U.click=0;});
+  let last=performance.now();
+  (function frame(now){
+    const dt=(now-last)/1000;last=now;U.click+=dt;
+    sm.x+=(U.mx-sm.x)*.06;sm.y+=(U.my-sm.y)*.06;
+    gl.uniform2f(uRes,cv.width,cv.height);gl.uniform1f(uTime,now/1000);gl.uniform1f(uPan,U.pan);
+    gl.uniform1f(uWarm,U.warm);gl.uniform2f(uMouse,sm.x,sm.y);gl.uniform1f(uClick,U.click);
+    gl.drawArrays(gl.TRIANGLES,0,3);requestAnimationFrame(frame);
+  })(last);
+})();
+
+/* =====================================================================
+   2. Reveal
+   ===================================================================== */
+Reveal.initialize({
+  width:1600, height:900, margin:0, minScale:.2, maxScale:2,
+  center:false, hash:true, controls:true, controlsTutorial:false, progress:false,
+  transition:'fade', transitionSpeed:'default', backgroundTransition:'none',
+  plugins:[RevealNotes], pdfSeparateFragments:false
+}).then(()=>{
+  if (PRINT) return;
+  document.querySelector('.reveal .slides').appendChild(document.getElementById('stage'));
+  buildRail(); initRaco(); prepAll();
+  setTimeout(()=>document.getElementById('hint').style.opacity=0,9000);
+  onSlide(Reveal.getCurrentSlide(), Reveal.getIndices().h, true);
+});
+Reveal.on('slidechanged', e => { if(!PRINT) onSlide(e.currentSlide, e.indexh, false); });
+
+/* =====================================================================
+   3. Per-slide enter animations
+   ===================================================================== */
+const fmtNum=(n,el)=>{
+  if(el.dataset.fmt==='clp') return Math.round(n*1000).toLocaleString('es-CL');
+  const dec=+(el.dataset.dec||0); return n.toFixed(dec)+(el.dataset.suffix||'');
+};
+function prepAll(){
+  document.querySelectorAll('.reveal .slides section').forEach(s=>{
+    gsap.set(s.querySelectorAll('.a-up'),{opacity:0,y:28});
+    gsap.set(s.querySelectorAll('.ph-in'),{opacity:0});
+  });
+  document.querySelectorAll('.a-letters').forEach(el=>{
+    el.innerHTML=[...el.textContent].map(c=>`<span class="ch">${c}</span>`).join('');
+  });
+}
+function enter(s){
+  const tl=gsap.timeline();
+  const ups=s.querySelectorAll('.a-up');
+  tl.fromTo(ups,{opacity:0,y:28},{opacity:1,y:0,duration:.7,ease:'power3.out',stagger:.07},0);
+  const chars=s.querySelectorAll('.a-letters .ch');
+  if(chars.length) tl.fromTo(chars,{yPercent:110,opacity:0,rotate:8},{yPercent:0,opacity:1,rotate:0,duration:.9,ease:'expo.out',stagger:.05},.1);
+  s.querySelectorAll('.ph-in').forEach((p,i)=>{
+    const r=(p.style.transform.match(/-?[\d.]+deg/)||['0deg'])[0];
+    tl.fromTo(p,{opacity:0,y:60,scale:.88,rotate:(parseFloat(r)*-3)+'deg'},{opacity:1,y:0,scale:1,rotate:r,duration:1.1,ease:'back.out(1.4)'},.25+i*.15);
+    gsap.to(p,{y:'-=8',duration:3+i*.6,ease:'sine.inOut',yoyo:true,repeat:-1,delay:1.4+i*.3});
+  });
+  s.querySelectorAll('[data-count]').forEach(el=>{
+    const to=+el.dataset.count, o={v:0};
+    tl.to(o,{v:to,duration:1.6,ease:'power2.out',onUpdate:()=>el.textContent=fmtNum(o.v,el)},.35);
+  });
+  s.querySelectorAll('.fl[data-w], .cut[data-w]').forEach((el,i)=>{
+    tl.fromTo(el,{width:'0%'},{width:el.dataset.w+'%',duration:1.2,ease:'power3.out'},.5+i*.12);
+  });
+  s.querySelectorAll('.ring .fg').forEach((c,i)=>{
+    const C=2*Math.PI*40; c.style.strokeDasharray=C;
+    tl.fromTo(c,{strokeDashoffset:C},{strokeDashoffset:C*(1-c.dataset.p/100),duration:1.4,ease:'power2.out'},.5+i*.15);
+  });
+  s.querySelectorAll('.seg').forEach((c,i)=>{
+    const C=2*Math.PI*74; c.style.strokeDasharray=`${C/2-4} ${C}`;
+    tl.fromTo(c,{strokeDashoffset:C/2},{strokeDashoffset:0,duration:1.3,ease:'power3.inOut'},.6+i*.35);
+  });
+  s.querySelectorAll('path.draw').forEach(p=>{
+    const len=p.getTotalLength(), dash=p.getAttribute('stroke-dasharray');
+    if(dash){ // dashed: reveal via mask-like clip using a solid copy trick → animate opacity + offset
+      tl.fromTo(p,{strokeDashoffset:len,opacity:0},{strokeDashoffset:0,opacity:1,duration:2,ease:'power2.inOut'},.5);
+    } else {
+      p.style.strokeDasharray=len;
+      tl.fromTo(p,{strokeDashoffset:len},{strokeDashoffset:0,duration:1.6,ease:'power2.inOut'},.4);
+    }
+  });
+  // playbook plane travels the arc
+  const plane=s.querySelector('#arc-plane');
+  if(plane){
+    const p=s.querySelector('.arc path'), len=p.getTotalLength(), o={t:0};
+    tl.to(o,{t:1,duration:2.6,ease:'power1.inOut',onUpdate(){
+      const a=p.getPointAtLength(o.t*len), b=p.getPointAtLength(Math.min(len,o.t*len+1));
+      plane.setAttribute('transform',`translate(${a.x},${a.y}) rotate(${Math.atan2(b.y-a.y,b.x-a.x)*57.3})`);
+    }},.6);
+  }
+  // closing: van drives the road
+  const rv=s.querySelector('#roadvan');
+  if(rv){
+    const p=s.querySelector('#roadpath'), len=p.getTotalLength(), o={t:0};
+    tl.to(o,{t:1,duration:3.2,ease:'power1.inOut',onUpdate(){
+      const a=p.getPointAtLength(o.t*len), b=p.getPointAtLength(Math.min(len,o.t*len+1));
+      rv.setAttribute('transform',`translate(${a.x},${a.y}) rotate(${Math.atan2(b.y-a.y,b.x-a.x)*57.3})`);
+    }},.4);
+  }
+  return tl;
+}
+
+/* =====================================================================
+   4. Route rail (progress) — the van drives stop to stop
+   ===================================================================== */
+let dots=[];
+function buildRail(){
+  const n=Reveal.getTotalSlides(), rail=document.getElementById('rail');
+  for(let i=0;i<n;i++){const d=document.createElement('div');d.className='dot';d.style.left=(i/(n-1)*100)+'%';rail.appendChild(d);dots.push(d);}
+}
+function moveRail(i){
+  const n=dots.length;
+  dots.forEach((d,k)=>d.classList.toggle('on',k<=i));
+  gsap.to('#van',{left:(i/(n-1)*100)+'%',duration:1.3,ease:'power2.inOut'});
+  gsap.fromTo('#van',{y:0},{y:-3,duration:.12,yoyo:true,repeat:9,ease:'sine.inOut'});
+  document.getElementById('pageno').textContent=String(i+1).padStart(2,'0')+' / '+String(n).padStart(2,'0');
+}
+
+/* =====================================================================
+   5. Raco — the guide
+   ===================================================================== */
+const R={};
+function initRaco(){
+  R.wrap=document.getElementById('raco-wrap'); R.flip=document.getElementById('raco-flip');
+  R.bubble=document.getElementById('bubble'); R.say=document.getElementById('say');
+  R.x=-320; R.y=510; R.face=1;
+  gsap.set(R.wrap,{x:R.x,y:R.y});
+  gsap.set('.lid',{scaleY:0,transformOrigin:'50% 0%'});
+  // walk cycle
+  R.walk=gsap.timeline({paused:true,repeat:-1})
+    .to(['#leg-fn','#leg-bf'],{rotate:20,duration:.22,ease:'sine.inOut',transformOrigin:'50% 0%'},0)
+    .to(['#leg-ff','#leg-bn'],{rotate:-20,duration:.22,ease:'sine.inOut',transformOrigin:'50% 0%'},0)
+    .to(['#leg-fn','#leg-bf'],{rotate:-20,duration:.44,ease:'sine.inOut'},.22)
+    .to(['#leg-ff','#leg-bn'],{rotate:20,duration:.44,ease:'sine.inOut'},.22)
+    .to(['#leg-fn','#leg-bf'],{rotate:0,duration:.22,ease:'sine.inOut'},.66)
+    .to(['#leg-ff','#leg-bn'],{rotate:0,duration:.22,ease:'sine.inOut'},.66)
+    .to('#r-all',{y:-6,duration:.22,yoyo:true,repeat:3,ease:'sine.inOut'},0)
+    .to('#r-neck',{rotate:-3,svgOrigin:'207 292',duration:.44,yoyo:true,repeat:1,ease:'sine.inOut'},0);
+  // idle life
+  (function blink(){gsap.timeline({onComplete:()=>gsap.delayedCall(2+Math.random()*3.5,blink)})
+    .to('.lid',{scaleY:1,duration:.07}).to('.lid',{scaleY:0,duration:.12});})();
+  (function twitch(){gsap.timeline({onComplete:()=>gsap.delayedCall(3+Math.random()*5,twitch)})
+    .to('#ear-near',{rotate:-14,svgOrigin:'230 92',duration:.12}).to('#ear-near',{rotate:0,duration:.4,ease:'elastic.out(1,.4)'});})();
+  gsap.to('#r-medal',{rotate:7,svgOrigin:'209 270',duration:1.6,yoyo:true,repeat:-1,ease:'sine.inOut'});
+  gsap.to('#r-body',{scaleY:1.015,transformOrigin:'50% 100%',duration:1.8,yoyo:true,repeat:-1,ease:'sine.inOut'});
+  gsap.to('#r-tail',{rotate:8,svgOrigin:'50 270',duration:1.1,yoyo:true,repeat:-1,ease:'sine.inOut'});
+  // pupils follow the pointer a little
+  addEventListener('pointermove',e=>{
+    const r=R.wrap.getBoundingClientRect(), dx=(e.clientX-(r.left+r.width*.7))*R.face, dy=e.clientY-(r.top+r.height*.3);
+    gsap.to('#r-pupil',{x:gsap.utils.clamp(-2.5,2.5,dx/150),y:gsap.utils.clamp(-2.5,2.5,dy/150),duration:.3});
+  });
+  R.wrap.addEventListener('click',e=>{
+    e.stopPropagation();
+    const lines=["Cajón del Maipo has 12 stops — I've visited all of them. Twice.","Fun fact: llamas hum when they're happy. Mmmmm.","El Yeso is turquoise because of glacial minerals. Very photogenic.","Don't tell the OTAs, but I'm the best guide in the Andes.","Direct booking = more alfalfa for everyone."];
+    pose('jump'); say(lines[Math.floor(Math.random()*lines.length)]);
+  });
+}
+function face(dir){ if(dir===R.face) return; R.face=dir; gsap.to(R.flip,{scaleX:dir,duration:.25,ease:'power2.inOut'}); }
+function resetPose(){
+  gsap.killTweensOf(['#r-head','#ear-far','#r-brow','#r-mouth','#r-mouth-open','#leg-fn']);
+  gsap.to('#r-head',{rotate:0,x:0,y:0,duration:.4});
+  gsap.to('#ear-far',{rotate:0,duration:.4});
+  gsap.to('#r-brow',{rotate:0,y:0,duration:.3});
+  gsap.to('#r-mouth',{opacity:1,duration:.2}); gsap.to('#r-mouth-open',{opacity:0,duration:.2});
+  gsap.to('#leg-fn',{rotate:0,duration:.3});
+}
+function pose(p){
+  resetPose();
+  const H={svgOrigin:'212 150'};
+  switch(p){
+    case 'wave': gsap.timeline().to('#leg-fn',{rotate:-70,transformOrigin:'50% 0%',duration:.3,ease:'back.out(2)'})
+      .to('#leg-fn',{rotate:-50,duration:.18,yoyo:true,repeat:5,ease:'sine.inOut'})
+      .to('#leg-fn',{rotate:0,duration:.4,ease:'power2.inOut'});
+      gsap.to('#r-mouth-open',{opacity:1,duration:.2,delay:.1});gsap.to('#r-mouth',{opacity:0,duration:.2,delay:.1});
+      gsap.to('#r-head',{...H,rotate:-8,duration:.4,yoyo:true,repeat:3,ease:'sine.inOut'}); break;
+    case 'nod': gsap.to('#r-head',{...H,rotate:10,duration:.25,yoyo:true,repeat:5,ease:'sine.inOut'}); break;
+    case 'proud': gsap.to('#r-head',{...H,rotate:-10,y:-4,duration:.6,ease:'back.out(2)'});
+      gsap.to('#r-all',{y:-10,duration:.3,yoyo:true,repeat:1,ease:'power2.out'}); break;
+    case 'worried': gsap.to(['#ear-far','#ear-near'],{rotate:28,duration:.5,ease:'back.out(2)',svgOrigin:'215 92'});
+      gsap.to('#r-brow',{rotate:-14,y:-2,svgOrigin:'229 95',duration:.4});
+      gsap.to('#r-head',{...H,rotate:6,duration:.5});
+      gsap.to('#r-all',{x:-3,duration:.06,yoyo:true,repeat:9,delay:.5});
+      gsap.delayedCall(4,()=>gsap.to(['#ear-far','#ear-near'],{rotate:0,duration:.6})); break;
+    case 'point': gsap.timeline().to('#r-head',{...H,rotate:14,x:6,duration:.45,ease:'back.out(2)'})
+      .to('#leg-fn',{rotate:-55,transformOrigin:'50% 0%',duration:.35,ease:'back.out(2)'},0)
+      .to('#leg-fn',{rotate:0,duration:.5,ease:'power2.inOut'},1.8); break;
+    case 'jump': gsap.timeline()
+      .to('#r-all',{scaleY:.9,transformOrigin:'50% 100%',duration:.12})
+      .to('#r-all',{y:-70,scaleY:1.06,duration:.32,ease:'power2.out'})
+      .to('#r-all',{y:0,scaleY:1,duration:.38,ease:'bounce.out'});
+      gsap.timeline().to('#r-shadow',{scale:.6,opacity:.15,transformOrigin:'50% 50%',duration:.44}).to('#r-shadow',{scale:1,opacity:.35,duration:.38});
+      gsap.to('#r-mouth-open',{opacity:1,duration:.15});gsap.to('#r-mouth',{opacity:0,duration:.15});
+      gsap.delayedCall(1.2,()=>{gsap.to('#r-mouth-open',{opacity:0});gsap.to('#r-mouth',{opacity:1});}); break;
+    case 'celebrate': gsap.to('#r-mouth-open',{opacity:1,duration:.15});gsap.to('#r-mouth',{opacity:0,duration:.15});
+      gsap.timeline({repeat:2})
+      .to('#r-all',{scaleY:.9,transformOrigin:'50% 100%',duration:.1})
+      .to('#r-all',{y:-60,scaleY:1.05,rotate:-6,duration:.3,ease:'power2.out'})
+      .to('#r-all',{y:0,scaleY:1,rotate:0,duration:.32,ease:'power2.in'});
+      confetti(); break;
+  }
+}
+function say(text){
+  gsap.killTweensOf(R.bubble); clearInterval(R.typer);
+  R.bubble.style.left = R.face===-1 ? '-70px' : '40px';
+  R.bubble.style.setProperty('--tail', R.face===-1 ? '200px' : '120px');
+  R.say.textContent='';
+  gsap.fromTo(R.bubble,{opacity:0,scale:.6,y:10},{opacity:1,scale:1,y:0,duration:.45,ease:'back.out(2)'});
+  let i=0; R.typer=setInterval(()=>{R.say.textContent=text.slice(0,++i); if(i>=text.length)clearInterval(R.typer);},22);
+  gsap.to(R.bubble,{opacity:0,y:-6,duration:.5,delay:Math.max(5,text.length*.07)});
+}
+function goRaco(cfg){
+  const [x,y,s,f,p]=cfg.split(',').map((v,i)=>i<4?+v:v);
+  gsap.killTweensOf(R.wrap); gsap.to(R.bubble,{opacity:0,duration:.2});
+  const cx=gsap.getProperty(R.wrap,'x'), cy=gsap.getProperty(R.wrap,'y');
+  const dx=x-cx, dist=Math.hypot(dx,y-cy);
+  const arrive=()=>{ R.walk.pause(); gsap.to(['#leg-fn','#leg-ff','#leg-bn','#leg-bf'],{rotate:0,duration:.2});
+    gsap.to('#r-all',{y:0,duration:.2}); face(f); gsap.delayedCall(.25,()=>{pose(p); say(R.pending);}); };
+  R.x=x; R.y=y;
+  if(dist<12){ R.walk.pause(); gsap.to(R.wrap,{x,y,scale:s,duration:.4}); face(f); pose(p); say(R.pending); return; }
+  face(dx>=0?1:-1); R.walk.timeScale(dist>700?1.4:1).play();
+  gsap.to(R.wrap,{x,y,scale:s,duration:gsap.utils.clamp(.9,2.4,dist/620),ease:'power1.inOut',onComplete:arrive});
+}
+function confetti(){
+  const layer=document.getElementById('stage');
+  const cols=['#ffcc78','#5fc4bc','#E6F2F0','#F7C062','#1E5153'];
+  for(let i=0;i<70;i++){
+    const d=document.createElement('div');
+    d.style.cssText=`position:absolute;width:${6+Math.random()*8}px;height:${4+Math.random()*6}px;background:${cols[i%5]};border-radius:2px;left:${R.x+110}px;top:${R.y+60}px;`;
+    layer.appendChild(d);
+    gsap.to(d,{x:(Math.random()-.5)*900,y:-200-Math.random()*400,rotate:Math.random()*720,duration:1+Math.random()*.6,ease:'power2.out'});
+    gsap.to(d,{y:'+=650',opacity:0,duration:1.6,delay:1,ease:'power1.in',onComplete:()=>d.remove()});
+  }
+}
+
+/* =====================================================================
+   6. Slide orchestration
+   ===================================================================== */
+function onSlide(s, idx, first){
+  if(!R.wrap) return;
+  enter(s);
+  moveRail(idx);
+  gsap.to(U,{pan:idx*1.15,warm:+(s.dataset.warm||.25),duration:2.4,ease:'power2.inOut'});
+  if(s.dataset.raco){ R.pending=s.dataset.say||''; const tk=R.token=(R.token||0)+1; setTimeout(()=>{ if(tk===R.token) goRaco(s.dataset.raco); }, first?600:150); }
+}
+</script>
+</body>
+</html>
