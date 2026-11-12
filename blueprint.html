@@ -662,7 +662,7 @@ Reveal.initialize({width:1600,height:900,margin:0,minScale:.2,maxScale:2,center:
   Reveal.addKeyBinding({keyCode:73,key:'I',description:'Replay intro'},()=>{ Reveal.slide(0); startIntro(); });
   if(Reveal.getIndices().h===0) startIntro(); else onSlide(Reveal.getCurrentSlide(),Reveal.getIndices().h);
 });
-Reveal.on('slidechanged',e=>{ if(!PRINT) onSlide(e.currentSlide,e.indexh); });
+Reveal.on('slidechanged',e=>{ if(!PRINT && SC.mix) onSlide(e.currentSlide,e.indexh); });
 
 function onSlide(s,idx){
   if(IN.on) return;
@@ -842,138 +842,6 @@ function burst(x,y,n,pow){
   for(let i=0;i<n;i++){ const a=Math.random()*6.283, sp=(.25+Math.random())*pow*H;
     parts.push({x,y,px:x,py:y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,age:0,c:cols[(Math.random()*cols.length)|0],r:(1.6+Math.random()*2)*DPR,star:(.6+Math.random()*1.2)*DPR,tw:Math.random()*6}); }
 }
-function drawIntro_v1(){   /* superseded by the chase-camera intro at the end of this script */
-  if(!IN.on) return;
-  const now=performance.now(), dt=Math.min(.05,(now-IN.last)/1000); IN.last=now; const c=ictx;
-  c.clearRect(0,0,W,H); c.lineCap='round';
-  // graphs flying by
-  if(IN.charts>.01){ fly.forEach(o=>{ o.z-=dt*(4+o.sp)*IN.charts; if(o.z<.7){ o.z=13+Math.random()*3; const a=Math.random()*6.283, r=1.6+Math.random()*2.6; o.x=Math.cos(a)*r; o.y=Math.sin(a)*r*.6; }
-      const f=H*.9, sx=W/2+o.x*f/o.z, sy=H/2+o.y*f/o.z, sz=f*.42/o.z, al=Math.min(1,(15-o.z)/4)*Math.min(1,(o.z-.7)/1.2)*IN.charts*.9;
-      c.globalAlpha=al; c.strokeStyle=c.fillStyle=o.gold?'#ffcc78':'#7fd3ff'; c.lineWidth=Math.max(1,sz*.05);
-      if(o.type===0){ for(let i=0;i<5;i++){ const h=sz*[.14,.24,.4,.64,1][i]; c.fillRect(sx+i*sz*.22,sy-h,sz*.15,h); } c.beginPath(); c.moveTo(sx-sz*.05,sy+sz*.04); c.lineTo(sx+sz*1.15,sy+sz*.04); c.stroke(); }
-      else { c.beginPath(); for(let i=0;i<=12;i++){ const p=i/12, X=sx+p*sz*1.1, Y=sy-gcurve(p)*sz; i?c.lineTo(X,Y):c.moveTo(X,Y); } c.stroke();
-        const X=sx+sz*1.1, Y=sy-sz; c.beginPath(); c.moveTo(X,Y-sz*.12); c.lineTo(X+sz*.09,Y+sz*.08); c.lineTo(X-sz*.12,Y+sz*.03); c.closePath(); c.fill();
-        if(o.type===2){ c.font=`700 ${Math.max(8,sz*.22)}px Space Mono, monospace`; c.fillText(o.txt,sx,sy+sz*.32); } }
-    }); c.globalAlpha=1; }
-  // rotating blueprint house
-  if(IN.house>.01){
-    c.strokeStyle='#7fd3ff'; c.shadowColor='#7fd3ff'; c.shadowBlur=8*DPR;
-    c.globalAlpha=.22*IN.house*IN.grid; c.lineWidth=1*DPR;
-    for(let i=-6;i<=6;i++){ line(proj(rotY([i*.5,0,-3],IN.rot,IN.hs)),proj(rotY([i*.5,0,3],IN.rot,IN.hs)),1); line(proj(rotY([-3,0,i*.5],IN.rot,IN.hs)),proj(rotY([3,0,i*.5],IN.rot,IN.hs)),1); }
-    c.globalAlpha=IN.house; c.lineWidth=2*DPR;
-    SEG.forEach((s,i)=>{ const t=gsap.utils.clamp(0,1,IN.draw*SEG.length-i); if(t>0) line(proj(rotY(s[0],IN.rot,IN.hs)),proj(rotY(s[1],IN.rot,IN.hs)),t); });
-    c.shadowBlur=0;
-    // --- technical drawing layer: survey rings, nodes, dimensions, callouts, HUD ---
-    const RP=p=>proj(rotY(p,IN.rot,IN.hs)), tech=IN.house*IN.grid, fs=H*.0155;
-    c.lineWidth=1*DPR; c.globalAlpha=.4*tech;
-    [1.7,2.5,3.3].forEach((r,ri)=>{ c.setLineDash(ri===1?[4*DPR,6*DPR]:[]); c.beginPath(); for(let i=0;i<=72;i++){ const a=i/72*6.283, q=RP([Math.cos(a)*r,0,Math.sin(a)*r]); i?c.lineTo(q[0],q[1]):c.moveTo(q[0],q[1]); } c.stroke(); });
-    c.setLineDash([]);
-    c.font=`${fs*.8}px Space Mono, monospace`; c.fillStyle='#7fd3ff'; c.textAlign='center';
-    for(let d=0;d<360;d+=15){ const a=d/57.296, q1=RP([Math.cos(a)*3.3,0,Math.sin(a)*3.3]), q2=RP([Math.cos(a)*(d%45?3.4:3.5),0,Math.sin(a)*(d%45?3.4:3.5)]); line(q1,q2,1);
-      if(d%45===0){ const q=RP([Math.cos(a)*3.75,0,Math.sin(a)*3.75]); c.fillText(String(d).padStart(3,'0')+'°',q[0],q[1]); } }
-    const dn=gsap.utils.clamp(0,1,IN.draw*2.2-1);                               // annotations fade in once the frame exists
-    c.globalAlpha=tech*dn;
-    NODES.forEach(v=>{ const q=RP(v); c.beginPath(); c.arc(q[0],q[1],3.2*DPR,0,6.283); c.fillStyle='#04101c'; c.fill(); c.stroke(); });
-    const ax=[-2.7,0,2.7], o=RP(ax); [['X',[.55,0,0]],['Y',[0,.55,0]],['Z',[0,0,-.55]]].forEach(([n,d])=>{ const e=RP([ax[0]+d[0],d[1],ax[2]+d[2]]); c.strokeStyle='#ffcc78'; line(o,e,1); c.fillStyle='#ffcc78'; c.fillText(n,e[0]+(e[0]-o[0])*.25,e[1]+(e[1]-o[1])*.25); });
-    c.strokeStyle='#7fd3ff';
-    LAB.forEach(l=>{ const q=RP(l.p), tx=q[0]+l.dx*fs, ty=q[1]+l.dy*fs; c.beginPath(); c.moveTo(q[0],q[1]); c.lineTo(tx,ty); c.lineTo(tx+(l.dx>0?1:-1)*fs*1.2,ty); c.strokeStyle=c.fillStyle=l.g?'#ffcc78':'#7fd3ff'; c.stroke();
-      c.beginPath(); c.arc(q[0],q[1],2*DPR,0,6.283); c.fill(); c.textAlign=l.dx>0?'left':'right'; c.font=`${l.g?'700 ':''}${fs}px Space Mono, monospace`; c.fillText(l.t,tx+(l.dx>0?1.6:-1.6)*fs,ty+fs*.35); });
-    // HUD (screen space)
-    c.globalAlpha=tech*.9; c.strokeStyle=c.fillStyle='#7fd3ff'; c.lineWidth=1.5*DPR; c.textAlign='left'; c.font=`${fs}px Space Mono, monospace`;
-    const m=H*.05, b=H*.045; [[m,m,1,1],[W-m,m,-1,1],[m,H-m,1,-1],[W-m,H-m,-1,-1]].forEach(([x,y,sx2,sy2])=>{ c.beginPath(); c.moveTo(x+b*sx2,y); c.lineTo(x,y); c.lineTo(x,y+b*sy2); c.stroke(); });
-    const deg=(((IN.rot+.5)*57.296)%360+360)%360;
-    [['ROT  '+deg.toFixed(1).padStart(5,'0')+'°'],['ELEV 17.2°'],['SCALE 1:100'],['GRID 0.50 m'],['SEG  '+Math.min(SEG.length,Math.round(IN.draw*SEG.length))+'/'+SEG.length]].forEach((r,i)=>c.fillText(r[0],W-m-fs*11,m+fs*(2.2+i*1.5)));
-    const bx=m+fs, by=H-m-fs*6.4, bw=fs*21, bh=fs*5.6; c.strokeRect(bx,by,bw,bh); c.beginPath(); c.moveTo(bx,by+bh*.36); c.lineTo(bx+bw,by+bh*.36); c.moveTo(bx+bw*.62,by+bh*.36); c.lineTo(bx+bw*.62,by+bh); c.stroke();
-    c.font=`700 ${fs*1.15}px Space Mono, monospace`; c.fillText('TRIPVAN · DIGITAL HOUSE',bx+fs*.7,by+fs*1.4);
-    c.font=`${fs*.85}px Space Mono, monospace`; c.fillText('DWG TV-001 · SHEET 2/2',bx+fs*.7,by+fs*3.2); c.fillText('DRAWN: SONDRI · CHK: RACO',bx+fs*.7,by+fs*4.6); c.fillText('REV A',bx+bw*.62+fs*.7,by+fs*3.2); c.fillText('2026',bx+bw*.62+fs*.7,by+fs*4.6);
-    const sy0=(now/2600%1)*H; const sg=c.createLinearGradient(0,sy0-H*.08,0,sy0); sg.addColorStop(0,'rgba(127,211,255,0)'); sg.addColorStop(1,'rgba(127,211,255,.16)'); c.globalAlpha=tech; c.fillStyle=sg; c.fillRect(0,sy0-H*.08,W,H*.08);
-    c.globalAlpha=1; c.textAlign='left';
-  }
-  // big ROI chart
-  if(IN.chart>.01){
-    const x0=W*.24,x1=W*.66,y0=H*.8,y1=H*.26;
-    c.globalAlpha=IN.chart*.5; c.strokeStyle='#7fd3ff'; c.lineWidth=1*DPR;
-    for(let i=1;i<=5;i++){ const y=y0-(y0-y1)*i/5; c.beginPath(); c.moveTo(x0,y); c.lineTo(x1,y); c.stroke(); }
-    c.globalAlpha=IN.chart; c.lineWidth=2.5*DPR; c.beginPath(); c.moveTo(x0,y1-H*.04); c.lineTo(x0,y0); c.lineTo(x1+W*.04,y0); c.stroke();
-    c.fillStyle='#7fd3ff'; c.font=`700 ${H*.022}px Space Mono, monospace`; c.fillText('ROI',x0-H*.07,y1-H*.02);
-    ['01','02','03'].forEach((t,i)=>c.fillText(t,x0+(x1-x0)*(.18+i*.33),y0+H*.04));
-    if(IN.curve>0){
-      const N=60; c.beginPath(); c.moveTo(x0,y0);
-      for(let i=0;i<=N;i++){ const pt=chartPt(IN.curve*i/N); c.lineTo(pt[0],pt[1]); }
-      const tip=chartPt(IN.curve); c.lineTo(tip[0],y0); c.closePath();
-      const g=c.createLinearGradient(0,y1,0,y0); g.addColorStop(0,'rgba(255,204,120,.5)'); g.addColorStop(1,'rgba(255,204,120,0)'); c.fillStyle=g; c.fill();
-      c.beginPath(); for(let i=0;i<=N;i++){ const pt=chartPt(IN.curve*i/N); i?c.lineTo(pt[0],pt[1]):c.moveTo(pt[0],pt[1]); }
-      c.strokeStyle='#ffcc78'; c.lineWidth=5*DPR; c.shadowColor='#ffcc78'; c.shadowBlur=24*DPR; c.stroke();
-      if(IN.rocket>0){ const ry=tip[1]-(tip[1]-H*.1)*IN.rocket; c.beginPath(); c.moveTo(tip[0],tip[1]); c.lineTo(tip[0],ry); c.stroke(); c.fillStyle='#fff'; c.beginPath(); c.arc(tip[0],ry,7*DPR,0,6.283); c.fill(); }
-      else { c.fillStyle='#fff'; c.beginPath(); c.arc(tip[0],tip[1],6*DPR,0,6.283); c.fill(); }
-      c.shadowBlur=0;
-    }
-    c.globalAlpha=1;
-  }
-  // ship (DOM) + trail
-  // flight path lives in the blueprint's own space, so the whole scene turns together:
-  // in through the front door, across the rooms, out the back, up and over the roof, round again
-  const t=IN.shipT, P=[1.7*Math.sin(2*t)*Math.abs(Math.sin(t)),.5+.42*Math.sin(1.7*t)+.9*Math.pow(Math.sin(t*.5),8),2.7*Math.sin(t)], sp=proj(rotY(P,IN.rot,1));
-  const tip=chartPt(IN.curve); let sx=sp[0]+(tip[0]-sp[0])*IN.follow, sy=sp[1]+(tip[1]-H*.07-sp[1])*IN.follow;
-  sx+=IN.away*W*.55; sy-=IN.away*H*.5;
-  const k=(1-IN.follow)*(4.3/sp[2])+IN.follow*.8, sc=k*(H/900)/DPR*.95;
-  const el=$('#ship'), cx=sx/DPR, cy=sy/DPR, vx=cx-(IN.px||cx), vy=cy-(IN.py||cy); IN.px=cx; IN.py=cy;
-  if(Math.abs(vx)>.4) IN.dir=vx>0?1:-1;
-  IN.tilt=(IN.tilt||0)+((gsap.utils.clamp(-24,24,vy*3)*(IN.dir||1))-(IN.tilt||0))*.15;
-  el.style.opacity=IN.shipA; el.style.zIndex=(sp[2]>4.8&&IN.follow<.5)?1:3;
-  el.style.transform=`translate(${cx-110}px,${cy-66}px) scale(${sc*(IN.dir||1)},${sc}) rotate(${IN.tilt}deg)`;
-  if(IN.shipA>.05){ trail.push([sx,sy,sc]); if(trail.length>26) trail.shift(); trail.forEach((p,i)=>{ c.globalAlpha=i/26*.5*IN.shipA; c.fillStyle='#ffe7b3'; c.beginPath(); c.arc(p[0],p[1]+10*p[2]*DPR,(1+i/26*5)*p[2]*DPR,0,6.283); c.fill(); }); c.globalAlpha=1; }
-  // fireworks → stars
-  for(const p of parts){ p.age+=dt; p.px=p.x; p.py=p.y; const dr=Math.pow(.955,dt*60); p.vx*=dr; p.vy*=dr; if(p.age<1.1) p.vy+=H*.12*dt; p.x+=p.vx*dt; p.y+=p.vy*dt;
-    const s=gsap.utils.clamp(0,1,(p.age-1.2)/1.6);                          // 0 = firework, 1 = star
-    c.globalAlpha=(1-s)+s*(.55+.45*Math.sin(now/300+p.tw)); c.strokeStyle=c.fillStyle=s>.6?'#eaf6ff':p.c;
-    if(s<.5){ c.lineWidth=p.r*(1-s); c.beginPath(); c.moveTo(p.px,p.py); c.lineTo(p.x,p.y); c.stroke(); }
-    c.beginPath(); c.arc(p.x,p.y,p.r*(1-s)+p.star*s,0,6.283); c.fill(); }
-  c.globalAlpha=1;
-}
-function startIntro_v1(){   /* superseded */
-  if(IN.on) return; IN.on=true;
-  const html=document.documentElement; html.classList.add('intro-on'); Reveal.configure({keyboard:false});
-  icv=$('#bi-cv'); ictx=icv.getContext('2d'); DPR=Math.min(devicePixelRatio||1,1.5);
-  const rs=()=>{ W=icv.width=innerWidth*DPR; H=icv.height=innerHeight*DPR; }; rs(); addEventListener('resize',rs);
-  parts.length=0; trail.length=0; fly.length=0;
-  for(let i=0;i<16;i++){ const a=Math.random()*6.283, r=1.6+Math.random()*2.6; fly.push({x:Math.cos(a)*r,y:Math.sin(a)*r*.6,z:2+Math.random()*13,sp:Math.random()*3,type:i%3,gold:i%2,txt:['ROI ↑','+38%','×6.4','+120%','×12'][i%5]}); }
-  Object.assign(IN,{rot:-.5,draw:0,house:1,hs:1,grid:0,charts:0,shipA:0,shipT:-.9,follow:0,away:0,chart:0,curve:0,rocket:0,last:performance.now(),px:0,py:0,tilt:0,dir:1});
-  gsap.set('#stage',{opacity:0}); gsap.set($$('.reveal .slides section')[0].querySelectorAll('.a-up'),{opacity:0});
-  gsap.set('#intro',{opacity:1}); gsap.set('#bi-grid',{opacity:1}); gsap.set(['#bi-dim','#bi-cap','#bi-title','#bi-sub'],{opacity:0});
-  $$('#bi-title .w').forEach(w=>{ if(!w.dataset.split){ w.dataset.split=1; w.innerHTML=[...w.textContent].map(ch=>`<span class="ch">${ch}</span>`).join(''); }});
-  gsap.ticker.add(drawIntro);
-  const FW=[[.66,.1,150,.55],[.3,.2,90,.4],[.82,.3,90,.42],[.5,.14,110,.46],[.16,.36,70,.36],[.9,.14,70,.36],[.42,.34,80,.38]];
-  const tl=gsap.timeline({onComplete:finish});
-  tl.fromTo('#bi-cap',{opacity:0,letterSpacing:'.2em'},{opacity:1,letterSpacing:'.6em',duration:1.4,ease:'power2.out'},.2)
-    .to(IN,{grid:1,duration:1},.5).to(IN,{draw:1,duration:3.6,ease:'power1.inOut'},.7)
-    .to(IN,{rot:-.5+Math.PI*2,duration:7.6,ease:'sine.inOut'},1)
-    .to(IN,{shipA:1,duration:.5},1.5).to(IN,{shipT:-.9+Math.PI*4,duration:7.2,ease:'none'},1.5)
-    .to(IN,{charts:1,duration:1.2},2.2).to('#bi-cap',{opacity:0,duration:.6},3)
-    .to(IN,{house:0,hs:.55,duration:1,ease:'power2.in'},8.3).to(IN,{charts:0,duration:1},8.6)
-    .to(IN,{chart:1,duration:.8},8.7).to(IN,{follow:1,duration:1.1,ease:'power2.inOut'},8.6)
-    .to(IN,{curve:1,duration:2.5,ease:'power1.in'},9.4)
-    .to(IN,{rocket:1,duration:.4,ease:'power2.in'},11.9).to(IN,{away:1,duration:1.1,ease:'power2.in'},11.9)
-    .call(()=>{ const t=chartPt(1); burst(t[0],H*.1,170,.6); },[],12.3)
-    .to('#bi-grid',{opacity:0,duration:1.4},12.2).to(IN,{chart:0,duration:1},12.4).to(IN,{shipA:0,duration:.3},12.9);
-  FW.slice(1).forEach((f,i)=>tl.call(()=>burst(W*f[0],H*f[1],f[2],f[3]),[],12.6+i*.24));
-  tl.to('#bi-dim',{opacity:.55,duration:1.2},14.2)
-    .set('#bi-title',{opacity:1},14.6)
-    .fromTo('#bi-title .ch',{opacity:0,scale:2.6,filter:'blur(14px)'},{opacity:1,scale:1,filter:'blur(0px)',duration:.7,ease:'expo.out',stagger:.045},14.6)
-    .fromTo('#bi-title .plus',{opacity:0,rotate:-180,scale:0},{opacity:1,rotate:0,scale:1,duration:.6,ease:'back.out(3)'},14.95)
-    .fromTo('#bi-sub',{opacity:0,letterSpacing:'.1em'},{opacity:1,letterSpacing:'.55em',duration:1.2,ease:'power2.out'},15.3)
-    .to('#intro',{opacity:0,duration:1.3,ease:'power2.inOut'},17.6);
-  const skip=()=>{ if(tl.progress()<1) tl.progress(1); }, onKey=e=>{ e.preventDefault(); skip(); };
-  addEventListener('keydown',onKey,true); $('#bi-skip').addEventListener('click',skip);
-  function finish(){
-    removeEventListener('keydown',onKey,true); $('#bi-skip').removeEventListener('click',skip); removeEventListener('resize',rs);
-    gsap.ticker.remove(drawIntro); IN.on=false; parts.length=0;
-    html.classList.remove('intro-on'); Reveal.configure({keyboard:true});
-    gsap.to('#stage',{opacity:1,duration:.6}); SC.n=-1; RC.x=-140; applyR();
-    onSlide(Reveal.getCurrentSlide(),Reveal.getIndices().h);
-  }
-}
-
 /* ============ 7. Intro v2 — chase camera: we follow Raco's fighter from behind as it
    flies through the blueprint house; then the ROI curve launches like a firework. ============ */
 const v3={sub:(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],add:(a,b,k=1)=>[a[0]+b[0]*k,a[1]+b[1]*k,a[2]+b[2]*k],dot:(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],

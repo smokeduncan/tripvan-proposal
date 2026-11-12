@@ -27,3 +27,10 @@ python tools/make_es.py
 ```
 
 Photos in `assets/` come from tripvan.cl. The cartoon Raco is an original SVG drawn in `index.html`.
+
+## The Blueprint (action plan & timeline)
+
+`blueprint.html` is the second page: the three phases as a house being built, the TripVan Social
+app mockups, the action items and the booking link. It holds both languages in one file
+(`blueprint.html?lang=es` for Spanish). Reach it from the **Action plan & timeline →** button at
+the top of the proposal, or the **The Blueprint →** button on its last slide. Press `I` to replay the intro.
