@@ -210,7 +210,7 @@ html,body{margin:0;height:100%;background:var(--ink-deep);color:var(--text);}
   padding:8px 10px;border-radius:14px;background:rgba(8,19,19,.94);border:1px solid var(--gold);box-shadow:0 12px 40px rgba(0,0,0,.5);
   font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--text);white-space:nowrap;}
 html.editing #editbar{display:flex;}
-html.editing #edit-btn,html.editing #hint{display:none;}
+html.editing #edit-btn,html.editing #hint,html.editing #plan-btn,html.intro-on #plan-btn,html.print-pdf #plan-btn{display:none !important;}
 #editbar button{font:inherit;color:var(--bone);background:var(--raise);border:1px solid var(--line-strong);border-radius:8px;padding:6px 10px;cursor:pointer;}
 #editbar button:hover{border-color:var(--gold);color:var(--gold);}
 #editbar button.primary{background:var(--gold);color:var(--ink);border-color:var(--gold);font-weight:700;}
@@ -258,6 +258,7 @@ html.print-pdf .reveal .slides section{background:radial-gradient(ellipse at 70%
 <canvas id="bg"></canvas>
 <div id="vignette"></div>
 <nav id="lang"><a href="index.html">EN</a><a href="es.html" class="on">ES</a></nav>
+<a id="plan-btn" href="blueprint.html?lang=es" style="position:fixed;left:50%;top:12px;transform:translateX(-50%);z-index:6;font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--ink);background:var(--gold);border-radius:99px;padding:7px 16px;box-shadow:0 4px 18px rgba(0,0,0,.4)">Plan de acción y cronograma →</a>
 <button id="edit-btn" title="Editar texto (E)">✎ Editar</button>
 <div id="editbar">
   <button data-act="prev" title="Lámina anterior">◀</button><span id="eb-pg">1 / 9</span><button data-act="next" title="Lámina siguiente">▶</button>
@@ -517,6 +518,7 @@ html.print-pdf .reveal .slides section{background:radial-gradient(ellipse at 70%
     </div>
     <div class="closing a-up">De arrendar la demanda<br/>a <em>ser dueños del crecimiento.</em></div>
     <div class="cta a-up">Construyamos juntos el futuro digital de TripVan · sondri.ai →</div>
+    <a class="cta a-up" href="blueprint.html?lang=es" style="margin-left:12px;background:none;border:2px solid var(--gold);color:var(--gold);text-decoration:none">El plano →</a>
     <div class="strip">
       <div class="photo ph-in"><img src="assets/A38E34CC-7A76-4670-92BE-AB768BAA75D7.jpeg" alt=""/></div>
       <div class="photo ph-in"><img src="assets/49E12963-5124-449E-BE52-5A23ACDC53A4.jpeg" alt=""/></div>

@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TripVan × Sondri — The Blueprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+<style>
+:root{
+  --ink:#08141f; --ink-deep:#050d15; --raise:#0f2130; --line:#1c3447; --line-strong:#2a4a63;
+  --gold:#ffcc78; --gold-soft:#ffe7b3; --tan:#F7C062; --bone:#E8F3F8; --text:#c5d8e3; --clay:#86a5b8; --dim:#6f8797;
+  --cy:#7fd3ff; --glacier:#5fc4bc; --teal:#1E5153; --wood:#c98a4b;
+  --display:'Space Grotesk',sans-serif; --mono:'Space Mono',monospace; --serif:'Fraunces',serif;
+}
+html,body{margin:0;height:100%;background:var(--ink-deep);color:var(--text);}
+#bg{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;image-rendering:pixelated;}
+#paper{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.35;
+  background-image:linear-gradient(rgba(127,211,255,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(127,211,255,.10) 1px,transparent 1px),
+                   linear-gradient(rgba(127,211,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(127,211,255,.05) 1px,transparent 1px);
+  background-size:120px 120px,120px 120px,24px 24px,24px 24px;}
+#vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at 50% 40%,transparent 30%,rgba(5,13,21,.6) 75%,rgba(5,13,21,.92) 100%);}
+.reveal{z-index:2;font-family:var(--display);color:var(--text);}
+.reveal .slides{text-align:left;}
+.reveal .slides>section{height:900px;padding:0;box-sizing:border-box;}
+.reveal .controls{color:var(--gold);}
+.reveal h1,.reveal h2,.reveal h3,.reveal p{margin:0;font-family:var(--display);text-transform:none;letter-spacing:0;}
+.reveal a{color:inherit;text-decoration:none;}
+
+.sl{position:absolute;inset:0;padding:84px 110px 0;box-sizing:border-box;}
+.sl::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(5,13,21,.88) 0%,rgba(5,13,21,.7) 52%,rgba(5,13,21,.1) 72%,transparent);}
+.sl.full::before{background:linear-gradient(180deg,rgba(5,13,21,.8),rgba(5,13,21,.62) 60%,rgba(5,13,21,.85));}
+.col{width:720px;}
+.eyebrow{font-family:var(--mono);font-size:15px;letter-spacing:.26em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:14px;}
+.eyebrow::before{content:"";width:34px;height:2px;background:var(--gold);}
+.h2{font-size:60px;font-weight:700;line-height:1.03;color:var(--bone);letter-spacing:-.02em;margin-top:16px !important;}
+.h2 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--gold);}
+.lede{font-size:21px;line-height:1.45;color:var(--text);margin-top:16px !important;}
+.lede b{color:var(--bone);}
+.card{background:linear-gradient(160deg,rgba(15,33,48,.94),rgba(8,20,31,.9));border:1px solid var(--line-strong);border-radius:16px;position:relative;}
+.sub{font-family:var(--mono);font-size:13px;letter-spacing:.22em;color:var(--cy);text-transform:uppercase;margin-top:24px;}
+
+/* overview rows */
+.rows{display:flex;flex-direction:column;gap:14px;margin-top:28px;}
+.row{display:grid;grid-template-columns:74px 1fr auto;align-items:center;gap:18px;padding:18px 22px;}
+.row .no{font-size:44px;font-weight:700;color:transparent;-webkit-text-stroke:1.5px var(--gold);letter-spacing:-.04em;}
+.row .t{font-size:25px;font-weight:700;color:var(--bone);}
+.row .d{font-size:16.5px;color:var(--text);margin-top:3px;line-height:1.4;}
+.row .w{font-family:var(--mono);font-size:13px;letter-spacing:.12em;color:var(--cy);border:1px solid var(--line-strong);border-radius:99px;padding:6px 12px;white-space:nowrap;}
+
+/* build list + benchmarks */
+.bl{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.bl .card{padding:13px 16px;}
+.bl .t{font-size:17.5px;font-weight:700;color:var(--bone);}
+.bl .d{font-size:14.5px;line-height:1.4;color:var(--text);margin-top:4px;}
+.bms{margin-top:12px;position:relative;padding-left:22px;}
+.bms::before{content:"";position:absolute;left:5px;top:10px;bottom:10px;border-left:2px dashed var(--line-strong);}
+.bm{position:relative;display:grid;grid-template-columns:104px 1fr;gap:14px;align-items:baseline;padding:8px 0;}
+.bm::before{content:"";position:absolute;left:-22px;top:15px;width:12px;height:12px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px rgba(255,204,120,.7);}
+.bm .when{font-family:var(--mono);font-size:14px;letter-spacing:.1em;color:var(--gold);text-transform:uppercase;}
+.bm .what{font-size:17px;line-height:1.4;color:var(--bone);}
+.bm .what b{color:var(--gold-soft);}
+.fine{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--dim);margin-top:12px;}
+.price{display:inline-block;margin-left:10px;font-family:var(--mono);font-size:13px;letter-spacing:.1em;color:var(--ink);background:var(--gold);border-radius:99px;padding:3px 10px;vertical-align:middle;}
+
+/* steps */
+.steps{margin-top:22px;display:flex;flex-direction:column;gap:10px;}
+.step{display:grid;grid-template-columns:52px 1fr auto;gap:16px;align-items:center;padding:13px 18px;}
+.step .n{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;color:var(--ink);background:var(--gold);}
+.step .t{font-size:20px;font-weight:700;color:var(--bone);}
+.step .d{font-size:15.5px;color:var(--text);margin-top:2px;line-height:1.35;}
+.step .w{font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;color:var(--cy);white-space:nowrap;}
+.book{display:inline-flex;align-items:center;gap:14px;margin-top:30px;font-size:30px;font-weight:700;padding:22px 36px;border-radius:99px;
+  background:linear-gradient(90deg,var(--gold),var(--tan));color:var(--ink) !important;box-shadow:0 0 0 0 rgba(255,204,120,.6);animation:pulse 2.2s infinite;}
+.book.sm{font-size:19px;padding:12px 22px;margin-top:16px;}
+@keyframes pulse{70%{box-shadow:0 0 0 26px rgba(255,204,120,0);}100%{box-shadow:0 0 0 0 rgba(255,204,120,0);}}
+.url{font-family:var(--mono);font-size:16px;letter-spacing:.08em;color:var(--cy);margin-top:16px;}
+.back{display:inline-block;margin-top:34px;font-family:var(--mono);font-size:14px;letter-spacing:.12em;color:var(--clay) !important;border-bottom:1px dashed var(--line-strong);padding-bottom:3px;}
+
+/* phones */
+.phones{position:absolute;left:150px;right:150px;top:206px;display:flex;justify-content:space-between;}
+.pw{width:262px;}
+.phone{width:262px;height:520px;border-radius:38px;background:#0a1118;border:7px solid #20303d;box-sizing:border-box;overflow:hidden;position:relative;
+  box-shadow:0 30px 70px rgba(0,0,0,.6),0 0 0 1px rgba(127,211,255,.25);font-family:var(--display);}
+.phone::before{content:"";position:absolute;left:50%;top:8px;width:74px;height:18px;margin-left:-37px;border-radius:99px;background:#000;z-index:9;}
+.scr{position:absolute;inset:0;color:#dbe8ee;font-size:12px;line-height:1.35;}
+.pcap{margin-top:14px;text-align:center;}
+.pcap b{display:block;font-size:18px;color:var(--bone);}
+.pcap span{display:block;font-size:14px;color:var(--clay);margin-top:3px;line-height:1.35;}
+.cover{height:150px;background-size:cover;background-position:center;position:relative;}
+.cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,#0a1118);}
+.tag{position:absolute;right:10px;top:34px;z-index:2;font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;background:rgba(0,0,0,.6);color:#fff;padding:3px 6px;border-radius:5px;}
+.pad{padding:0 16px;margin-top:-18px;position:relative;}
+.vn{font-size:19px;font-weight:700;color:#fff;}
+.ver{display:inline-flex;width:17px;height:17px;border-radius:50%;background:var(--cy);color:#04202e;font-style:normal;font-size:11px;align-items:center;justify-content:center;vertical-align:3px;}
+.vs{font-size:11px;color:var(--clay);}
+.trust{display:flex;gap:12px;align-items:center;margin-top:12px;}
+.tring{width:84px;height:84px;flex:none;}
+.tring circle{fill:none;stroke-width:9;}
+.tring .bgc{stroke:#1c2c38;} .tring .fg{stroke:var(--gold);stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;}
+.tb{flex:1;}
+.tb div{font-size:10.5px;color:var(--clay);margin-bottom:5px;}
+.tb i{display:block;height:5px;border-radius:3px;background:#1c2c38;margin-top:2px;overflow:hidden;}
+.tb i u{display:block;height:100%;width:0;border-radius:3px;background:linear-gradient(90deg,var(--glacier),var(--cy));}
+.rev{margin-top:10px;padding:9px 11px;border-radius:12px;background:#111d27;border:1px solid #1c2c38;}
+.rev b{color:var(--gold);letter-spacing:1px;font-size:11px;}
+.rev .vt{float:right;font-size:9.5px;color:var(--glacier);}
+.rev p{margin:4px 0 0 !important;font-size:12px !important;color:#dbe8ee;}
+.reel .rbg{position:absolute;inset:-4%;background-size:cover;background-position:center;}
+.reel .rshade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45),transparent 25%,transparent 50%,rgba(0,0,0,.8));}
+.rtop{position:absolute;left:14px;right:14px;top:36px;display:flex;gap:8px;align-items:center;}
+.rtop b{display:block;font-size:13px;color:#fff;} .rtop small{font-size:10px;color:#dbe8ee;}
+.av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#e8794a);color:#1a0d05;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:14px;flex:none;border:2px solid #fff;box-sizing:border-box;}
+.av.b{background:linear-gradient(135deg,var(--cy),#4a6fe8);} .av.c{background:linear-gradient(135deg,var(--glacier),#2c8a5a);}
+.live{margin-left:auto;font-family:var(--mono);font-size:10px;background:rgba(0,0,0,.55);padding:3px 7px;border-radius:99px;color:#fff;}
+.rside{position:absolute;right:10px;top:230px;display:flex;flex-direction:column;gap:14px;text-align:center;font-size:20px;color:#fff;}
+.rside small{display:block;font-size:9px;}
+.rcap{position:absolute;left:14px;right:54px;bottom:112px;font-size:12.5px;color:#fff;text-shadow:0 1px 6px #000;}
+.rprog{position:absolute;left:14px;right:14px;bottom:98px;height:3px;background:rgba(255,255,255,.3);border-radius:2px;}
+.rprog i{display:block;height:100%;width:0;background:#fff;border-radius:2px;}
+.rsheet{position:absolute;left:8px;right:8px;bottom:10px;padding:10px 12px;border-radius:18px;background:rgba(10,17,24,.92);border:1px solid #2a3d4c;display:flex;align-items:center;gap:8px;}
+.rsheet b{display:block;font-size:12.5px;color:#fff;} .rsheet small{font-size:9.5px;color:var(--clay);}
+.rsheet button,.pbtn{margin-left:auto;font:700 11.5px var(--display);color:var(--ink);background:var(--gold);border:0;border-radius:99px;padding:9px 11px;white-space:nowrap;}
+.rok{position:absolute;left:8px;right:8px;bottom:10px;padding:14px;border-radius:18px;background:var(--glacier);color:#04221f;text-align:center;opacity:0;}
+.rok span{display:inline-flex;width:30px;height:30px;border-radius:50%;background:#04221f;color:var(--glacier);align-items:center;justify-content:center;font-size:17px;font-weight:700;}
+.rok b{display:block;font-size:16px;margin-top:4px;} .rok small{font-size:10.5px;}
+.tap{position:absolute;right:38px;bottom:22px;width:34px;height:34px;border-radius:50%;border:3px solid #fff;background:rgba(255,255,255,.35);opacity:0;}
+.pad2{padding:44px 14px 0;box-sizing:border-box;}
+.hdr{font-size:17px;font-weight:700;color:#fff;}
+.brief{margin-top:10px;padding:11px 12px;border-radius:14px;background:linear-gradient(135deg,#17324a,#0f2130);border:1px solid var(--line-strong);}
+.brief small{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;color:var(--gold);}
+.brief b{display:block;font-size:13.5px;color:#fff;margin-top:2px;} .brief span{font-size:10.5px;color:var(--clay);}
+.cr{display:flex;align-items:center;gap:9px;margin-top:9px;padding:9px 10px;border-radius:12px;background:#111d27;border:1px solid #1c2c38;}
+.cr b{display:block;font-size:12.5px;color:#fff;} .cr small{font-size:10px;color:var(--clay);}
+.cr em{margin-left:auto;font-style:normal;font-family:var(--mono);font-size:10px;color:var(--clay);}
+.cr em.match{color:var(--ink);background:var(--gold);padding:3px 7px;border-radius:99px;font-weight:700;}
+.pbtn{display:block;width:100%;margin:12px 0 0;padding:11px;font-size:13px;}
+.deal{margin-top:9px;padding:10px;border-radius:12px;background:rgba(95,196,188,.16);border:1px solid var(--glacier);color:var(--glacier);font-size:11.5px;text-align:center;opacity:0;}
+.camp{font-size:11px;color:var(--clay);margin-top:2px;}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px;}
+.kpis div{padding:9px 6px;border-radius:11px;background:#111d27;border:1px solid #1c2c38;text-align:center;}
+.kpis b{display:block;font-size:17px;color:var(--gold);} .kpis small{font-size:9px;color:var(--clay);}
+.mchart{width:100%;height:96px;margin-top:10px;display:block;}
+.gen{margin-top:8px;padding:10px 11px;border-radius:12px;background:#111d27;border:1px solid #1c2c38;position:relative;}
+.gen small{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;color:var(--cy);}
+.gbar{height:6px;border-radius:3px;background:#1c2c38;margin:7px 0 6px;overflow:hidden;} .gbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cy),var(--gold));}
+.gen span{font-size:11px;} #gt2{position:absolute;left:11px;bottom:10px;color:var(--glacier);opacity:0;}
+.attr{margin-top:8px;display:flex;justify-content:space-between;font-size:10.5px;color:var(--clay);padding:0 2px;} .attr b{color:#fff;}
+
+/* second mockup set */
+.phone img{margin:0 !important;max-width:none;}
+.srch{margin-top:8px;padding:8px 12px;border-radius:99px;background:#111d27;border:1px solid #1c2c38;color:var(--clay);font-size:11px;}
+.map{margin-top:10px;border-radius:14px;background:#0d1a24;border:1px solid #1c2c38;display:block;width:100%;height:196px;}
+.hs{display:flex;gap:8px;margin-top:10px;} .hs div{flex:1;border-radius:12px;overflow:hidden;background:#111d27;border:1px solid #1c2c38;}
+.hs img{width:100%;height:64px;object-fit:cover;display:block;} .hs b{display:block;color:#fff;padding:5px 7px 0;font-size:11px;} .hs span{display:block;padding:0 7px 6px;color:var(--gold);font-size:10.5px;}
+.tl{margin-top:10px;position:relative;padding-left:18px;} .tl::before{content:"";position:absolute;left:5px;top:8px;bottom:8px;border-left:2px solid #1c2c38;}
+.ts{position:relative;padding:6px 0;font-size:11.5px;color:#dbe8ee;display:flex;gap:8px;align-items:baseline;}
+.ts i{position:absolute;left:-18px;top:9px;width:10px;height:10px;border-radius:50%;background:#1c2c38;box-shadow:0 0 0 2px #0a1118;}
+.ts b{font-family:var(--mono);font-size:10px;color:var(--clay);width:36px;flex:none;} .ts.now span{color:var(--gold);font-weight:700;}
+.aud{margin-top:10px;padding:10px;border-radius:14px;background:linear-gradient(135deg,#17324a,#0f2130);border:1px solid var(--line-strong);display:flex;gap:9px;align-items:center;}
+.aud b{display:block;font-size:12px;color:#fff;} .aud small{font-size:9.5px;color:var(--clay);}
+.wv{display:flex;gap:2px;align-items:center;height:20px;margin-top:4px;} .wv u{width:3px;height:100%;background:var(--gold);border-radius:2px;animation:wv .6s ease-in-out infinite alternate;}
+.wv u:nth-child(3n){animation-delay:-.2s;} .wv u:nth-child(3n+1){animation-delay:-.45s;} .wv u:nth-child(4n){animation-duration:.85s;}
+@keyframes wv{from{transform:scaleY(.2);}to{transform:scaleY(1);}}
+.prof{text-align:center;margin-top:2px;} .prof .av{width:54px;height:54px;font-size:24px;margin:0 auto 5px;} .prof b{color:#fff;font-size:15px;} .prof small{display:block;font-size:10px;color:var(--clay);}
+.pst{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px;text-align:center;} .pst b{display:block;font-size:14px;color:#fff;} .pst small{font-size:9px;color:var(--clay);}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:10px;} .grid3 div{height:74px;border-radius:8px;background-size:cover;background-position:center;position:relative;}
+.grid3 em{position:absolute;left:4px;bottom:4px;font-style:normal;font-size:8px;background:var(--gold);color:var(--ink);border-radius:99px;padding:2px 5px;font-weight:700;}
+.earn{margin-top:10px;padding:10px;border-radius:12px;background:rgba(95,196,188,.14);border:1px solid var(--glacier);display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--glacier);} .earn b{color:#fff;font-size:13px;}
+.bars{display:flex;align-items:flex-end;gap:6px;height:84px;margin-top:10px;padding:8px;border-radius:12px;background:#111d27;border:1px solid #1c2c38;box-sizing:border-box;}
+.bars u{flex:1;background:linear-gradient(180deg,var(--gold),#c98a4b);border-radius:3px 3px 0 0;transform-origin:50% 100%;}
+.rowl{display:flex;justify-content:space-between;margin-top:8px;padding:9px 10px;border-radius:12px;background:#111d27;border:1px solid #1c2c38;font-size:11px;} .rowl b{color:#fff;}
+
+/* persistent stage */
+#stage{position:absolute;left:0;top:0;width:1600px;height:900px;pointer-events:none;z-index:40;}
+#scene{position:absolute;left:860px;top:250px;width:720px;height:520px;}
+#house{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
+.bp{fill:none;stroke:var(--cy);stroke-width:1.6;stroke-dasharray:7 6;}
+.lb text{font-family:'Space Mono';font-size:13px;letter-spacing:2px;fill:var(--clay);transition:fill .4s;}
+.lb line{stroke:var(--clay);stroke-width:1;transition:stroke .4s;}
+.lb.on text{fill:var(--gold);} .lb.on line{stroke:var(--gold);}
+#raco-wrap{position:absolute;left:0;top:0;width:220px;height:323px;transform-origin:50% 100%;}
+#raco-flip{width:100%;height:100%;transform-origin:50% 50%;}
+#raco{width:100%;height:100%;overflow:visible;display:block;}
+#bubble{position:absolute;left:0;top:0;width:230px;padding:11px 15px 12px;border-radius:16px;background:#f4ead7;color:#0C1A1A;font-size:15.5px;line-height:1.35;font-weight:500;box-shadow:0 14px 30px rgba(0,0,0,.4);opacity:0;z-index:2;}
+#bubble .who{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:#8A5326;font-weight:700;display:block;margin-bottom:3px;}
+#bubble::after{content:"";position:absolute;bottom:-8px;left:var(--tail,60px);width:16px;height:16px;background:#f4ead7;transform:rotate(45deg);border-radius:3px;}
+#footer{position:absolute;left:110px;right:110px;top:836px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--dim);text-transform:uppercase;}
+#footer .brand{color:var(--gold);font-weight:700;}
+#prog{position:absolute;left:110px;right:110px;top:862px;height:2px;background:var(--line);} #prog i{display:block;height:100%;width:0;background:var(--gold);box-shadow:0 0 10px rgba(255,204,120,.7);}
+#nav{position:fixed;left:18px;top:14px;z-index:6;display:flex;gap:4px;font-family:var(--mono);font-size:12px;letter-spacing:.14em;}
+#nav a{color:var(--dim);text-decoration:none;padding:5px 9px;border:1px solid var(--line-strong);border-radius:99px;background:rgba(5,13,21,.6);}
+#nav a.on{color:var(--ink);background:var(--gold);border-color:var(--gold);}
+#hint{position:fixed;right:70px;top:16px;z-index:5;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--dim);transition:opacity 1s;}
+
+/* intro */
+#intro{position:fixed;inset:0;z-index:100;display:none;overflow:hidden;background:radial-gradient(ellipse at 50% 55%,#0d2a44,#04101c 75%);}
+html.intro-on #intro{display:block;}
+html.intro-on .reveal .controls{opacity:0;}
+#bi-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(127,211,255,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(127,211,255,.16) 1px,transparent 1px),linear-gradient(rgba(127,211,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(127,211,255,.07) 1px,transparent 1px);background-size:120px 120px,120px 120px,24px 24px,24px 24px;}
+#bi-cv{position:absolute;inset:0;width:100%;height:100%;z-index:2;}
+#ship{position:absolute;left:0;top:0;width:220px;height:132px;z-index:3;opacity:0;transform-origin:50% 50%;will-change:transform;}
+#ship svg{width:100%;height:100%;overflow:visible;}
+#bi-dim{position:absolute;inset:0;background:#02060b;opacity:0;z-index:4;}
+#bi-cap{position:absolute;left:0;right:0;top:9vh;text-align:center;font-family:var(--mono);font-size:1.1vw;letter-spacing:.5em;color:var(--cy);text-transform:uppercase;z-index:5;opacity:0;}
+#bi-title{position:absolute;left:0;right:0;top:36%;text-align:center;z-index:5;font-family:var(--display);font-weight:700;font-size:9vw;letter-spacing:-.045em;color:var(--bone);line-height:1;white-space:nowrap;text-shadow:0 10px 60px rgba(0,0,0,.7);opacity:0;}
+#bi-title .ch{display:inline-block;} #bi-title .plus{display:inline-block;color:var(--gold);font-family:var(--mono);font-weight:400;font-size:5vw;margin:0 1.4vw;vertical-align:.35em;}
+#bi-sub{position:absolute;left:0;right:0;top:57%;text-align:center;z-index:5;font-family:var(--mono);font-size:1.25vw;letter-spacing:.5em;color:var(--gold-soft);text-transform:uppercase;opacity:0;}
+#bi-skip{position:absolute;right:2.2vw;bottom:2vw;z-index:6;cursor:pointer;font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--clay);background:rgba(5,13,21,.55);border:1px solid var(--line-strong);border-radius:99px;padding:8px 14px;}
+#bi-skip:hover{color:var(--gold);border-color:var(--gold);}
+html.print-pdf #bg,html.print-pdf #paper,html.print-pdf #vignette,html.print-pdf #stage,html.print-pdf #intro,html.print-pdf #nav,html.print-pdf #hint{display:none !important;}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas><div id="paper"></div><div id="vignette"></div>
+<nav id="nav"><a id="nv-back" href="index.html#/8" data-es="← Propuesta">← Proposal</a><a id="nv-en" href="blueprint.html" class="on">EN</a><a id="nv-es" href="blueprint.html?lang=es">ES</a></nav>
+<div id="hint" data-es="← → navegar · F pantalla completa · I repetir intro">← → navigate · F fullscreen · I replay intro</div>
+
+<div id="intro" aria-hidden="true">
+  <div id="bi-grid"></div>
+  <div id="ship"><svg viewBox="0 0 200 120">
+    <!-- original starfighter design: split wings, long nose, twin engines -->
+    <g id="ship-flame"><path d="M22 54 L-34 58 L22 62 Z" fill="#7fd3ff"/><path d="M22 70 L-34 74 L22 78 Z" fill="#7fd3ff"/><path d="M22 56 L-10 58 L22 60 Z M22 72 L-10 74 L22 76 Z" fill="#fff"/></g>
+    <path d="M58 60 L30 12 L84 18 L112 56 Z" fill="#aebcc4" stroke="#56707f" stroke-width="2"/>
+    <path d="M58 72 L30 120 L84 114 L112 76 Z" fill="#8fa0aa" stroke="#56707f" stroke-width="2"/>
+    <path d="M44 22 L78 26 M44 110 L78 106" stroke="#ffcc78" stroke-width="5"/>
+    <rect x="26" y="9" width="104" height="5" rx="2.5" fill="#56707f"/><rect x="26" y="118" width="104" height="5" rx="2.5" fill="#56707f"/>
+    <circle cx="131" cy="11.5" r="3.5" fill="#ff8a6b"/><circle cx="131" cy="120.5" r="3.5" fill="#ff8a6b"/>
+    <rect x="20" y="50" width="38" height="14" rx="6" fill="#56707f"/><rect x="20" y="68" width="38" height="14" rx="6" fill="#465c69"/>
+    <use href="#r-head" transform="translate(47,13) scale(.3)"/>
+    <path d="M40 54 L120 50 L198 66 L120 82 L40 78 Z" fill="#e8eef0" stroke="#56707f" stroke-width="2"/>
+    <path d="M120 50 L198 66 L120 82 Z" fill="#cfd8dc"/>
+    <path d="M62 53 L108 51 L108 81 L62 79 Z" fill="#1E5153"/>
+    <text x="85" y="69.5" text-anchor="middle" font-family="Space Grotesk" font-weight="700" font-size="8" fill="#f3e3c3" letter-spacing=".8">TRIPVAN</text>
+    <path d="M94 52 Q112 12 142 55 Z" fill="rgba(127,211,255,.28)" stroke="#bfe9ff" stroke-width="2"/>
+    <path d="M104 36 Q112 26 122 30" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+  </svg></div>
+  <canvas id="bi-cv"></canvas>
+  <div id="bi-dim"></div>
+  <div id="bi-cap" data-es="Página dos · El plano">Page two · The blueprint</div>
+  <div id="bi-title"><span class="w">Sondri</span><span class="plus">+</span><span class="w">TripVan</span></div>
+  <div id="bi-sub" data-es="El plano">The blueprint</div>
+  <button id="bi-skip" data-es="Saltar intro ⏵">Skip intro ⏵</button>
+</div>
+
+<div class="reveal"><div class="slides">
+
+<!-- 1 · OVERVIEW -->
+<section data-stage="0" data-raco="92,wave" data-say="Hard hat on! Let me walk you through the plans." data-say-es="¡Casco puesto! Te muestro los planos.">
+  <div class="sl"><div class="col">
+    <div class="eyebrow a-up" data-es="Página dos · El plano">Page two · The blueprint</div>
+    <h2 class="h2 a-up" data-es="No construimos un sitio web. Construimos una <em>casa.</em>">We’re not building a website. We’re building a <em>house.</em></h2>
+    <p class="lede a-up" data-es="Cada fase de la alianza construye una parte del hogar digital de TripVan, y cada una se apoya en la anterior.">Every phase of the partnership builds one part of TripVan’s digital home — and each one stands on the one before.</p>
+    <div class="rows">
+      <div class="card row a-up"><div class="no">01</div><div><div class="t" data-es="Los cimientos">The foundation</div><div class="d" data-es="Estrategia digital: sitio propio, reserva directa, SEO y AEO.">Digital strategy: owned site, direct booking, SEO &amp; AEO.</div></div><div class="w" data-es="MESES 0–13">MONTHS 0–13</div></div>
+      <div class="card row a-up"><div class="no">02</div><div><div class="t" data-es="La estructura">The framing</div><div class="d" data-es="TripVan Social: la app de viajes para Chile, con confianza integrada.">TripVan Social: the travel app for Chile, with trust built in.</div></div><div class="w" data-es="MESES 14–19">MONTHS 14–19</div></div>
+      <div class="card row a-up"><div class="no">03</div><div><div class="t" data-es="La casa terminada">The finished home</div><div class="d" data-es="Joint venture 50/50: innovación sostenible con dueños compartidos.">50/50 joint venture: sustainable innovation, co-owned.</div></div><div class="w" data-es="MESES 20–28">MONTHS 20–28</div></div>
+    </div>
+  </div></div>
+</section>
+
+<!-- 2 · PHASE 1 -->
+<section data-stage="1" data-raco="66,pour" data-say="Good concrete, good house. Now we let it set!" data-say-es="Buen hormigón, buena casa. ¡Y a dejarlo fraguar!">
+  <div class="sl"><div class="col">
+    <div class="eyebrow a-up" data-es="Fase 1 · Cimientos · Meses 0–13">Phase 1 · Foundation · Months 0–13</div>
+    <h2 class="h2 a-up" data-es="Vaciar el <em>hormigón.</em>">Pour the <em>concrete.</em></h2>
+    <p class="lede a-up" data-es="Sin esto nada se sostiene: un sitio propio, reserva directa y visibilidad en buscadores e IA. <span class='price'>US$2.500 / mes</span>">Nothing stands without it: an owned site, direct booking, and visibility in search and AI. <span class="price">$2,500 / mo</span></p>
+    <div class="sub a-up" data-es="Lo que construimos">What we build</div>
+    <div class="bl">
+      <div class="card a-up"><div class="t" data-es="Sitio con reserva directa">Direct-booking site</div><div class="d" data-es="Disponibilidad en tiempo real, sin comisión OTA.">Real-time availability, zero OTA commission.</div></div>
+      <div class="card a-up"><div class="t">SEO + AEO</div><div class="d" data-es="Cajón del Maipo, El Yeso, nieve desde Santiago; Google y ChatGPT.">Cajón del Maipo, El Yeso, snow trips from Santiago — Google and ChatGPT.</div></div>
+      <div class="card a-up"><div class="t" data-es="Audiencia propia">Owned audience</div><div class="d" data-es="Reservas por WhatsApp, captura de correos y newsletter.">WhatsApp booking, email capture and newsletter.</div></div>
+      <div class="card a-up"><div class="t" data-es="Medición">Measurement</div><div class="d" data-es="Dashboard de conversiones por canal desde el día uno.">Conversion dashboard per channel from month one.</div></div>
+    </div>
+    <div class="sub a-up" data-es="Metas e hitos">Goals &amp; benchmarks</div>
+    <div class="bms">
+      <div class="bm a-up"><span class="when" data-es="Mes 4">Month 4</span><span class="what" data-es="Nuevo tripvan.cl en línea con <b>reserva directa</b> funcionando.">New tripvan.cl live with <b>direct booking</b> working.</span></div>
+      <div class="bm a-up"><span class="when" data-es="Mes 8">Month 8</span><span class="what" data-es="<b>20 páginas de destino</b> indexadas y Google Business optimizado."><b>20 destination pages</b> indexed and Google Business optimized.</span></div>
+      <div class="bm a-up"><span class="when" data-es="Mes 13">Month 13</span><span class="what" data-es="<b>15% de las reservas directas</b>, 1.000 contactos propios y <b>AEO</b>: TripVan citado por ChatGPT y Gemini en 5 búsquedas clave."><b>15% of bookings direct</b>, 1,000 first-party contacts, and <b>AEO</b>: TripVan cited by ChatGPT and Gemini on 5 target queries.</span></div>
+    </div>
+    <div class="fine a-up" data-es="* Metas propuestas: las confirmamos juntos en el kickoff.">* Proposed targets — we confirm them together at kickoff.</div>
+  </div></div>
+</section>
+
+<!-- 3 · PHASE 2 -->
+<section data-stage="2" data-raco="150,hammer" data-say="Measure twice, hammer once." data-say-es="Medir dos veces, martillar una.">
+  <div class="sl"><div class="col">
+    <div class="eyebrow a-up" data-es="Fase 2 · Estructura · Meses 14–19">Phase 2 · Framing · Months 14–19</div>
+    <h2 class="h2 a-up" data-es="Levantar la <em>app.</em>">Frame the <em>app.</em></h2>
+    <p class="lede a-up" data-es="<b>TripVan Social</b>: la app de viajes para Chile donde viajeros, creadores y negocios locales se encuentran. <span class='price'>~10% por transacción</span>"><b>TripVan Social</b> — the travel app for Chile where travelers, creators and local businesses meet. <span class="price">~10% per transaction</span></p>
+    <div class="sub a-up" data-es="Lo que construimos">What we build</div>
+    <div class="bl">
+      <div class="card a-up"><div class="t" data-es="Calificación y confianza">Vendor rating &amp; trust</div><div class="d" data-es="Cada prestador evaluado por viajeros verificados: seguridad, puntualidad, hospitalidad.">Every vendor scored by verified travelers: safety, punctuality, hospitality.</div></div>
+      <div class="card a-up"><div class="t" data-es="Viajes de creadores, 1 clic">Creator trips, one click</div><div class="d" data-es="Mira el vlog de un influencer y reserva ese mismo viaje con un toque.">Watch an influencer’s travel vlog, book that exact trip in one tap.</div></div>
+      <div class="card a-up"><div class="t" data-es="Creadores × negocios">Creators × businesses</div><div class="d" data-es="Negocios locales contratan creadores para promocionarse, con pago en la app.">Local businesses hire creators to promote them, paid in-app.</div></div>
+      <div class="card a-up"><div class="t" data-es="Estudio de marketing">Marketing studio</div><div class="d" data-es="Campañas, video asistido por IA y atribución por cada reserva.">Campaigns, AI-assisted video, and attribution per booking.</div></div>
+    </div>
+    <div class="sub a-up" data-es="Metas e hitos">Goals &amp; benchmarks</div>
+    <div class="bms">
+      <div class="bm a-up"><span class="when" data-es="Mes 15">Month 15</span><span class="what" data-es="Prototipo navegable probado con <b>20 viajeros</b>.">Clickable prototype tested with <b>20 travelers</b>.</span></div>
+      <div class="bm a-up"><span class="when" data-es="Mes 17">Month 17</span><span class="what" data-es="Beta: <b>50 prestadores calificados</b> y <b>25 creadores</b> activos.">Beta: <b>50 rated vendors</b> and <b>25 creators</b> onboard.</span></div>
+      <div class="bm a-up"><span class="when" data-es="Mes 19">Month 19</span><span class="what" data-es="Lanzamiento público: <b>30% de reservas directas</b> y primeras campañas pagadas por negocios.">Public launch: <b>30% of bookings direct</b> and first business-paid campaigns.</span></div>
+    </div>
+  </div></div>
+</section>
+
+<!-- 4 · MOCKUPS -->
+<section data-stage="2" data-scene="off" data-phones="1">
+  <div class="sl full">
+    <div class="eyebrow a-up" data-es="TripVan Social · maquetas conceptuales">TripVan Social · concept mockups</div>
+    <h2 class="h2 a-up" style="font-size:52px" data-es="Así se va a <em>ver.</em>">This is what it <em>looks like.</em></h2>
+    <div class="phones">
+      <div class="pw a-up"><div class="phone"><div class="scr">
+        <div class="cover" style="background-image:url(assets/7E01413A-D40F-41B9-8289-F03EA6880615.jpeg)"><span class="tag" data-es="DATOS DE EJEMPLO">SAMPLE DATA</span></div>
+        <div class="pad">
+          <div class="vn">Casa Chocolate <i class="ver">✓</i></div>
+          <div class="vs" data-es="Prestador verificado · Ruta Sostenible">Verified vendor · Ruta Sostenible</div>
+          <div class="trust">
+            <svg class="tring" viewBox="0 0 100 100"><circle class="bgc" cx="50" cy="50" r="40"/><circle class="fg" id="tr-fg" cx="50" cy="50" r="40"/><text x="50" y="56" text-anchor="middle" font-family="Space Grotesk" font-weight="700" font-size="26" fill="#fff">9.4</text><text x="50" y="70" text-anchor="middle" font-family="Space Mono" font-size="7" fill="#86a5b8" letter-spacing="1">TRUST</text></svg>
+            <div class="tb">
+              <div><span data-es="Seguridad">Safety</span><i><u data-w="96"></u></i></div>
+              <div><span data-es="Puntualidad">Punctuality</span><i><u data-w="92"></u></i></div>
+              <div><span data-es="Hospitalidad">Hospitality</span><i><u data-w="98"></u></i></div>
+              <div><span data-es="Sostenibilidad">Sustainability</span><i><u data-w="90"></u></i></div>
+            </div>
+          </div>
+          <div class="rev"><b>★★★★★</b><span class="vt" data-es="Viaje verificado · 12 jun">Verified trip · 12 Jun</span><p data-es="“Cálidos, puntuales, inolvidable.”">“Warm, on time, unforgettable.”</p></div>
+          <div class="rev"><b>★★★★★</b><span class="vt" data-es="Viaje verificado · 3 jun">Verified trip · 3 Jun</span><p data-es="“El mejor chocolate caliente de la cordillera.”">“Best hot chocolate in the Andes.”</p></div>
+        </div>
+      </div></div><div class="pcap"><b data-es="Calificación y confianza">Rating &amp; trust</b><span data-es="Solo opinan viajeros con viaje verificado.">Only travelers with a verified trip can review.</span></div></div>
+
+      <div class="pw a-up"><div class="phone"><div class="scr reel">
+        <div class="rbg" id="rbg" style="background-image:url(assets/embalse-el-yeso.jpg)"></div><div class="rshade"></div>
+        <div class="rtop"><span class="av">C</span><div><b>@cata.viaja</b><small>Vlog · Embalse El Yeso</small></div><span class="live">▶ 0:42</span></div>
+        <div class="rside"><span>♥<small>12,4K</small></span><span>✦<small>860</small></span><span>➤<small>2,1K</small></span></div>
+        <div class="rcap" data-es="“El agua más turquesa que he visto. Así llegué ↓”">“The most turquoise water I’ve ever seen. Here’s how I got there ↓”</div>
+        <div class="rprog"><i id="rp"></i></div>
+        <div class="rsheet" id="rs"><div><b data-es="Este mismo viaje">This exact trip</b><small data-es="Día completo · CLP 75.000">Full day · CLP 75.000</small></div><button id="rb" data-es="Reservar en 1 clic">Book in 1 click</button></div>
+        <div class="rok" id="rok"><span>✓</span><b data-es="¡Reservado!">Booked!</b><small data-es="Sáb 13 jun · recogida 05:00">Sat 13 Jun · 05:00 pickup</small></div>
+        <div class="tap" id="tap"></div>
+      </div></div><div class="pcap"><b data-es="Del vlog a la reserva">From vlog to booking</b><span data-es="El viaje del creador, reservado con un toque.">The creator’s trip, booked in one tap.</span></div></div>
+
+      <div class="pw a-up"><div class="phone"><div class="scr pad2">
+        <div class="hdr" data-es="Creadores × Negocios">Creators × Businesses</div>
+        <div class="brief"><small data-es="BRIEF ABIERTO">OPEN BRIEF</small><b data-es="Casa Bosque busca creador/a">Casa Bosque is looking for a creator</b><span data-es="1 reel + 3 historias · CLP 250.000">1 reel + 3 stories · CLP 250.000</span></div>
+        <div class="cr"><span class="av">C</span><div><b>@cata.viaja</b><small>48K · 6,2% eng.</small></div><em class="match" id="mt">96% match</em></div>
+        <div class="cr"><span class="av b">N</span><div><b>@andes.nico</b><small>112K · 3,1% eng.</small></div><em>81%</em></div>
+        <div class="cr"><span class="av c">M</span><div><b>@maipo.vlogs</b><small>23K · 8,4% eng.</small></div><em>77%</em></div>
+        <button class="pbtn" id="cb" data-es="Enviar propuesta">Send proposal</button>
+        <div class="deal" id="deal" data-es="✓ Acuerdo firmado · pago protegido en la app">✓ Deal signed · payment held in-app</div>
+      </div></div><div class="pcap"><b data-es="Creadores × negocios">Creators × businesses</b><span data-es="Los negocios locales encuentran y contratan creadores.">Local businesses find and hire creators.</span></div></div>
+
+      <div class="pw a-up"><div class="phone"><div class="scr pad2">
+        <div class="hdr" data-es="Estudio de marketing">Marketing studio</div>
+        <div class="camp" data-es="Campaña · Nieve de invierno">Campaign · Winter snow</div>
+        <div class="kpis"><div><b id="k1">0</b><small data-es="vistas">views</small></div><div><b id="k2">0</b><small data-es="reservas">bookings</small></div><div><b id="k3">0</b><small>ROI</small></div></div>
+        <svg class="mchart" viewBox="0 0 220 90"><path d="M4 82 C 50 80, 90 70, 120 52 S 180 14, 216 6 L216 88 L4 88 Z" fill="rgba(255,204,120,.14)" id="mc-area"/><path id="mc-line" d="M4 82 C 50 80, 90 70, 120 52 S 180 14, 216 6" fill="none" stroke="#ffcc78" stroke-width="3" stroke-linecap="round"/></svg>
+        <div class="gen"><small data-es="GENERADOR DE REELS CON IA">AI REEL GENERATOR</small><div class="gbar"><i id="gb"></i></div><span id="gt1" data-es="Renderizando reel…">Rendering reel…</span><span id="gt2" data-es="✓ Listo para publicar">✓ Ready to post</span></div>
+        <div class="attr"><span data-es="Reservas atribuidas">Attributed bookings</span><b>@cata.viaja → 41</b></div>
+      </div></div><div class="pcap"><b data-es="Estudio de marketing">Marketing studio</b><span data-es="Campañas, video con IA y ROI por reserva.">Campaigns, AI video, and ROI per booking.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4b · MORE MOCKUPS -->
+<section data-stage="2" data-scene="off" data-phones="2">
+  <div class="sl full">
+    <div class="eyebrow a-up" data-es="TripVan Social · más pantallas">TripVan Social · more screens</div>
+    <h2 class="h2 a-up" style="font-size:52px" data-es="Del mapa al <em>pago.</em>">From the map to the <em>payout.</em></h2>
+    <div class="phones">
+      <div class="pw a-up"><div class="phone"><div class="scr pad2">
+        <div class="hdr" data-es="Descubre el Cajón">Discover the Cajón</div>
+        <div class="srch" data-es="⌕  Nieve, termas, queso de cabra…">⌕  Snow, hot springs, goat cheese…</div>
+        <svg class="map" viewBox="0 0 234 196">
+          <path d="M0 150 Q60 120 110 140 T234 110 V196 H0 Z" fill="#12283a"/><path d="M0 60 Q70 30 120 55 T234 30" fill="none" stroke="#1c3447" stroke-width="2"/><path d="M0 100 Q80 80 140 95 T234 70" fill="none" stroke="#1c3447" stroke-width="2"/>
+          <path id="mp-route" d="M18 168 C 50 150, 60 120, 92 118 S 130 90, 150 70 S 190 50, 214 26" fill="none" stroke="#ffcc78" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 7"/>
+          <g class="mp-pin"><circle cx="18" cy="168" r="6" fill="#7fd3ff"/></g>
+          <g class="mp-pin"><circle cx="92" cy="118" r="7" fill="#ffcc78"/><text x="92" y="121" text-anchor="middle" font-size="8" font-weight="700" fill="#08141f">1</text><text x="103" y="132" font-size="8" fill="#dbe8ee">San José</text></g>
+          <g class="mp-pin"><circle cx="150" cy="70" r="7" fill="#ffcc78"/><text x="150" y="73" text-anchor="middle" font-size="8" font-weight="700" fill="#08141f">2</text><text x="100" y="66" font-size="8" fill="#dbe8ee">Cabrería</text></g>
+          <g class="mp-pin"><circle cx="214" cy="26" r="8" fill="#5fc4bc"/><text x="214" y="29" text-anchor="middle" font-size="8" font-weight="700" fill="#08141f">3</text><text x="160" y="22" font-size="8" fill="#dbe8ee">El Yeso</text></g>
+          <g id="mp-van"><circle r="7" fill="#fff"/><circle r="3.5" fill="#1E5153"/></g>
+        </svg>
+        <div class="hs">
+          <div><img src="assets/embalse-el-yeso.jpg" alt=""/><b>Embalse El Yeso</b><span>★ 9.6 · CLP 75.000</span></div>
+          <div><img src="assets/tripvan-transit-guide.jpg" alt=""/><b>Ruta Sostenible</b><span data-es="★ 9.4 · 12 paradas">★ 9.4 · 12 stops</span></div>
+        </div>
+      </div></div><div class="pcap"><b data-es="Descubrir">Discover</b><span data-es="Toda la ruta en un mapa, con calificaciones reales.">The whole route on one map, with real ratings.</span></div></div>
+
+      <div class="pw a-up"><div class="phone"><div class="scr pad2">
+        <div class="hdr" data-es="Tu viaje · hoy">Your trip · today</div>
+        <div class="camp" data-es="Van 02 · guía Ignacio · en ruta">Van 02 · guide Ignacio · on route</div>
+        <div class="tl" id="tl">
+          <div class="ts"><i></i><b>05:00</b><span data-es="Recogida en hotel">Hotel pickup</span></div>
+          <div class="ts"><i></i><b>07:10</b><span>San José de Maipo</span></div>
+          <div class="ts"><i></i><b>08:30</b><span data-es="Desayuno borde río">Riverside breakfast</span></div>
+          <div class="ts now"><i></i><b>10:15</b><span data-es="Embalse El Yeso · ahora">Embalse El Yeso · now</span></div>
+          <div class="ts"><i></i><b>12:30</b><span data-es="Cabrería · queso de cabra">Cabrería · goat cheese</span></div>
+          <div class="ts"><i></i><b>13:40</b><span>Casa Chocolate</span></div>
+        </div>
+        <div class="aud"><span class="av c">R</span><div style="flex:1"><b data-es="Raco te cuenta: El Yeso">Raco tells you: El Yeso</b><small data-es="Audioguía · ES · EN · PT">Audio guide · ES · EN · PT</small><div class="wv"><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u><u></u></div></div></div>
+        <div class="rowl" id="rate"><span data-es="¿Cómo estuvo el desayuno?">How was breakfast?</span><b style="color:var(--gold)">★★★★★</b></div>
+      </div></div><div class="pcap"><b data-es="Viaje en vivo">Live trip</b><span data-es="Paradas, audioguía de Raco y calificación en el momento.">Stops, Raco’s audio guide and rating on the spot.</span></div></div>
+
+      <div class="pw a-up"><div class="phone"><div class="scr pad2">
+        <div class="prof"><span class="av">C</span><b>@cata.viaja <i class="ver">✓</i></b><small data-es="Creadora de viajes · Santiago">Travel creator · Santiago</small></div>
+        <div class="pst"><div><b>48K</b><small data-es="seguidores">followers</small></div><div><b id="c-bk">0</b><small data-es="reservas">bookings</small></div><div><b>9.7</b><small>trust</small></div></div>
+        <div class="grid3" id="g3">
+          <div style="background-image:url(assets/embalse-el-yeso.jpg)"><em data-es="Reservar">Book</em></div>
+          <div style="background-image:url(assets/7E01413A-D40F-41B9-8289-F03EA6880615.jpeg)"><em data-es="Reservar">Book</em></div>
+          <div style="background-image:url(assets/tripvan-transit-guide.jpg)"><em data-es="Reservar">Book</em></div>
+          <div style="background-image:url(assets/A38E34CC-7A76-4670-92BE-AB768BAA75D7.jpeg)"><em data-es="Reservar">Book</em></div>
+          <div style="background-image:url(assets/49E12963-5124-449E-BE52-5A23ACDC53A4.jpeg)"><em data-es="Reservar">Book</em></div>
+          <div style="background-image:url(assets/embalse-el-yeso.jpg);background-position:50% 90%"><em data-es="Reservar">Book</em></div>
+        </div>
+        <div class="earn"><span data-es="Ganado este mes">Earned this month</span><b>CLP <span id="c-earn">0</span></b></div>
+      </div></div><div class="pcap"><b data-es="Perfil del creador">Creator profile</b><span data-es="Cada vlog es un viaje reservable, con comisión para el creador.">Every vlog is a bookable trip, with a cut for the creator.</span></div></div>
+
+      <div class="pw a-up"><div class="phone"><div class="scr pad2">
+        <div class="hdr" data-es="Panel del negocio">Business dashboard</div>
+        <div class="camp" data-es="Casa Chocolate · esta semana">Casa Chocolate · this week</div>
+        <div class="kpis"><div><b id="v1">0</b><small data-es="visitas">visitors</small></div><div><b>9.4</b><small>trust</small></div><div><b id="v2">0</b><small data-es="reseñas">reviews</small></div></div>
+        <div class="bars" id="vb"><u style="height:30%"></u><u style="height:42%"></u><u style="height:38%"></u><u style="height:55%"></u><u style="height:68%"></u><u style="height:86%"></u><u style="height:100%"></u></div>
+        <div class="rowl"><span data-es="Campaña · @cata.viaja">Campaign · @cata.viaja</span><b data-es="41 reservas">41 bookings</b></div>
+        <div class="earn" id="pay"><span data-es="Próximo pago · viernes">Next payout · Friday</span><b>CLP <span id="v3">0</span></b></div>
+        <button class="pbtn" data-es="Escanear llegada del grupo">Scan group check-in</button>
+      </div></div><div class="pcap"><b data-es="Panel del negocio">Business dashboard</b><span data-es="Visitas, reputación, campañas y pagos en un solo lugar.">Visitors, reputation, campaigns and payouts in one place.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · PHASE 3 -->
+<section data-stage="3" data-raco="96,celebrate" data-say="Welcome home, socio." data-say-es="Bienvenido a casa, socio.">
+  <div class="sl"><div class="col">
+    <div class="eyebrow a-up" data-es="Fase 3 · La casa terminada · Meses 20–28">Phase 3 · The finished home · Months 20–28</div>
+    <h2 class="h2 a-up" data-es="Entregar las <em>llaves.</em>">Hand over the <em>keys.</em></h2>
+    <p class="lede a-up" data-es="La casa está lista: un <b>joint venture 50/50</b> que convierte la ruta en un negocio de innovación sostenible. <span class='price'>50 / 50</span>">The house is finished: a <b>50/50 joint venture</b> that turns the route into a sustainable-innovation business. <span class="price">50 / 50</span></p>
+    <div class="sub a-up" data-es="Lo que construimos">What we build</div>
+    <div class="bl">
+      <div class="card a-up"><div class="t" data-es="Nueva empresa 50/50">New 50/50 company</div><div class="d" data-es="Propiedad intelectual, capital y ganancias en partes iguales.">Equal IP, equal capital, equal upside.</div></div>
+      <div class="card a-up"><div class="t" data-es="Innovación agrícola">Farm innovation</div><div class="d" data-es="Plantación con hidrogel + IoT y monitoreo de agua.">Hydrogel planting + IoT and water monitoring.</div></div>
+      <div class="card a-up"><div class="t" data-es="Tours premium">Premium tours</div><div class="d" data-es="Astroturismo y visitas a productores, US$100+ por persona.">Stargazing and local-producer tours at $100+/head.</div></div>
+      <div class="card a-up"><div class="t" data-es="Fondos públicos">Public funding</div><div class="d" data-es="Start-Up Chile y subsidios, sin dilución.">Start-Up Chile and subsidies, non-dilutive.</div></div>
+    </div>
+    <div class="sub a-up" data-es="Metas e hitos">Goals &amp; benchmarks</div>
+    <div class="bms">
+      <div class="bm a-up"><span class="when" data-es="Mes 22">Month 22</span><span class="what" data-es="JV constituido y <b>acuerdo de propiedad intelectual</b> firmado.">JV incorporated and <b>IP agreement</b> signed.</span></div>
+      <div class="bm a-up"><span class="when" data-es="Mes 25">Month 25</span><span class="what" data-es="Piloto con <b>3 agricultores</b> y postulación a Start-Up Chile enviada.">Pilot with <b>3 farms</b> and Start-Up Chile application submitted.</span></div>
+      <div class="bm a-up"><span class="when" data-es="Mes 28">Month 28</span><span class="what" data-es="<b>500 pasajeros premium</b> y primeros ingresos desde agricultores."><b>500 premium passengers</b> and first farmer revenue.</span></div>
+    </div>
+  </div></div>
+</section>
+
+<!-- 6 · ACTION ITEMS -->
+<section data-stage="3" data-raco="96,wave" data-say="Step one is easy: we talk." data-say-es="El primer paso es fácil: conversemos.">
+  <div class="sl"><div class="col">
+    <div class="eyebrow a-up" data-es="Próximos pasos">Action items</div>
+    <h2 class="h2 a-up" data-es="Cómo ponemos la <em>primera piedra.</em>">How we <em>break ground.</em></h2>
+    <div class="steps">
+      <div class="card step a-up"><div class="n">1</div><div><div class="t" data-es="Llamada de descubrimiento">Discovery call</div><div class="d" data-es="30 minutos para alinear objetivos y confirmar las metas.">30 minutes to align goals and confirm the benchmarks.</div></div><div class="w" data-es="ESTA SEMANA">THIS WEEK</div></div>
+      <div class="card step a-up"><div class="n">2</div><div><div class="t" data-es="Firmar el plano">Sign the blueprint</div><div class="d" data-es="Alcance de la Fase 1 y fee mensual de US$2.500.">Phase 1 scope and the $2,500 monthly retainer.</div></div><div class="w" data-es="SEMANA 1">WEEK 1</div></div>
+      <div class="card step a-up"><div class="n">3</div><div><div class="t" data-es="Semana de kickoff">Kickoff week</div><div class="d" data-es="Accesos al sitio, analítica, Google Business y datos de reservas.">Access to the site, analytics, Google Business and booking data.</div></div><div class="w" data-es="SEMANA 2">WEEK 2</div></div>
+      <div class="card step a-up"><div class="n">4</div><div><div class="t" data-es="Se vacían los cimientos">Foundation poured</div><div class="d" data-es="Nuevo sitio con reserva directa en línea.">New site with direct booking goes live.</div></div><div class="w" data-es="MES 4">MONTH 4</div></div>
+      <div class="card step a-up"><div class="n">5</div><div><div class="t" data-es="Revisión de metas">Benchmark review</div><div class="d" data-es="Medimos la Fase 1 y damos luz verde a la estructura (Fase 2).">We measure Phase 1 and green-light the framing (Phase 2).</div></div><div class="w" data-es="MES 13">MONTH 13</div></div>
+    </div>
+    <a class="book sm a-up" href="https://cal.com/sondri/discovery" target="_blank" rel="noopener" data-es="Agenda aquí →">Book here →</a>
+  </div></div>
+</section>
+
+<!-- 7 · BOOK -->
+<section data-stage="3" data-raco="110,jump" data-say="I’ll bring the mate. You bring the calendar." data-say-es="Yo llevo el mate. Tú, la agenda.">
+  <div class="sl"><div class="col">
+    <div class="eyebrow a-up" data-es="Sondri + TripVan">Sondri + TripVan</div>
+    <h2 class="h2 a-up" style="font-size:84px" data-es="¿Listos para construir? <em>Agenda aquí.</em>">Ready to build? <em>Book here.</em></h2>
+    <p class="lede a-up" data-es="Una llamada de 30 minutos. Salimos con el plano confirmado y la fecha de inicio.">One 30-minute call. We leave with the blueprint confirmed and a start date.</p>
+    <a class="book a-up" href="https://cal.com/sondri/discovery" target="_blank" rel="noopener" data-es="Agenda tu llamada →">Book your discovery call →</a>
+    <div class="url a-up">cal.com/sondri/discovery</div>
+    <a class="back a-up" id="back2" href="index.html" data-es="← Volver a la propuesta">← Back to the proposal</a>
+  </div></div>
+</section>
+
+</div></div>
+
+<div id="stage">
+  <div id="scene">
+    <svg id="house" viewBox="0 0 720 520">
+      <line x1="20" y1="470" x2="710" y2="470" stroke="#2a4a63" stroke-width="2"/>
+      <!-- blueprint -->
+      <g id="bpl">
+        <rect class="bp" x="190" y="440" width="480" height="30"/>
+        <rect class="bp" x="210" y="250" width="440" height="190"/>
+        <path class="bp" d="M176 252 L430 126 L684 252"/>
+        <rect class="bp" x="400" y="340" width="60" height="100"/>
+        <rect class="bp" x="258" y="300" width="80" height="66"/><rect class="bp" x="522" y="300" width="80" height="66"/>
+        <path d="M190 494 H670 M190 488 V500 M670 488 V500" stroke="#7fd3ff" stroke-width="1" fill="none" opacity=".6"/>
+      </g>
+      <!-- 01 foundation -->
+      <g id="form" opacity="0"><rect x="186" y="438" width="488" height="33" fill="none" stroke="#c98a4b" stroke-width="4"/></g>
+      <rect id="conc" x="190" y="441" width="0" height="29" fill="#9aa8ad"/>
+      <g id="mixer" opacity="0">
+        <path d="M128 470 L142 418 M176 470 L160 418" stroke="#6f8797" stroke-width="5" stroke-linecap="round"/>
+        <g transform="rotate(-24 150 396)"><ellipse cx="150" cy="396" rx="36" ry="27" fill="#ffcc78"/><g id="mx-st" stroke="#c9963f" stroke-width="5"><path d="M128 376 L140 418"/><path d="M146 370 L158 422"/><path d="M164 374 L174 414"/></g><ellipse cx="184" cy="396" rx="7" ry="18" fill="#3a2414"/></g>
+        <path d="M180 408 L214 442" stroke="#6f8797" stroke-width="9" stroke-linecap="round"/>
+        <path id="mx-flow" d="M182 408 L214 440 L214 466" stroke="#c3cdd0" stroke-width="5" fill="none" stroke-dasharray="6 7" stroke-linecap="round"/>
+      </g>
+      <!-- 02 framing -->
+      <g id="lumber" opacity="0"><rect x="96" y="462" width="96" height="8" fill="#c98a4b"/><rect x="104" y="454" width="88" height="8" fill="#b87a3e"/><rect x="112" y="446" width="80" height="8" fill="#c98a4b"/></g>
+      <g id="frame" fill="#c98a4b">
+        <rect class="pl" x="206" y="430" width="448" height="10" opacity="0"/>
+        <rect class="st" x="206" y="252" width="10" height="180"/><rect class="st" x="250" y="252" width="10" height="180"/><rect class="st" x="294" y="366" width="10" height="66"/><rect class="st" x="338" y="252" width="10" height="180"/><rect class="st" x="382" y="252" width="10" height="180"/>
+        <rect class="st" x="468" y="252" width="10" height="180"/><rect class="st" x="514" y="252" width="10" height="180"/><rect class="st" x="558" y="366" width="10" height="66"/><rect class="st" x="602" y="252" width="10" height="180"/><rect class="st" x="644" y="252" width="10" height="180"/>
+        <g class="pl" opacity="0"><rect x="206" y="244" width="448" height="10"/><rect x="258" y="292" width="82" height="8"/><rect x="258" y="366" width="82" height="8"/><rect x="522" y="292" width="82" height="8"/><rect x="522" y="366" width="82" height="8"/><rect x="390" y="332" width="80" height="9"/></g>
+        <g id="truss" fill="none" stroke="#c98a4b" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M180 248 L430 128"/><path d="M680 248 L430 128"/><path d="M430 128 V244"/><path d="M305 244 L350 168"/><path d="M555 244 L510 168"/><path d="M305 244 L430 190 L555 244"/>
+        </g>
+      </g>
+      <!-- 03 finished -->
+      <g id="fin" opacity="0">
+        <g id="chim"><rect x="548" y="140" width="36" height="76" fill="#8A5326"/><rect x="543" y="134" width="46" height="10" fill="#6b3a22"/></g>
+        <g id="smoke" fill="#c5d8e3"><circle cx="566" cy="118" r="9" opacity=".5"/><circle cx="574" cy="96" r="12" opacity=".35"/><circle cx="586" cy="70" r="15" opacity=".2"/></g>
+        <rect id="walls" x="206" y="250" width="448" height="190" fill="#f4ead7"/>
+        <rect x="206" y="420" width="448" height="20" fill="#d9c9a8"/>
+        <g id="roof"><path d="M166 258 L430 122 L694 258 Z" fill="#1E5153"/><path d="M166 258 L430 122 L694 258" fill="none" stroke="#ffcc78" stroke-width="5" stroke-linejoin="round"/>
+          <g stroke="#143a3c" stroke-width="2"><path d="M232 224 H628"/><path d="M298 190 H562"/><path d="M364 156 H496"/></g></g>
+        <g class="win"><rect x="258" y="300" width="80" height="66" rx="4" fill="#ffe7b3" stroke="#1E5153" stroke-width="5"/><path d="M298 300 V366 M258 333 H338" stroke="#1E5153" stroke-width="3"/></g>
+        <g class="win"><rect x="522" y="300" width="80" height="66" rx="4" fill="#ffe7b3" stroke="#1E5153" stroke-width="5"/><path d="M562 300 V366 M522 333 H602" stroke="#1E5153" stroke-width="3"/></g>
+        <g class="win"><circle cx="430" cy="200" r="20" fill="#ffe7b3" stroke="#143a3c" stroke-width="4"/></g>
+        <g id="door"><rect x="400" y="340" width="60" height="100" rx="4" fill="#ffcc78" stroke="#8A5326" stroke-width="4"/><circle cx="449" cy="394" r="4" fill="#8A5326"/>
+          <rect x="386" y="312" width="88" height="20" rx="4" fill="#1E5153"/><text x="430" y="326" text-anchor="middle" font-family="Space Grotesk" font-weight="700" font-size="12" fill="#f3e3c3" letter-spacing="1.5">TRIPVAN</text></g>
+        <g id="garden" fill="#2c8a5a"><circle cx="226" cy="462" r="16"/><circle cx="250" cy="466" r="11"/><circle cx="632" cy="462" r="16"/><circle cx="608" cy="466" r="11"/><path d="M400 470 L384 500 H476 L460 470 Z" fill="#d9c9a8" opacity=".6"/></g>
+      </g>
+      <!-- labels -->
+      <g class="lb" id="lb3"><line x1="540" y1="190" x2="640" y2="150"/><text x="646" y="146">03</text></g>
+      <g class="lb" id="lb2"><line x1="654" y1="330" x2="690" y2="330"/><text x="694" y="335">02</text></g>
+      <g class="lb" id="lb1"><line x1="672" y1="456" x2="690" y2="456"/><text x="694" y="461">01</text></g>
+    </svg>
+    <div id="bubble"><span class="who">RACO</span><span id="say"></span></div>
+    <div id="raco-wrap"><div id="raco-flip"><svg id="raco" viewBox="0 0 300 440">
+      <ellipse id="r-shadow" cx="140" cy="414" rx="100" ry="9" fill="#000" opacity=".35"/>
+      <g id="r-all">
+        <g id="r-tail"><circle cx="44" cy="262" r="14" fill="#9A5E2C"/><circle cx="35" cy="276" r="11" fill="#9A5E2C"/><circle cx="45" cy="285" r="10" fill="#9A5E2C"/></g>
+        <g id="leg-bf"><rect x="86" y="312" width="18" height="92" rx="9" fill="#8A5326"/><rect x="85" y="398" width="20" height="14" rx="5" fill="#2e1c10"/></g>
+        <g id="leg-ff"><rect x="196" y="312" width="18" height="92" rx="9" fill="#8A5326"/><rect x="195" y="398" width="20" height="14" rx="5" fill="#2e1c10"/></g>
+        <g id="r-body">
+          <path d="M40 270 C40 225 90 225 130 228 C175 230 225 228 228 268 C232 300 222 325 205 330 Q195 342 182 330 Q170 342 158 330 Q146 342 134 330 Q122 342 110 330 Q98 342 86 330 Q74 342 62 330 C45 322 40 300 40 270 Z" fill="#B8743A"/>
+          <g fill="none" stroke="#9A5E2C" stroke-width="3" stroke-linecap="round" opacity=".7">
+            <path d="M68 258 q10 -9 20 0"/><path d="M104 248 q10 -9 20 0"/><path d="M84 296 q10 -9 20 0"/><path d="M122 290 q10 -9 20 0"/><path d="M58 284 q8 -7 16 0"/>
+          </g>
+          <path d="M150 230 C147 270 150 300 152 335" fill="none" stroke="#4a2f18" stroke-width="9" stroke-linecap="round"/>
+          <circle cx="151" cy="282" r="5" fill="#C9963F"/>
+        </g>
+        <g id="leg-bn"><rect x="61" y="314" width="19" height="92" rx="9.5" fill="#B8743A"/><rect x="60" y="400" width="21" height="14" rx="5" fill="#3a2414"/></g>
+        <g id="leg-fn"><rect x="172" y="314" width="19" height="92" rx="9.5" fill="#B8743A"/><rect x="171" y="400" width="21" height="14" rx="5" fill="#3a2414"/><g id="r-hammer" opacity="0"><rect x="178" y="404" width="7" height="42" rx="2" fill="#8A5326"/><rect x="165" y="440" width="34" height="15" rx="3" fill="#9aa09c"/></g></g>
+        <g id="r-neck">
+          <path d="M180 292 C178 230 184 178 190 140 L236 138 C234 180 232 235 234 292 Z" fill="#F1DDB8"/>
+          <g fill="none" stroke="#dcc39a" stroke-width="2.5" stroke-linecap="round"><path d="M192 190 q6 -6 12 0"/><path d="M212 205 q6 -6 12 0"/><path d="M196 214 q5 -5 10 0"/></g>
+          <circle cx="190" cy="292" r="16" fill="#F1DDB8"/><circle cx="209" cy="297" r="17" fill="#F1DDB8"/><circle cx="228" cy="290" r="15" fill="#F1DDB8"/>
+          <path d="M182 228 Q208 244 234 224" fill="none" stroke="#4a2f18" stroke-width="7" stroke-linecap="round"/>
+          <path d="M179 225 Q208 245 237 221 L217 278 Q209 287 201 278 Z" fill="#1E5153" stroke="#143a3c" stroke-width="2"/>
+          <path d="M200 243 L205 236 L208 239 L211 234 L217 243" fill="none" stroke="#f3e3c3" stroke-width="1.4" stroke-linejoin="round"/>
+          <text x="208" y="254" text-anchor="middle" font-family="Space Grotesk" font-weight="700" font-size="8.5" fill="#f3e3c3" letter-spacing=".5">TRIPVAN</text>
+          <g id="r-medal">
+            <line x1="209" y1="270" x2="209" y2="289" stroke="#4a2f18" stroke-width="2.5"/>
+            <circle cx="209" cy="299" r="11" fill="#C9963F" stroke="#8a6420" stroke-width="2"/>
+            <path d="M203 303 L209 293 L215 303 Z" fill="none" stroke="#6e4f17" stroke-width="1.6"/>
+          </g>
+          <g id="r-head">
+            <g id="ear-far"><path d="M191 94 C184 68 188 44 196 34 C206 46 210 70 207 94 Z" fill="#9A5E2C"/><path d="M195 90 C191 72 194 56 197 48 C202 58 204 74 202 90 Z" fill="#5a3220"/></g>
+            <g id="ear-near"><path d="M221 92 C216 64 222 40 232 30 C242 42 244 66 239 92 Z" fill="#B8743A"/><path d="M225 88 C222 68 227 50 232 42 C237 52 238 70 235 88 Z" fill="#6b3a22"/></g>
+            <ellipse cx="212" cy="118" rx="36" ry="34" fill="#F1DDB8"/>
+            <ellipse cx="244" cy="136" rx="27" ry="20" fill="#F8EBD3"/>
+            <g fill="#C07A3D"><circle cx="195" cy="90" r="12"/><circle cx="210" cy="83" r="13"/><circle cx="225" cy="89" r="11"/><circle cx="203" cy="97" r="9"/><circle cx="219" cy="97" r="8"/></g>
+            <ellipse cx="202" cy="110" rx="6.5" ry="9" fill="#fff"/><circle cx="203" cy="112" r="5" fill="#2a1a10"/>
+            <ellipse class="lid" cx="202" cy="110" rx="7.5" ry="10" fill="#F1DDB8"/>
+            <ellipse cx="229" cy="110" rx="9" ry="11" fill="#fff"/>
+            <g id="r-pupil"><circle cx="231" cy="112" r="6.5" fill="#2a1a10"/><circle cx="233.5" cy="108.5" r="2.3" fill="#fff"/></g>
+            <ellipse class="lid" cx="229" cy="110" rx="10" ry="12" fill="#F1DDB8"/>
+            <path d="M236 100 l6 -4 M238 104 l6 -2" stroke="#2a1a10" stroke-width="1.6" stroke-linecap="round"/>
+            <path id="r-brow" d="M219 95 Q229 90 239 96" fill="none" stroke="#8A5326" stroke-width="3" stroke-linecap="round"/>
+            <ellipse cx="237" cy="131" rx="7" ry="4" fill="#E8A08A" opacity=".55"/>
+            <ellipse cx="259" cy="127" rx="3.2" ry="2.3" fill="#2a1a10"/><ellipse cx="267" cy="129" rx="3" ry="2.2" fill="#2a1a10"/>
+            <path d="M263 132 L263 141" stroke="#2a1a10" stroke-width="2" stroke-linecap="round"/>
+            <path id="r-mouth" d="M249 142 Q259 151 270 141" fill="none" stroke="#2a1a10" stroke-width="2.6" stroke-linecap="round"/>
+            <path id="r-mouth-open" d="M249 142 Q259 162 270 141 Q259 147 249 142 Z" fill="#5a2620" opacity="0"/>
+            <g id="r-hat"><path d="M184 93 Q184 60 212 58 Q240 60 242 93 Z" fill="#ffcc78"/><path d="M212 58 V93" stroke="#F7C062" stroke-width="5"/><rect x="178" y="89" width="74" height="8" rx="4" fill="#F7C062"/></g>
+          </g>
+        </g>
+      </g>
+    </svg></div></div>
+  </div>
+  <div id="footer"><span class="brand">Sondri</span><span data-es="TripVan × Sondri — El plano">TripVan × Sondri — The blueprint</span><span id="pageno">01 / 07</span></div>
+  <div id="prog"><i></i></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script>
+const PRINT=/print-pdf/gi.test(location.search), ES=/[?&]lang=es/.test(location.search);
+if(PRINT) document.documentElement.classList.add('print-pdf');
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+if(ES){
+  document.documentElement.lang='es-CL'; document.title='TripVan × Sondri — El plano';
+  $$('[data-es]').forEach(e=>e.innerHTML=e.dataset.es);
+  $$('[data-say-es]').forEach(e=>e.dataset.say=e.dataset.sayEs);
+  $('#nv-en').classList.remove('on'); $('#nv-es').classList.add('on');
+  $('#nv-back').href='es.html#/8'; $('#back2').href='es.html';
+}
+gsap.ticker.lagSmoothing(0); gsap.config({nullTargetWarn:false});
+{ let lf=-1; setInterval(()=>{ if(gsap.ticker.frame===lf) gsap.ticker.tick(); lf=gsap.ticker.frame; },50); }
+
+/* ============ 1. WebGL background: dithered Andes at night, blueprint palette ============ */
+const U={pan:0,warm:.2,mx:.7,my:.5,click:99};
+(function(){
+  if(PRINT) return;
+  const cv=$('#bg'), gl=cv.getContext('webgl',{antialias:false,premultipliedAlpha:false}); if(!gl) return;
+  const vs=`attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
+  const fs=`precision mediump float;
+  uniform vec2 uRes; uniform float uTime,uPan,uWarm,uClick; uniform vec2 uMouse;
+  float h21(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}
+  float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h21(i),h21(i+vec2(1,0)),f.x),mix(h21(i+vec2(0,1)),h21(i+vec2(1,1)),f.x),f.y);}
+  float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*noise(p);p*=2.03;a*=.5;}return v;}
+  float B2(vec2 a){a=floor(a);return fract(a.x/2.+a.y*a.y*.75);}
+  float B4(vec2 a){return B2(.5*a)*.25+B2(a);}
+  float B8(vec2 a){return B4(.5*a)*.25+B2(a);}
+  void main(){
+    vec2 cell=floor(gl_FragCoord.xy); vec2 uv=cell/uRes; float asp=uRes.x/uRes.y;
+    float v=mix(.30,.03,smoothstep(.1,1.,uv.y)); float sky=1.;
+    for(int k=0;k<3;k++){ float fk=float(k); float base=.42-fk*.13;
+      float h=base+(fbm(vec2(uv.x*(1.3+fk*.9)+uPan*(.10+.14*fk)+fk*7.3,fk*3.1))-.5)*(.30-fk*.04);
+      if(uv.y<h){ sky=0.; v=.30-fk*.08; v+=smoothstep(.03,.0,h-uv.y)*(fk<1.?.5:.2); v+=(noise(uv*vec2(60.,90.)+fk*13.)-.5)*.10; v-=(h-uv.y)*.5; } }
+    float st=h21(cell*.731+.5); if(sky>.5&&st>.992) v=.6+.4*sin(uTime*2.+st*90.);
+    vec2 m=vec2(uMouse.x*asp,uMouse.y), q=vec2(uv.x*asp,uv.y); float d=distance(q,m);
+    v+=.2*exp(-d*d*28.); v+=.35*exp(-pow((d-uClick*.9)*22.,2.))*exp(-uClick*1.4);
+    float l=floor(clamp(v,0.,1.)*3.4+B8(gl_FragCoord.xy));
+    vec3 c0=vec3(.02,.05,.085), c1=vec3(.05,.13,.21), c2=vec3(.09,.27,.40), c3=mix(vec3(.50,.83,1.),vec3(1.,.80,.47),uWarm);
+    gl_FragColor=vec4(l<.5?c0:l<1.5?c1:l<2.5?c2:c3,1.);
+  }`;
+  const sh=(t,s)=>{const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(o));return o;};
+  const pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);gl.useProgram(pr);
+  const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+  const loc=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+  const L=n=>gl.getUniformLocation(pr,n), uRes=L('uRes'),uTime=L('uTime'),uPan=L('uPan'),uWarm=L('uWarm'),uMouse=L('uMouse'),uClick=L('uClick');
+  const sm={x:U.mx,y:U.my};
+  function resize(){cv.width=Math.ceil(innerWidth/3);cv.height=Math.ceil(innerHeight/3);gl.viewport(0,0,cv.width,cv.height);}
+  addEventListener('resize',resize);resize();
+  addEventListener('pointermove',e=>{U.mx=e.clientX/innerWidth;U.my=1-e.clientY/innerHeight;});
+  addEventListener('pointerdown',e=>{U.mx=e.clientX/innerWidth;U.my=1-e.clientY/innerHeight;sm.x=U.mx;sm.y=U.my;U.click=0;});
+  let last=performance.now();
+  gsap.ticker.add(()=>{ const now=performance.now(), dt=(now-last)/1000; last=now; U.click+=dt;
+    sm.x+=(U.mx-sm.x)*.06; sm.y+=(U.my-sm.y)*.06;
+    gl.uniform2f(uRes,cv.width,cv.height);gl.uniform1f(uTime,now/1000);gl.uniform1f(uPan,U.pan);gl.uniform1f(uWarm,U.warm);gl.uniform2f(uMouse,sm.x,sm.y);gl.uniform1f(uClick,U.click);
+    gl.drawArrays(gl.TRIANGLES,0,3); });
+})();
+
+/* ============ 2. Reveal ============ */
+Reveal.initialize({width:1600,height:900,margin:0,minScale:.2,maxScale:2,center:false,hash:true,controls:true,controlsTutorial:false,progress:false,transition:'fade',backgroundTransition:'none'}).then(()=>{
+  if(PRINT) return;
+  $('.reveal .slides').appendChild($('#stage'));
+  $$('.reveal .slides section').forEach(s=>gsap.set(s.querySelectorAll('.a-up'),{opacity:0,y:26}));
+  initRaco(); initScene(); initPhones();
+  setTimeout(()=>$('#hint').style.opacity=0,12000);
+  Reveal.addKeyBinding({keyCode:73,key:'I',description:'Replay intro'},()=>{ Reveal.slide(0); startIntro(); });
+  if(Reveal.getIndices().h===0) startIntro(); else onSlide(Reveal.getCurrentSlide(),Reveal.getIndices().h);
+});
+Reveal.on('slidechanged',e=>{ if(!PRINT) onSlide(e.currentSlide,e.indexh); });
+
+function onSlide(s,idx){
+  if(IN.on) return;
+  gsap.fromTo(s.querySelectorAll('.a-up'),{opacity:0,y:26},{opacity:1,y:0,duration:.65,ease:'power3.out',stagger:.055});
+  const n=Reveal.getTotalSlides();
+  $('#pageno').textContent=String(idx+1).padStart(2,'0')+' / '+String(n).padStart(2,'0');
+  gsap.to('#prog i',{width:((idx+1)/n*100)+'%',duration:.8,ease:'power2.out'});
+  gsap.to(U,{pan:idx*1.1,warm:idx>=4?.75:.2,duration:2.2,ease:'power2.inOut'});
+  const off=s.dataset.scene==='off';
+  gsap.to('#scene',{autoAlpha:off?0:1,duration:.5});
+  setStage(+s.dataset.stage);
+  PH.pause(); PH2.pause(); if(s.dataset.phones==='1') PH.restart(); if(s.dataset.phones==='2') PH2.restart();
+  if(!off && s.dataset.raco){ const [x,p]=s.dataset.raco.split(','); RC.pending=s.dataset.say||''; racoTo(+x,p); }
+}
+
+/* ============ 3. The house: built stage by stage ============ */
+const SC={n:-1};
+function initScene(){
+  gsap.set('#frame .st',{scaleY:0,transformOrigin:'50% 100%'});
+  $$('#truss path').forEach(p=>{ const l=p.getTotalLength(); p.style.strokeDasharray=l; p.style.strokeDashoffset=l; p.dataset.len=l; });
+  SC.mix=gsap.timeline({repeat:-1,paused:true}).to('#mx-st',{x:6,duration:.35,yoyo:true,repeat:1,ease:'sine.inOut'},0).fromTo('#mx-flow',{strokeDashoffset:0},{strokeDashoffset:-26,duration:.7,ease:'none'},0);
+  gsap.to('#smoke circle',{y:-16,x:6,opacity:0,duration:2.6,repeat:-1,stagger:.5,ease:'sine.out'});
+}
+function setStage(n){
+  const prev=SC.n, fwd=n>prev; if(n===prev) return; SC.n=n;
+  const A=(k)=>fwd&&n===k;                       // animate the big build for stage k
+  gsap.killTweensOf(['#conc','#form','#mixer','#lumber','#frame .st','#frame .pl','#truss path','#fin','#roof','#walls','#fin .win','#door','#garden','#chim','#bpl']);
+  [1,2,3].forEach(i=>$('#lb'+i).classList.toggle('on',n===0||i===n));
+  gsap.to('#bpl',{opacity:n===3?.15:1,duration:.5});
+  // 01 — pour
+  gsap.to('#form',{opacity:n>=1?1:0,duration:.4});
+  gsap.to('#mixer',{opacity:n===1?1:0,duration:.4});
+  gsap.to('#conc',{attr:{width:n>=1?480:0},duration:A(1)?3.4:.35,delay:A(1)?1.5:0,ease:'none'});
+  n===1?SC.mix.play():SC.mix.pause();
+  // 02 — frame
+  gsap.to('#lumber',{opacity:n===2?1:0,duration:.4});
+  const d2=A(2)?1.7:0;
+  gsap.to('#frame .st',{scaleY:n>=2?1:0,duration:A(2)?.4:.25,stagger:A(2)?.24:0,delay:d2,ease:A(2)?'back.out(1.7)':'power1.out'});
+  gsap.to('#frame .pl',{opacity:n>=2?1:0,duration:.4,delay:A(2)?d2+2.5:0});
+  $$('#truss path').forEach((p,i)=>gsap.to(p,{strokeDashoffset:n>=2?0:+p.dataset.len,duration:A(2)?.5:.25,delay:A(2)?d2+2.9+i*.22:0,ease:'power2.out'}));
+  // 03 — finish
+  if(n>=3){
+    gsap.to('#fin',{opacity:1,duration:.3,delay:A(3)?.9:0});
+    if(A(3)){
+      gsap.fromTo('#walls',{scaleY:0,transformOrigin:'50% 100%'},{scaleY:1,duration:.9,delay:.9,ease:'power2.out'});
+      gsap.fromTo('#roof',{y:-160,opacity:0},{y:0,opacity:1,duration:.9,delay:1.6,ease:'bounce.out'});
+      gsap.fromTo('#chim',{opacity:0},{opacity:1,duration:.4,delay:2.2});
+      gsap.fromTo('#door',{opacity:0,scale:.6,transformOrigin:'50% 100%'},{opacity:1,scale:1,duration:.5,delay:2.3,ease:'back.out(2)'});
+      gsap.fromTo('#fin .win',{opacity:0},{opacity:1,duration:.25,delay:2.6,stagger:.25});
+      gsap.fromTo('#garden',{opacity:0,y:10},{opacity:1,y:0,duration:.6,delay:3.2});
+    } else gsap.set(['#walls','#roof','#chim','#door','#fin .win','#garden'],{opacity:1,scaleY:1,scale:1,y:0});
+  } else gsap.to('#fin',{opacity:0,duration:.35});
+}
+
+/* ============ 4. Raco on the building site ============ */
+const RC={x:-140,s:.58,face:1,pending:''};
+function applyR(){ gsap.set('#raco-wrap',{x:RC.x-110,y:470+12*RC.s-323,scale:RC.s}); }
+function initRaco(){
+  RC.bubble=$('#bubble'); RC.sayEl=$('#say'); applyR();
+  gsap.set('.lid',{scaleY:0,transformOrigin:'50% 0%'});
+  RC.walk=gsap.timeline({paused:true,repeat:-1})
+    .to(['#leg-fn','#leg-bf'],{rotate:20,duration:.2,ease:'sine.inOut',transformOrigin:'50% 0%'},0).to(['#leg-ff','#leg-bn'],{rotate:-20,duration:.2,ease:'sine.inOut',transformOrigin:'50% 0%'},0)
+    .to(['#leg-fn','#leg-bf'],{rotate:-20,duration:.4,ease:'sine.inOut'},.2).to(['#leg-ff','#leg-bn'],{rotate:20,duration:.4,ease:'sine.inOut'},.2)
+    .to(['#leg-fn','#leg-bf'],{rotate:0,duration:.2,ease:'sine.inOut'},.6).to(['#leg-ff','#leg-bn'],{rotate:0,duration:.2,ease:'sine.inOut'},.6)
+    .to('#r-all',{y:-6,duration:.2,yoyo:true,repeat:3,ease:'sine.inOut'},0);
+  (function blink(){gsap.timeline({onComplete:()=>gsap.delayedCall(2+Math.random()*3.5,blink)}).to('.lid',{scaleY:1,duration:.07}).to('.lid',{scaleY:0,duration:.12});})();
+  gsap.to('#r-medal',{rotate:7,svgOrigin:'209 270',duration:1.6,yoyo:true,repeat:-1,ease:'sine.inOut'});
+  gsap.to('#r-tail',{rotate:8,svgOrigin:'50 270',duration:1.1,yoyo:true,repeat:-1,ease:'sine.inOut'});
+}
+function face(d){ if(d===RC.face) return; RC.face=d; gsap.to('#raco-flip',{scaleX:d,duration:.2}); }
+function stopWalk(){ RC.walk.pause(); gsap.to(['#leg-fn','#leg-ff','#leg-bn','#leg-bf'],{rotate:0,duration:.2}); gsap.to('#r-all',{y:0,duration:.2}); }
+const PT=[], T=t=>(PT.push(t),t);              // pose tweens, tracked so the walk cycle is never killed with them
+function resetPose(){
+  PT.forEach(t=>t.kill()); PT.length=0;
+  T(gsap.to('#r-head',{rotate:0,duration:.3})); T(gsap.to('#leg-fn',{rotate:0,duration:.25})); T(gsap.to('#r-all',{y:0,scaleY:1,rotate:0,duration:.2}));
+  T(gsap.to('#r-hammer',{opacity:0,duration:.15})); T(gsap.to('#r-mouth',{opacity:1,duration:.2})); T(gsap.to('#r-mouth-open',{opacity:0,duration:.2}));
+}
+function doPose(p){
+  PT.forEach(t=>t.kill()); PT.length=0;
+  const H={svgOrigin:'212 150'}, LO={transformOrigin:'50% 0%'}, grin=()=>{T(gsap.to('#r-mouth-open',{opacity:1,duration:.15}));T(gsap.to('#r-mouth',{opacity:0,duration:.15}));};
+  if(p==='wave'){ grin(); T(gsap.timeline().to('#leg-fn',{...LO,rotate:-70,duration:.3,ease:'back.out(2)'}).to('#leg-fn',{rotate:-50,duration:.18,yoyo:true,repeat:5,ease:'sine.inOut'}).to('#leg-fn',{rotate:0,duration:.4})); }
+  if(p==='pour'){ T(gsap.to('#leg-fn',{...LO,rotate:-58,duration:.4,ease:'back.out(2)'})); T(gsap.to('#r-head',{...H,rotate:9,duration:.5,yoyo:true,repeat:-1,ease:'sine.inOut'})); }
+  if(p==='hammer'){ T(gsap.to('#r-hammer',{opacity:1,duration:.2})); T(gsap.to('#r-head',{...H,rotate:8,duration:.3}));
+    T(gsap.fromTo('#leg-fn',{...LO,rotate:-118},{rotate:-64,duration:.2,ease:'power3.in',yoyo:true,repeat:-1,repeatDelay:.14}));
+    T(gsap.to('#r-all',{y:-3,duration:.2,yoyo:true,repeat:-1,repeatDelay:.14,ease:'power2.in'})); }
+  if(p==='jump'||p==='celebrate'){ grin(); T(gsap.timeline({repeat:p==='celebrate'?2:0}).to('#r-all',{scaleY:.9,transformOrigin:'50% 100%',duration:.1}).to('#r-all',{y:-64,scaleY:1.05,duration:.3,ease:'power2.out'}).to('#r-all',{y:0,scaleY:1,duration:.34,ease:'power2.in'}));
+    if(p==='celebrate') T(gsap.delayedCall(2.6,confetti)); else confetti(); }
+}
+function say(t){
+  const b=RC.bubble; gsap.killTweensOf(b); clearInterval(RC.typer); if(!t){ gsap.set(b,{opacity:0}); return; }
+  RC.sayEl.textContent=t; const left=gsap.utils.clamp(0,470,RC.x-50); b.style.left=left+'px'; b.style.top=(470-284*RC.s-b.offsetHeight-12)+'px';
+  b.style.setProperty('--tail',gsap.utils.clamp(16,196,RC.x+26-left)+'px'); RC.sayEl.textContent='';
+  gsap.fromTo(b,{opacity:0,scale:.6,transformOrigin:'30% 100%'},{opacity:1,scale:1,duration:.4,ease:'back.out(2)'});
+  let i=0; RC.typer=setInterval(()=>{RC.sayEl.textContent=t.slice(0,++i); if(i>=t.length) clearInterval(RC.typer);},22);
+  gsap.to(b,{opacity:0,duration:.5,delay:Math.max(5.5,t.length*.08)});
+}
+function racoTo(x,p){
+  if(RC.tl) RC.tl.kill(); if(RC.dc) RC.dc.kill(); resetPose(); say('');
+  const d=Math.abs(x-RC.x);
+  RC.tl=gsap.timeline({onComplete:()=>{ stopWalk(); face(1); RC.dc=gsap.delayedCall(.25,()=>{ doPose(p); say(RC.pending); }); }});
+  if(d>4) RC.tl.call(()=>{ face(x>RC.x?1:-1); RC.walk.play(); }).to(RC,{x,duration:gsap.utils.clamp(.5,1.8,d/110),ease:'sine.inOut',onUpdate:applyR});
+  else RC.tl.to({},{duration:.05});
+}
+function confetti(){
+  const cols=['#ffcc78','#7fd3ff','#E8F3F8','#F7C062','#5fc4bc'];
+  for(let i=0;i<60;i++){ const d=document.createElement('div');
+    d.style.cssText=`position:absolute;width:${6+Math.random()*8}px;height:${4+Math.random()*6}px;background:${cols[i%5]};border-radius:2px;left:${RC.x}px;top:330px;`;
+    $('#scene').appendChild(d);
+    gsap.to(d,{x:(Math.random()-.3)*700,y:-180-Math.random()*300,rotate:Math.random()*720,duration:1+Math.random()*.6,ease:'power2.out'});
+    gsap.to(d,{y:'+=560',opacity:0,duration:1.5,delay:1,ease:'power1.in',onComplete:()=>d.remove()}); }
+}
+
+/* ============ 5. Animated app mockups ============ */
+let PH, PH2;
+function initPhones(){
+  const C=2*Math.PI*40; $('#tr-fg').style.strokeDasharray=C;
+  const ml=$('#mc-line'), mlen=ml.getTotalLength(); ml.style.strokeDasharray=mlen;
+  const k={a:0,b:0,c:0};
+  PH=gsap.timeline({paused:true,repeat:-1,repeatDelay:2})
+    .set('#rok',{opacity:0,y:20}).set('#rs',{opacity:1,y:0}).set('#tap',{opacity:0,scale:1}).set('#deal',{opacity:0,y:8}).set('#cb',{opacity:1,scale:1}).set('#gt1',{opacity:1}).set('#gt2',{opacity:0}).set('#mt',{scale:0})
+    .fromTo('#tr-fg',{strokeDashoffset:C},{strokeDashoffset:C*.06,duration:1.4,ease:'power2.out'},.6)
+    .fromTo('.tb u',{width:'0%'},{width:i=>$$('.tb u')[i].dataset.w+'%',duration:1,stagger:.12,ease:'power2.out'},.7)
+    .fromTo('#rbg',{scale:1},{scale:1.14,duration:8,ease:'none'},0)
+    .fromTo('#rp',{width:'0%'},{width:'100%',duration:8,ease:'none'},0)
+    .to('#tap',{opacity:1,duration:.2},3).fromTo('#tap',{scale:1.6},{scale:.8,duration:.3,ease:'power2.in'},3.1).to('#rb',{scale:.92,duration:.1,yoyo:true,repeat:1},3.4).to('#tap',{opacity:0,scale:2,duration:.3},3.5)
+    .to('#rs',{opacity:0,y:20,duration:.3},3.7).to('#rok',{opacity:1,y:0,duration:.5,ease:'back.out(2)'},3.9)
+    .to('#mt',{scale:1,duration:.5,ease:'back.out(3)'},1.4)
+    .to('#cb',{scale:.95,duration:.1,yoyo:true,repeat:1},4.6).to('#cb',{opacity:.45,duration:.3},4.8).to('#deal',{opacity:1,y:0,duration:.5,ease:'back.out(2)'},5)
+    .fromTo(k,{a:0,b:0,c:0},{a:128,b:312,c:6.4,duration:2.4,ease:'power2.out',onUpdate(){ $('#k1').textContent=Math.round(k.a)+'K'; $('#k2').textContent=Math.round(k.b); $('#k3').textContent=k.c.toFixed(1)+'×'; }},.8)
+    .fromTo(ml,{strokeDashoffset:mlen},{strokeDashoffset:0,duration:2.4,ease:'power2.inOut'},.8).fromTo('#mc-area',{opacity:0},{opacity:1,duration:1},2.4)
+    .fromTo('#gb',{width:'0%'},{width:'100%',duration:4.5,ease:'power1.inOut'},1.2).to('#gt1',{opacity:0,duration:.2},5.7).to('#gt2',{opacity:1,duration:.3},5.8)
+    .to({}, {duration:.1},8.5);
+  // second set: map, live trip, creator profile, business dashboard
+  const rt=$('#mp-route'), rl=rt.getTotalLength(), vn=$('#mp-van'), o={t:0}, n={bk:0,earn:0,v1:0,v2:0,v3:0}, clp=x=>Math.round(x).toLocaleString('es-CL');
+  PH2=gsap.timeline({paused:true,repeat:-1,repeatDelay:2})
+    .set('#tl .ts i',{backgroundColor:'#1c2c38',scale:1}).set('#rate',{opacity:0,y:8})
+    .fromTo('.mp-pin',{scale:0,transformOrigin:'50% 50%'},{scale:1,duration:.4,stagger:.25,ease:'back.out(3)'},.5)
+    .fromTo(o,{t:0},{t:1,duration:6,ease:'sine.inOut',onUpdate(){ const p=rt.getPointAtLength(o.t*rl); vn.setAttribute('transform',`translate(${p.x},${p.y})`); }},.8)
+    .to('#tl .ts:nth-child(-n+3) i',{backgroundColor:'#5fc4bc',duration:.3,stagger:.7},.8)
+    .to('#tl .ts.now i',{backgroundColor:'#ffcc78',duration:.3},3)
+    .to('#tl .ts.now i',{scale:1.7,duration:.5,yoyo:true,repeat:7,ease:'sine.inOut'},3.2)
+    .to('#rate',{opacity:1,y:0,duration:.5,ease:'back.out(2)'},4.2)
+    .fromTo('#g3 div',{opacity:0,scale:.7},{opacity:1,scale:1,duration:.4,stagger:.12,ease:'back.out(2)'},.6)
+    .fromTo(n,{bk:0,earn:0,v1:0,v2:0,v3:0},{bk:126,earn:1920000,v1:312,v2:87,v3:486000,duration:2.6,ease:'power2.out',onUpdate(){ $('#c-bk').textContent=Math.round(n.bk); $('#c-earn').textContent=clp(n.earn); $('#v1').textContent=Math.round(n.v1); $('#v2').textContent=Math.round(n.v2); $('#v3').textContent=clp(n.v3); }},1)
+    .fromTo('#vb u',{scaleY:0},{scaleY:1,duration:.7,stagger:.1,ease:'back.out(1.6)'},.8)
+    .fromTo('#pay',{scale:1},{scale:1.05,duration:.25,yoyo:true,repeat:1},3.8)
+    .to({}, {duration:.1},8);
+}
+
+/* ============ 6. Intro: Raco's spaceship flies through the rotating blueprint ============ */
+const IN={on:false,rot:0,draw:0,house:0,hs:1,grid:0,charts:0,shipA:0,shipT:0,follow:0,away:0,chart:0,curve:0,rocket:0,last:0};
+let icv,ictx,W=0,H=0,DPR=1; const parts=[], trail=[], fly=[];
+const SEG=(()=>{ const s=[], L=(a,b)=>s.push([a,b]);
+  const A=[-1,0,-.7],B=[1,0,-.7],C=[1,0,.7],D=[-1,0,.7],E=[-1,1.2,-.7],F=[1,1.2,-.7],G=[1,1.2,.7],Hh=[-1,1.2,.7],R1=[-1,1.9,0],R2=[1,1.9,0];
+  L(A,B);L(B,C);L(C,D);L(D,A);L(A,E);L(B,F);L(C,G);L(D,Hh);L(E,F);L(F,G);L(G,Hh);L(Hh,E);L(E,R1);L(Hh,R1);L(F,R2);L(G,R2);L(R1,R2);
+  const q=(x0,y0,x1,y1,z)=>{L([x0,y0,z],[x0,y1,z]);L([x0,y1,z],[x1,y1,z]);L([x1,y1,z],[x1,y0,z]);L([x1,y0,z],[x0,y0,z]);};
+  q(-.2,0,.2,.75,.7); q(-.8,.45,-.42,.85,.7); q(.42,.45,.8,.85,.7); q(-.8,.45,-.42,.85,-.7); q(.42,.45,.8,.85,-.7);
+  L([0,0,-.7],[0,0,.7]); L([-1,0,0],[0,0,0]); L([.35,0,-.7],[.35,0,0]); L([0,0,0],[1,0,0]);
+  L([-1,0,1.15],[1,0,1.15]); L([-1,0,1.05],[-1,0,1.25]); L([1,0,1.05],[1,0,1.25]); L([1.4,0,-.7],[1.4,0,.7]); L([1.3,0,-.7],[1.5,0,-.7]); L([1.3,0,.7],[1.5,0,.7]);
+  // elevation dimensions, foundation footing, rafters, centre lines
+  L([-1.35,0,.7],[-1.35,1.2,.7]); L([-1.45,0,.7],[-1.25,0,.7]); L([-1.45,1.2,.7],[-1.25,1.2,.7]); L([-1.6,0,0],[-1.6,1.9,0]); L([-1.7,1.9,0],[-1.5,1.9,0]); L([-1.7,0,0],[-1.5,0,0]);
+  const f=-.14; L([-1.1,f,-.8],[1.1,f,-.8]); L([1.1,f,-.8],[1.1,f,.8]); L([1.1,f,.8],[-1.1,f,.8]); L([-1.1,f,.8],[-1.1,f,-.8]); [[-1.1,-.8],[1.1,-.8],[1.1,.8],[-1.1,.8]].forEach(([x,z])=>L([x,f,z],[x,0,z]));
+  for(let i=1;i<6;i++){ const x=-1+i/3; L([x,1.2,-.7],[x,1.9,0]); L([x,1.2,.7],[x,1.9,0]); }
+  for(let i=1;i<8;i++){ const x=-1+i*.25; L([x,0,-.7],[x,1.2,-.7]); }
+  return s; })();
+const NODES=[[-1,0,-.7],[1,0,-.7],[1,0,.7],[-1,0,.7],[-1,1.2,-.7],[1,1.2,-.7],[1,1.2,.7],[-1,1.2,.7],[-1,1.9,0],[1,1.9,0]];
+const LAB=[{p:[0,0,1.15],t:'12.40 m',dx:2,dy:3},{p:[1.4,0,0],t:'8.60 m',dx:3,dy:2},{p:[-1.35,.6,.7],t:'h 3.20',dx:-3,dy:-1},{p:[-1.6,1.9,0],t:'▲ +5.10',dx:-2,dy:-2},
+  {p:[0,.75,.7],t:'D-01 0.90×2.10',dx:4,dy:-3},{p:[.61,.85,.7],t:'W-02',dx:4,dy:-5},
+  {p:[.9,-.14,.8],t:'01 · FOUNDATION  C25',dx:5,dy:4,g:1},{p:[1,.7,-.7],t:'02 · FRAMING  2×4 @ 0.40',dx:5,dy:-2,g:1},{p:[.4,1.72,-.18],t:'03 · ROOF  30°',dx:5,dy:-4,g:1}];
+function rotY(p,a,k){ const c=Math.cos(a), s=Math.sin(a); return [(p[0]*c+p[2]*s)*k,p[1]*k,(-p[0]*s+p[2]*c)*k]; }
+function proj(p){ const ct=Math.cos(.3), st=Math.sin(.3); const y=p[1]-.75; const y2=y*ct-p[2]*st, z2=y*st+p[2]*ct+4.8; const f=H*1.2; return [W/2+p[0]*f/z2, H*.52-y2*f/z2, z2]; }
+function line(a,b,t){ ictx.beginPath(); ictx.moveTo(a[0],a[1]); ictx.lineTo(a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t); ictx.stroke(); }
+function gcurve(p){ return (Math.exp(4.6*p)-1)/(Math.exp(4.6)-1); }
+function chartPt(p){ const x0=W*.24,x1=W*.66,y0=H*.8,y1=H*.26; return [x0+(x1-x0)*p, y0-(y0-y1)*gcurve(p)]; }
+function burst(x,y,n,pow){
+  const cols=['#ffcc78','#ffe7b3','#7fd3ff','#ffffff','#ff9f7a','#5fc4bc'];
+  for(let i=0;i<n;i++){ const a=Math.random()*6.283, sp=(.25+Math.random())*pow*H;
+    parts.push({x,y,px:x,py:y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,age:0,c:cols[(Math.random()*cols.length)|0],r:(1.6+Math.random()*2)*DPR,star:(.6+Math.random()*1.2)*DPR,tw:Math.random()*6}); }
+}
+function drawIntro_v1(){   /* superseded by the chase-camera intro at the end of this script */
+  if(!IN.on) return;
+  const now=performance.now(), dt=Math.min(.05,(now-IN.last)/1000); IN.last=now; const c=ictx;
+  c.clearRect(0,0,W,H); c.lineCap='round';
+  // graphs flying by
+  if(IN.charts>.01){ fly.forEach(o=>{ o.z-=dt*(4+o.sp)*IN.charts; if(o.z<.7){ o.z=13+Math.random()*3; const a=Math.random()*6.283, r=1.6+Math.random()*2.6; o.x=Math.cos(a)*r; o.y=Math.sin(a)*r*.6; }
+      const f=H*.9, sx=W/2+o.x*f/o.z, sy=H/2+o.y*f/o.z, sz=f*.42/o.z, al=Math.min(1,(15-o.z)/4)*Math.min(1,(o.z-.7)/1.2)*IN.charts*.9;
+      c.globalAlpha=al; c.strokeStyle=c.fillStyle=o.gold?'#ffcc78':'#7fd3ff'; c.lineWidth=Math.max(1,sz*.05);
+      if(o.type===0){ for(let i=0;i<5;i++){ const h=sz*[.14,.24,.4,.64,1][i]; c.fillRect(sx+i*sz*.22,sy-h,sz*.15,h); } c.beginPath(); c.moveTo(sx-sz*.05,sy+sz*.04); c.lineTo(sx+sz*1.15,sy+sz*.04); c.stroke(); }
+      else { c.beginPath(); for(let i=0;i<=12;i++){ const p=i/12, X=sx+p*sz*1.1, Y=sy-gcurve(p)*sz; i?c.lineTo(X,Y):c.moveTo(X,Y); } c.stroke();
+        const X=sx+sz*1.1, Y=sy-sz; c.beginPath(); c.moveTo(X,Y-sz*.12); c.lineTo(X+sz*.09,Y+sz*.08); c.lineTo(X-sz*.12,Y+sz*.03); c.closePath(); c.fill();
+        if(o.type===2){ c.font=`700 ${Math.max(8,sz*.22)}px Space Mono, monospace`; c.fillText(o.txt,sx,sy+sz*.32); } }
+    }); c.globalAlpha=1; }
+  // rotating blueprint house
+  if(IN.house>.01){
+    c.strokeStyle='#7fd3ff'; c.shadowColor='#7fd3ff'; c.shadowBlur=8*DPR;
+    c.globalAlpha=.22*IN.house*IN.grid; c.lineWidth=1*DPR;
+    for(let i=-6;i<=6;i++){ line(proj(rotY([i*.5,0,-3],IN.rot,IN.hs)),proj(rotY([i*.5,0,3],IN.rot,IN.hs)),1); line(proj(rotY([-3,0,i*.5],IN.rot,IN.hs)),proj(rotY([3,0,i*.5],IN.rot,IN.hs)),1); }
+    c.globalAlpha=IN.house; c.lineWidth=2*DPR;
+    SEG.forEach((s,i)=>{ const t=gsap.utils.clamp(0,1,IN.draw*SEG.length-i); if(t>0) line(proj(rotY(s[0],IN.rot,IN.hs)),proj(rotY(s[1],IN.rot,IN.hs)),t); });
+    c.shadowBlur=0;
+    // --- technical drawing layer: survey rings, nodes, dimensions, callouts, HUD ---
+    const RP=p=>proj(rotY(p,IN.rot,IN.hs)), tech=IN.house*IN.grid, fs=H*.0155;
+    c.lineWidth=1*DPR; c.globalAlpha=.4*tech;
+    [1.7,2.5,3.3].forEach((r,ri)=>{ c.setLineDash(ri===1?[4*DPR,6*DPR]:[]); c.beginPath(); for(let i=0;i<=72;i++){ const a=i/72*6.283, q=RP([Math.cos(a)*r,0,Math.sin(a)*r]); i?c.lineTo(q[0],q[1]):c.moveTo(q[0],q[1]); } c.stroke(); });
+    c.setLineDash([]);
+    c.font=`${fs*.8}px Space Mono, monospace`; c.fillStyle='#7fd3ff'; c.textAlign='center';
+    for(let d=0;d<360;d+=15){ const a=d/57.296, q1=RP([Math.cos(a)*3.3,0,Math.sin(a)*3.3]), q2=RP([Math.cos(a)*(d%45?3.4:3.5),0,Math.sin(a)*(d%45?3.4:3.5)]); line(q1,q2,1);
+      if(d%45===0){ const q=RP([Math.cos(a)*3.75,0,Math.sin(a)*3.75]); c.fillText(String(d).padStart(3,'0')+'°',q[0],q[1]); } }
+    const dn=gsap.utils.clamp(0,1,IN.draw*2.2-1);                               // annotations fade in once the frame exists
+    c.globalAlpha=tech*dn;
+    NODES.forEach(v=>{ const q=RP(v); c.beginPath(); c.arc(q[0],q[1],3.2*DPR,0,6.283); c.fillStyle='#04101c'; c.fill(); c.stroke(); });
+    const ax=[-2.7,0,2.7], o=RP(ax); [['X',[.55,0,0]],['Y',[0,.55,0]],['Z',[0,0,-.55]]].forEach(([n,d])=>{ const e=RP([ax[0]+d[0],d[1],ax[2]+d[2]]); c.strokeStyle='#ffcc78'; line(o,e,1); c.fillStyle='#ffcc78'; c.fillText(n,e[0]+(e[0]-o[0])*.25,e[1]+(e[1]-o[1])*.25); });
+    c.strokeStyle='#7fd3ff';
+    LAB.forEach(l=>{ const q=RP(l.p), tx=q[0]+l.dx*fs, ty=q[1]+l.dy*fs; c.beginPath(); c.moveTo(q[0],q[1]); c.lineTo(tx,ty); c.lineTo(tx+(l.dx>0?1:-1)*fs*1.2,ty); c.strokeStyle=c.fillStyle=l.g?'#ffcc78':'#7fd3ff'; c.stroke();
+      c.beginPath(); c.arc(q[0],q[1],2*DPR,0,6.283); c.fill(); c.textAlign=l.dx>0?'left':'right'; c.font=`${l.g?'700 ':''}${fs}px Space Mono, monospace`; c.fillText(l.t,tx+(l.dx>0?1.6:-1.6)*fs,ty+fs*.35); });
+    // HUD (screen space)
+    c.globalAlpha=tech*.9; c.strokeStyle=c.fillStyle='#7fd3ff'; c.lineWidth=1.5*DPR; c.textAlign='left'; c.font=`${fs}px Space Mono, monospace`;
+    const m=H*.05, b=H*.045; [[m,m,1,1],[W-m,m,-1,1],[m,H-m,1,-1],[W-m,H-m,-1,-1]].forEach(([x,y,sx2,sy2])=>{ c.beginPath(); c.moveTo(x+b*sx2,y); c.lineTo(x,y); c.lineTo(x,y+b*sy2); c.stroke(); });
+    const deg=(((IN.rot+.5)*57.296)%360+360)%360;
+    [['ROT  '+deg.toFixed(1).padStart(5,'0')+'°'],['ELEV 17.2°'],['SCALE 1:100'],['GRID 0.50 m'],['SEG  '+Math.min(SEG.length,Math.round(IN.draw*SEG.length))+'/'+SEG.length]].forEach((r,i)=>c.fillText(r[0],W-m-fs*11,m+fs*(2.2+i*1.5)));
+    const bx=m+fs, by=H-m-fs*6.4, bw=fs*21, bh=fs*5.6; c.strokeRect(bx,by,bw,bh); c.beginPath(); c.moveTo(bx,by+bh*.36); c.lineTo(bx+bw,by+bh*.36); c.moveTo(bx+bw*.62,by+bh*.36); c.lineTo(bx+bw*.62,by+bh); c.stroke();
+    c.font=`700 ${fs*1.15}px Space Mono, monospace`; c.fillText('TRIPVAN · DIGITAL HOUSE',bx+fs*.7,by+fs*1.4);
+    c.font=`${fs*.85}px Space Mono, monospace`; c.fillText('DWG TV-001 · SHEET 2/2',bx+fs*.7,by+fs*3.2); c.fillText('DRAWN: SONDRI · CHK: RACO',bx+fs*.7,by+fs*4.6); c.fillText('REV A',bx+bw*.62+fs*.7,by+fs*3.2); c.fillText('2026',bx+bw*.62+fs*.7,by+fs*4.6);
+    const sy0=(now/2600%1)*H; const sg=c.createLinearGradient(0,sy0-H*.08,0,sy0); sg.addColorStop(0,'rgba(127,211,255,0)'); sg.addColorStop(1,'rgba(127,211,255,.16)'); c.globalAlpha=tech; c.fillStyle=sg; c.fillRect(0,sy0-H*.08,W,H*.08);
+    c.globalAlpha=1; c.textAlign='left';
+  }
+  // big ROI chart
+  if(IN.chart>.01){
+    const x0=W*.24,x1=W*.66,y0=H*.8,y1=H*.26;
+    c.globalAlpha=IN.chart*.5; c.strokeStyle='#7fd3ff'; c.lineWidth=1*DPR;
+    for(let i=1;i<=5;i++){ const y=y0-(y0-y1)*i/5; c.beginPath(); c.moveTo(x0,y); c.lineTo(x1,y); c.stroke(); }
+    c.globalAlpha=IN.chart; c.lineWidth=2.5*DPR; c.beginPath(); c.moveTo(x0,y1-H*.04); c.lineTo(x0,y0); c.lineTo(x1+W*.04,y0); c.stroke();
+    c.fillStyle='#7fd3ff'; c.font=`700 ${H*.022}px Space Mono, monospace`; c.fillText('ROI',x0-H*.07,y1-H*.02);
+    ['01','02','03'].forEach((t,i)=>c.fillText(t,x0+(x1-x0)*(.18+i*.33),y0+H*.04));
+    if(IN.curve>0){
+      const N=60; c.beginPath(); c.moveTo(x0,y0);
+      for(let i=0;i<=N;i++){ const pt=chartPt(IN.curve*i/N); c.lineTo(pt[0],pt[1]); }
+      const tip=chartPt(IN.curve); c.lineTo(tip[0],y0); c.closePath();
+      const g=c.createLinearGradient(0,y1,0,y0); g.addColorStop(0,'rgba(255,204,120,.5)'); g.addColorStop(1,'rgba(255,204,120,0)'); c.fillStyle=g; c.fill();
+      c.beginPath(); for(let i=0;i<=N;i++){ const pt=chartPt(IN.curve*i/N); i?c.lineTo(pt[0],pt[1]):c.moveTo(pt[0],pt[1]); }
+      c.strokeStyle='#ffcc78'; c.lineWidth=5*DPR; c.shadowColor='#ffcc78'; c.shadowBlur=24*DPR; c.stroke();
+      if(IN.rocket>0){ const ry=tip[1]-(tip[1]-H*.1)*IN.rocket; c.beginPath(); c.moveTo(tip[0],tip[1]); c.lineTo(tip[0],ry); c.stroke(); c.fillStyle='#fff'; c.beginPath(); c.arc(tip[0],ry,7*DPR,0,6.283); c.fill(); }
+      else { c.fillStyle='#fff'; c.beginPath(); c.arc(tip[0],tip[1],6*DPR,0,6.283); c.fill(); }
+      c.shadowBlur=0;
+    }
+    c.globalAlpha=1;
+  }
+  // ship (DOM) + trail
+  // flight path lives in the blueprint's own space, so the whole scene turns together:
+  // in through the front door, across the rooms, out the back, up and over the roof, round again
+  const t=IN.shipT, P=[1.7*Math.sin(2*t)*Math.abs(Math.sin(t)),.5+.42*Math.sin(1.7*t)+.9*Math.pow(Math.sin(t*.5),8),2.7*Math.sin(t)], sp=proj(rotY(P,IN.rot,1));
+  const tip=chartPt(IN.curve); let sx=sp[0]+(tip[0]-sp[0])*IN.follow, sy=sp[1]+(tip[1]-H*.07-sp[1])*IN.follow;
+  sx+=IN.away*W*.55; sy-=IN.away*H*.5;
+  const k=(1-IN.follow)*(4.3/sp[2])+IN.follow*.8, sc=k*(H/900)/DPR*.95;
+  const el=$('#ship'), cx=sx/DPR, cy=sy/DPR, vx=cx-(IN.px||cx), vy=cy-(IN.py||cy); IN.px=cx; IN.py=cy;
+  if(Math.abs(vx)>.4) IN.dir=vx>0?1:-1;
+  IN.tilt=(IN.tilt||0)+((gsap.utils.clamp(-24,24,vy*3)*(IN.dir||1))-(IN.tilt||0))*.15;
+  el.style.opacity=IN.shipA; el.style.zIndex=(sp[2]>4.8&&IN.follow<.5)?1:3;
+  el.style.transform=`translate(${cx-110}px,${cy-66}px) scale(${sc*(IN.dir||1)},${sc}) rotate(${IN.tilt}deg)`;
+  if(IN.shipA>.05){ trail.push([sx,sy,sc]); if(trail.length>26) trail.shift(); trail.forEach((p,i)=>{ c.globalAlpha=i/26*.5*IN.shipA; c.fillStyle='#ffe7b3'; c.beginPath(); c.arc(p[0],p[1]+10*p[2]*DPR,(1+i/26*5)*p[2]*DPR,0,6.283); c.fill(); }); c.globalAlpha=1; }
+  // fireworks → stars
+  for(const p of parts){ p.age+=dt; p.px=p.x; p.py=p.y; const dr=Math.pow(.955,dt*60); p.vx*=dr; p.vy*=dr; if(p.age<1.1) p.vy+=H*.12*dt; p.x+=p.vx*dt; p.y+=p.vy*dt;
+    const s=gsap.utils.clamp(0,1,(p.age-1.2)/1.6);                          // 0 = firework, 1 = star
+    c.globalAlpha=(1-s)+s*(.55+.45*Math.sin(now/300+p.tw)); c.strokeStyle=c.fillStyle=s>.6?'#eaf6ff':p.c;
+    if(s<.5){ c.lineWidth=p.r*(1-s); c.beginPath(); c.moveTo(p.px,p.py); c.lineTo(p.x,p.y); c.stroke(); }
+    c.beginPath(); c.arc(p.x,p.y,p.r*(1-s)+p.star*s,0,6.283); c.fill(); }
+  c.globalAlpha=1;
+}
+function startIntro_v1(){   /* superseded */
+  if(IN.on) return; IN.on=true;
+  const html=document.documentElement; html.classList.add('intro-on'); Reveal.configure({keyboard:false});
+  icv=$('#bi-cv'); ictx=icv.getContext('2d'); DPR=Math.min(devicePixelRatio||1,1.5);
+  const rs=()=>{ W=icv.width=innerWidth*DPR; H=icv.height=innerHeight*DPR; }; rs(); addEventListener('resize',rs);
+  parts.length=0; trail.length=0; fly.length=0;
+  for(let i=0;i<16;i++){ const a=Math.random()*6.283, r=1.6+Math.random()*2.6; fly.push({x:Math.cos(a)*r,y:Math.sin(a)*r*.6,z:2+Math.random()*13,sp:Math.random()*3,type:i%3,gold:i%2,txt:['ROI ↑','+38%','×6.4','+120%','×12'][i%5]}); }
+  Object.assign(IN,{rot:-.5,draw:0,house:1,hs:1,grid:0,charts:0,shipA:0,shipT:-.9,follow:0,away:0,chart:0,curve:0,rocket:0,last:performance.now(),px:0,py:0,tilt:0,dir:1});
+  gsap.set('#stage',{opacity:0}); gsap.set($$('.reveal .slides section')[0].querySelectorAll('.a-up'),{opacity:0});
+  gsap.set('#intro',{opacity:1}); gsap.set('#bi-grid',{opacity:1}); gsap.set(['#bi-dim','#bi-cap','#bi-title','#bi-sub'],{opacity:0});
+  $$('#bi-title .w').forEach(w=>{ if(!w.dataset.split){ w.dataset.split=1; w.innerHTML=[...w.textContent].map(ch=>`<span class="ch">${ch}</span>`).join(''); }});
+  gsap.ticker.add(drawIntro);
+  const FW=[[.66,.1,150,.55],[.3,.2,90,.4],[.82,.3,90,.42],[.5,.14,110,.46],[.16,.36,70,.36],[.9,.14,70,.36],[.42,.34,80,.38]];
+  const tl=gsap.timeline({onComplete:finish});
+  tl.fromTo('#bi-cap',{opacity:0,letterSpacing:'.2em'},{opacity:1,letterSpacing:'.6em',duration:1.4,ease:'power2.out'},.2)
+    .to(IN,{grid:1,duration:1},.5).to(IN,{draw:1,duration:3.6,ease:'power1.inOut'},.7)
+    .to(IN,{rot:-.5+Math.PI*2,duration:7.6,ease:'sine.inOut'},1)
+    .to(IN,{shipA:1,duration:.5},1.5).to(IN,{shipT:-.9+Math.PI*4,duration:7.2,ease:'none'},1.5)
+    .to(IN,{charts:1,duration:1.2},2.2).to('#bi-cap',{opacity:0,duration:.6},3)
+    .to(IN,{house:0,hs:.55,duration:1,ease:'power2.in'},8.3).to(IN,{charts:0,duration:1},8.6)
+    .to(IN,{chart:1,duration:.8},8.7).to(IN,{follow:1,duration:1.1,ease:'power2.inOut'},8.6)
+    .to(IN,{curve:1,duration:2.5,ease:'power1.in'},9.4)
+    .to(IN,{rocket:1,duration:.4,ease:'power2.in'},11.9).to(IN,{away:1,duration:1.1,ease:'power2.in'},11.9)
+    .call(()=>{ const t=chartPt(1); burst(t[0],H*.1,170,.6); },[],12.3)
+    .to('#bi-grid',{opacity:0,duration:1.4},12.2).to(IN,{chart:0,duration:1},12.4).to(IN,{shipA:0,duration:.3},12.9);
+  FW.slice(1).forEach((f,i)=>tl.call(()=>burst(W*f[0],H*f[1],f[2],f[3]),[],12.6+i*.24));
+  tl.to('#bi-dim',{opacity:.55,duration:1.2},14.2)
+    .set('#bi-title',{opacity:1},14.6)
+    .fromTo('#bi-title .ch',{opacity:0,scale:2.6,filter:'blur(14px)'},{opacity:1,scale:1,filter:'blur(0px)',duration:.7,ease:'expo.out',stagger:.045},14.6)
+    .fromTo('#bi-title .plus',{opacity:0,rotate:-180,scale:0},{opacity:1,rotate:0,scale:1,duration:.6,ease:'back.out(3)'},14.95)
+    .fromTo('#bi-sub',{opacity:0,letterSpacing:'.1em'},{opacity:1,letterSpacing:'.55em',duration:1.2,ease:'power2.out'},15.3)
+    .to('#intro',{opacity:0,duration:1.3,ease:'power2.inOut'},17.6);
+  const skip=()=>{ if(tl.progress()<1) tl.progress(1); }, onKey=e=>{ e.preventDefault(); skip(); };
+  addEventListener('keydown',onKey,true); $('#bi-skip').addEventListener('click',skip);
+  function finish(){
+    removeEventListener('keydown',onKey,true); $('#bi-skip').removeEventListener('click',skip); removeEventListener('resize',rs);
+    gsap.ticker.remove(drawIntro); IN.on=false; parts.length=0;
+    html.classList.remove('intro-on'); Reveal.configure({keyboard:true});
+    gsap.to('#stage',{opacity:1,duration:.6}); SC.n=-1; RC.x=-140; applyR();
+    onSlide(Reveal.getCurrentSlide(),Reveal.getIndices().h);
+  }
+}
+
+/* ============ 7. Intro v2 — chase camera: we follow Raco's fighter from behind as it
+   flies through the blueprint house; then the ROI curve launches like a firework. ============ */
+const v3={sub:(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]],add:(a,b,k=1)=>[a[0]+b[0]*k,a[1]+b[1]*k,a[2]+b[2]*k],dot:(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2],
+  cross:(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],norm:a=>{const l=Math.hypot(a[0],a[1],a[2])||1;return [a[0]/l,a[1]/l,a[2]/l];},
+  lerp:(a,b,t)=>[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t]};
+const CAM={C:[0,1,-6],T:[0,.6,0],R:[1,0,0],U:[0,1,0],Z:[0,0,1]}, NEAR=.12;
+// flight path: in through the back wall, across the rooms, out the front door, a wide turn, back in, up under the roof
+function fpath(t){ return [1.7*Math.sin(2*t)*Math.abs(Math.sin(t)), .5+.38*Math.sin(1.7*t)+.75*Math.pow(Math.sin(t*.5),8), 2.7*Math.sin(t)]; }
+function camUpdate(dt){
+  const P=fpath(IN.shipT), F=v3.norm(v3.sub(fpath(IN.shipT+.06),P)), Fh=v3.norm([F[0],F[1]*.35,F[2]]);
+  const Cd=v3.add(v3.add(P,Fh,-IN.cd),[0,1,0],.3+IN.cd*.14), Td=v3.add(P,Fh,1.2);
+  const k=IN.snap?1:Math.min(1,dt*3); IN.snap=0;
+  CAM.C=v3.lerp(CAM.C,Cd,k); CAM.T=v3.lerp(CAM.T,Td,k);
+  CAM.Z=v3.norm(v3.sub(CAM.T,CAM.C)); CAM.R=v3.norm(v3.cross([0,1,0],CAM.Z)); CAM.U=v3.cross(CAM.Z,CAM.R);
+  IN.hdg=((Math.atan2(F[0],F[2])*57.296)+360)%360; return P;
+}
+function V(p){ const d=v3.sub(p,CAM.C); return [v3.dot(d,CAM.R),v3.dot(d,CAM.U),v3.dot(d,CAM.Z)]; }
+function S(v){ const f=H*.95/v[2]; return [W/2+v[0]*f,H*.56-v[1]*f,v[2]]; }
+function P2(p){ const v=V(p); return v[2]<NEAR?null:S(v); }
+function seg(a,b,t){                                   // add one near-clipped 3D segment to the current path
+  let va=V(a), vb=V(b); if(t!==undefined&&t<1) vb=v3.lerp(va,vb,t);
+  if(va[2]<NEAR&&vb[2]<NEAR) return;
+  if(va[2]<NEAR) va=v3.lerp(va,vb,(NEAR-va[2])/(vb[2]-va[2])); else if(vb[2]<NEAR) vb=v3.lerp(vb,va,(NEAR-vb[2])/(va[2]-vb[2]));
+  const s1=S(va), s2=S(vb); ictx.moveTo(s1[0],s1[1]); ictx.lineTo(s2[0],s2[1]);
+}
+const RINGS=[1.7,2.5,3.3].map(r=>Array.from({length:61},(_,i)=>[Math.cos(i/60*6.283)*r,0,Math.sin(i/60*6.283)*r]));
+const SHIP_REAR=`<svg viewBox="0 0 200 120">
+  <path d="M100 62 L6 42 L6 54 L100 78 Z" fill="#aebcc4" stroke="#56707f" stroke-width="2"/><path d="M100 62 L194 42 L194 54 L100 78 Z" fill="#aebcc4" stroke="#56707f" stroke-width="2"/>
+  <path d="M100 72 L42 106 L50 111 L100 84 Z" fill="#8fa0aa" stroke="#56707f" stroke-width="2"/><path d="M100 72 L158 106 L150 111 L100 84 Z" fill="#8fa0aa" stroke="#56707f" stroke-width="2"/>
+  <path d="M30 50 L62 57 M170 50 L138 57" stroke="#ffcc78" stroke-width="6"/>
+  <circle cx="6" cy="48" r="6" fill="#56707f"/><circle cx="194" cy="48" r="6" fill="#56707f"/><circle cx="6" cy="48" r="2.5" fill="#ff8a6b"/><circle cx="194" cy="48" r="2.5" fill="#ff8a6b"/>
+  <ellipse cx="93" cy="34" rx="3.6" ry="10" fill="#9A5E2C" transform="rotate(-8 93 34)"/><ellipse cx="107" cy="34" rx="3.6" ry="10" fill="#B8743A" transform="rotate(8 107 34)"/>
+  <ellipse cx="100" cy="50" rx="11" ry="12" fill="#C07A3D"/>
+  <path d="M87 47 Q87 31 100 30 Q113 31 113 47 Z" fill="#ffcc78"/><rect x="85" y="45" width="30" height="4" rx="2" fill="#F7C062"/>
+  <ellipse cx="100" cy="70" rx="27" ry="23" fill="#e8eef0" stroke="#56707f" stroke-width="2"/>
+  <path d="M79 60 Q100 16 121 60" fill="rgba(127,211,255,.22)" stroke="#bfe9ff" stroke-width="2"/>
+  <rect x="88" y="62" width="24" height="7" rx="2" fill="#1E5153"/>
+  <circle cx="80" cy="78" r="11" fill="#465c69"/><circle cx="120" cy="78" r="11" fill="#465c69"/>
+  <g id="ship-glow"><circle cx="80" cy="78" r="7.5" fill="#7fd3ff"/><circle cx="120" cy="78" r="7.5" fill="#7fd3ff"/><circle cx="80" cy="78" r="3.5" fill="#fff"/><circle cx="120" cy="78" r="3.5" fill="#fff"/></g>
+</svg>`;
+function burst2(x,y,n,pow,cash){
+  burst(x,y,n,pow);
+  for(let i=0;i<(cash||0);i++){ const a=Math.random()*6.283, sp=(.2+Math.random()*.5)*pow*H; parts.push({x,y,px:x,py:y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-H*.1,age:0,life:2.4+Math.random(),glyph:'$',c:'#7be0a0',r:H*.03*(.7+Math.random()*.7),tw:0,star:0}); }
+}
+function drawBill(x,y,ang,al){
+  const c=ictx, w=H*.12, h=H*.055; c.save(); c.globalAlpha=al; c.translate(x,y); c.rotate(ang+Math.sin(performance.now()/130)*.14); c.translate(w*.1,-h*.95);
+  c.shadowColor='#7be0a0'; c.shadowBlur=18*DPR; c.fillStyle='#2f9e5e'; c.fillRect(-w/2,-h/2,w,h); c.shadowBlur=0;
+  c.strokeStyle='#d8f5e1'; c.lineWidth=2*DPR; c.strokeRect(-w/2+h*.12,-h/2+h*.12,w-h*.24,h-h*.24);
+  c.fillStyle='#d8f5e1'; c.beginPath(); c.arc(0,0,h*.3,0,6.283); c.fill();
+  c.fillStyle='#1d6b3e'; c.font=`700 ${h*.5}px Space Grotesk, sans-serif`; c.textAlign='center'; c.textBaseline='middle'; c.fillText('$',0,h*.03);
+  c.fillStyle='#d8f5e1'; c.font=`700 ${h*.26}px Space Mono, monospace`; c.fillText('100',-w*.33,-h*.2); c.fillText('100',w*.33,h*.22);
+  c.restore(); c.textAlign='left'; c.textBaseline='alphabetic';
+}
+function drawIntro(){
+  if(!IN.on) return;
+  const now=performance.now(), dt=Math.min(.05,(now-IN.last)/1000); IN.last=now; const c=ictx, cl=gsap.utils.clamp;
+  c.clearRect(0,0,W,H); c.lineCap='round'; c.setLineDash([]); c.shadowBlur=0;
+  const P=camUpdate(dt);
+  // graphs streaming past
+  if(IN.charts>.01){ fly.forEach(o=>{ o.z-=dt*(2.6+o.sp*.6)*IN.charts; if(o.z<.7){ o.z=13+Math.random()*3; const a=Math.random()*6.283, r=1.8+Math.random()*2.6; o.x=Math.cos(a)*r; o.y=Math.sin(a)*r*.6; }
+      const f=H*.9, sx=W/2+o.x*f/o.z, sy=H/2+o.y*f/o.z, sz=f*.42/o.z, al=Math.min(1,(15-o.z)/4)*Math.min(1,(o.z-.7)/1.2)*IN.charts*.8;
+      c.globalAlpha=al; c.strokeStyle=c.fillStyle=o.gold?'#ffcc78':'#7fd3ff'; c.lineWidth=Math.max(1,sz*.05);
+      if(o.type===0){ for(let i=0;i<5;i++){ const h=sz*[.14,.24,.4,.64,1][i]; c.fillRect(sx+i*sz*.22,sy-h,sz*.15,h); } }
+      else { c.beginPath(); for(let i=0;i<=10;i++){ const p=i/10, X=sx+p*sz*1.1, Y=sy-gcurve(p)*sz; i?c.lineTo(X,Y):c.moveTo(X,Y); } c.stroke();
+        if(o.type===2){ c.font=`700 ${Math.max(8,sz*.22)}px Space Mono, monospace`; c.fillText(o.txt,sx,sy+sz*.32); } }
+    }); c.globalAlpha=1; }
+  // the blueprint, seen from the chase camera
+  if(IN.house>.01){
+    const tech=IN.house*IN.grid, fs=H*.0155; c.strokeStyle='#7fd3ff';
+    c.beginPath(); for(let i=-8;i<=8;i++){ seg([i*.5,0,-4],[i*.5,0,4]); seg([-4,0,i*.5],[4,0,i*.5]); }
+    c.lineWidth=1*DPR; c.globalAlpha=.15*tech; c.stroke();
+    c.beginPath(); RINGS.forEach(r=>{ for(let i=0;i<60;i++) seg(r[i],r[i+1]); });
+    for(let d=0;d<360;d+=15){ const a=d/57.296, e=d%45?3.42:3.55; seg([Math.cos(a)*3.3,0,Math.sin(a)*3.3],[Math.cos(a)*e,0,Math.sin(a)*e]); }
+    c.globalAlpha=.4*tech; c.stroke();
+    c.beginPath(); SEG.forEach((s,i)=>{ const t=cl(0,1,IN.draw*SEG.length-i); if(t>0) seg(s[0],s[1],t); });
+    c.globalAlpha=.16*IN.house; c.lineWidth=7*DPR; c.stroke();            // soft glow pass (cheaper than shadowBlur)
+    c.globalAlpha=IN.house; c.lineWidth=2*DPR; c.stroke();
+    const dn=cl(0,1,IN.draw*2.2-1); c.lineWidth=1.2*DPR; c.globalAlpha=tech*dn;
+    NODES.forEach(v=>{ const q=P2(v); if(!q) return; c.beginPath(); c.arc(q[0],q[1],Math.min(9,26/q[2])*DPR,0,6.283); c.fillStyle='#04101c'; c.fill(); c.stroke(); });
+    LAB.forEach(l=>{ const q=P2(l.p); if(!q||q[2]>9) return; const tx=q[0]+l.dx*fs, ty=q[1]+l.dy*fs; c.strokeStyle=c.fillStyle=l.g?'#ffcc78':'#7fd3ff';
+      c.beginPath(); c.moveTo(q[0],q[1]); c.lineTo(tx,ty); c.lineTo(tx+(l.dx>0?1:-1)*fs*1.2,ty); c.stroke(); c.beginPath(); c.arc(q[0],q[1],2*DPR,0,6.283); c.fill();
+      c.textAlign=l.dx>0?'left':'right'; c.font=`${l.g?'700 ':''}${fs}px Space Mono, monospace`; c.fillText(l.t,tx+(l.dx>0?1.6:-1.6)*fs,ty+fs*.35); });
+    // HUD
+    c.globalAlpha=tech*.9; c.strokeStyle=c.fillStyle='#7fd3ff'; c.lineWidth=1.5*DPR; c.textAlign='left'; c.font=`${fs}px Space Mono, monospace`;
+    const m=H*.05, b=H*.045; [[m,m,1,1],[W-m,m,-1,1],[m,H-m,1,-1],[W-m,H-m,-1,-1]].forEach(([x,y,ax,ay])=>{ c.beginPath(); c.moveTo(x+b*ax,y); c.lineTo(x,y); c.lineTo(x,y+b*ay); c.stroke(); });
+    ['HDG  '+(IN.hdg||0).toFixed(1).padStart(5,'0')+'°','ALT  '+(P[1]*2.67).toFixed(2)+' m','SCALE 1:100','GRID 0.50 m','SEG  '+Math.min(SEG.length,Math.round(IN.draw*SEG.length))+'/'+SEG.length].forEach((r,i)=>c.fillText(r,W-m-fs*11,m+fs*(2.2+i*1.5)));
+    const bx=m+fs, by=H-m-fs*6.4, bw=fs*21, bh=fs*5.6; c.strokeRect(bx,by,bw,bh); c.beginPath(); c.moveTo(bx,by+bh*.36); c.lineTo(bx+bw,by+bh*.36); c.moveTo(bx+bw*.62,by+bh*.36); c.lineTo(bx+bw*.62,by+bh); c.stroke();
+    c.font=`700 ${fs*1.15}px Space Mono, monospace`; c.fillText('TRIPVAN · DIGITAL HOUSE',bx+fs*.7,by+fs*1.4);
+    c.font=`${fs*.85}px Space Mono, monospace`; c.fillText('DWG TV-001 · SHEET 2/2',bx+fs*.7,by+fs*3.2); c.fillText('DRAWN: SONDRI · CHK: RACO',bx+fs*.7,by+fs*4.6); c.fillText('REV A',bx+bw*.62+fs*.7,by+fs*3.2); c.fillText('2026',bx+bw*.62+fs*.7,by+fs*4.6);
+    c.globalAlpha=1;
+  }
+  // the fighter, seen from behind
+  const el=$('#ship'), sp=P2(P);
+  if(sp){ const cx=sp[0]/DPR, cy=sp[1]/DPR, sc=1.75/sp[2]*(H/DPR/900);
+    const vx=IN.px?(cx-IN.px)/Math.max(dt,.001):0; IN.px=cx; IN.roll=(IN.roll||0)+(cl(-38,38,vx*.09)-(IN.roll||0))*Math.min(1,dt*4);
+    el.style.opacity=IN.shipA; el.style.zIndex=3; el.style.transform=`translate(${cx-110}px,${cy-66+Math.sin(now/420)*4}px) scale(${sc}) rotate(${IN.roll}deg)`;
+    const g=el.querySelector('#ship-glow'); if(g) g.setAttribute('opacity',.7+.3*Math.sin(now/45)); }
+  // ROI chart: the curve launches like a firework, with a dollar bill riding the tip
+  if(IN.chart>.01){
+    const x0=W*.24,x1=W*.66,y0=H*.8,y1=H*.26;
+    c.globalAlpha=IN.chart*.5; c.strokeStyle='#7fd3ff'; c.lineWidth=1*DPR; c.beginPath();
+    for(let i=1;i<=5;i++){ const y=y0-(y0-y1)*i/5; c.moveTo(x0,y); c.lineTo(x1,y); } c.stroke();
+    c.globalAlpha=IN.chart; c.lineWidth=2.5*DPR; c.beginPath(); c.moveTo(x0,y1-H*.04); c.lineTo(x0,y0); c.lineTo(x1+W*.04,y0); c.stroke();
+    c.fillStyle='#7fd3ff'; c.font=`700 ${H*.022}px Space Mono, monospace`; c.fillText('ROI',x0-H*.07,y1-H*.02);
+    ['01','02','03'].forEach((t,i)=>c.fillText(t,x0+(x1-x0)*(.18+i*.33),y0+H*.04));
+    if(IN.curve>0){
+      const N=48, tip=chartPt(IN.curve), prev=chartPt(Math.max(0,IN.curve-.02)), ang=Math.atan2(tip[1]-prev[1],tip[0]-prev[0]);
+      c.beginPath(); c.moveTo(x0,y0); for(let i=0;i<=N;i++){ const pt=chartPt(IN.curve*i/N); c.lineTo(pt[0],pt[1]); } c.lineTo(tip[0],y0); c.closePath();
+      const g=c.createLinearGradient(0,y1,0,y0); g.addColorStop(0,'rgba(255,204,120,.45)'); g.addColorStop(1,'rgba(255,204,120,0)'); c.fillStyle=g; c.fill();
+      c.beginPath(); for(let i=0;i<=N;i++){ const pt=chartPt(IN.curve*i/N); i?c.lineTo(pt[0],pt[1]):c.moveTo(pt[0],pt[1]); }
+      const ry=tip[1]-(tip[1]-H*.1)*IN.rocket; if(IN.rocket>0) c.lineTo(tip[0],ry);
+      c.strokeStyle='#ffcc78'; c.globalAlpha=IN.chart*.25; c.lineWidth=16*DPR; c.stroke(); c.globalAlpha=IN.chart; c.lineWidth=5*DPR; c.stroke();
+      const hx=tip[0], hy=IN.rocket>0?ry:tip[1], ha=IN.rocket>0?-1.571:ang;
+      if(IN.bill>.01){                                                    // sparks shoot back from the head, firework-style
+        for(let i=0;i<5;i++){ const a=ha+3.1416+(Math.random()-.5)*1.1, s=(.12+Math.random()*.4)*H;
+          parts.push({x:hx,y:hy,px:hx,py:hy,vx:Math.cos(a)*s,vy:Math.sin(a)*s,age:0,life:.35+Math.random()*.6,c:['#ffcc78','#fff','#ffe7b3','#ff9f7a'][i%4],r:(1.2+Math.random()*1.8)*DPR,star:0,tw:0}); }
+        c.fillStyle='#fff'; c.beginPath(); c.arc(hx,hy,8*DPR,0,6.283); c.fill();
+        drawBill(hx,hy,ha,IN.bill*IN.chart);
+      }
+    }
+    c.globalAlpha=1;
+  }
+  // fireworks → stars (plus short-lived sparks and floating $)
+  for(let i=parts.length-1;i>=0;i--){ const p=parts[i]; p.age+=dt; if(p.life&&p.age>p.life){ parts.splice(i,1); continue; }
+    p.px=p.x; p.py=p.y; const dr=Math.pow(.955,dt*60); p.vx*=dr; p.vy*=dr; if(p.age<1.1) p.vy+=H*.12*dt; p.x+=p.vx*dt; p.y+=p.vy*dt;
+    if(p.glyph){ c.globalAlpha=1-p.age/p.life; c.fillStyle=p.c; c.font=`700 ${p.r}px Space Grotesk, sans-serif`; c.fillText(p.glyph,p.x,p.y); continue; }
+    if(p.life){ c.globalAlpha=1-p.age/p.life; c.strokeStyle=p.c; c.lineWidth=p.r; c.beginPath(); c.moveTo(p.px,p.py); c.lineTo(p.x,p.y); c.stroke(); continue; }
+    const s=cl(0,1,(p.age-1.2)/1.6);
+    c.globalAlpha=(1-s)+s*(.55+.45*Math.sin(now/300+p.tw)); c.strokeStyle=c.fillStyle=s>.6?'#eaf6ff':p.c;
+    if(s<.5){ c.lineWidth=p.r*(1-s); c.beginPath(); c.moveTo(p.px,p.py); c.lineTo(p.x,p.y); c.stroke(); }
+    c.beginPath(); c.arc(p.x,p.y,p.r*(1-s)+p.star*s,0,6.283); c.fill(); }
+  c.globalAlpha=1;
+}
+function startIntro(){
+  if(IN.on) return; IN.on=true;
+  const html=document.documentElement; html.classList.add('intro-on'); Reveal.configure({keyboard:false});
+  icv=$('#bi-cv'); ictx=icv.getContext('2d'); DPR=Math.min(devicePixelRatio||1,1.25);
+  const rs=()=>{ W=icv.width=Math.round(innerWidth*DPR); H=icv.height=Math.round(innerHeight*DPR); }; rs(); addEventListener('resize',rs);
+  $('#ship').innerHTML=SHIP_REAR;
+  parts.length=0; fly.length=0;
+  for(let i=0;i<14;i++){ const a=Math.random()*6.283, r=1.8+Math.random()*2.6; fly.push({x:Math.cos(a)*r,y:Math.sin(a)*r*.6,z:2+Math.random()*13,sp:Math.random()*3,type:i%3,gold:i%2,txt:['ROI ↑','+38%','×6.4','+120%','×12'][i%5]}); }
+  const T0=-1.25;
+  Object.assign(IN,{draw:0,house:1,grid:0,charts:0,shipA:0,shipT:T0,cd:4.6,chart:0,curve:0,rocket:0,bill:0,snap:1,px:0,roll:0,last:performance.now()});
+  gsap.set('#stage',{opacity:0}); gsap.set($$('.reveal .slides section')[0].querySelectorAll('.a-up'),{opacity:0});
+  gsap.set('#intro',{opacity:1}); gsap.set('#bi-grid',{opacity:1}); gsap.set(['#bi-dim','#bi-cap','#bi-title','#bi-sub'],{opacity:0});
+  $$('#bi-title .w').forEach(w=>{ if(!w.dataset.split){ w.dataset.split=1; w.innerHTML=[...w.textContent].map(ch=>`<span class="ch">${ch}</span>`).join(''); }});
+  gsap.ticker.add(drawIntro);
+  const FW=[[.3,.2,90,.4],[.82,.3,90,.42],[.5,.14,110,.46],[.16,.36,70,.36],[.9,.14,70,.36],[.42,.34,80,.38]];
+  const tl=gsap.timeline({onComplete:finish});
+  tl.fromTo('#bi-cap',{opacity:0,letterSpacing:'.2em'},{opacity:1,letterSpacing:'.6em',duration:1.4,ease:'power2.out'},.2)
+    .to(IN,{grid:1,duration:1.2},.4).to(IN,{draw:1,duration:3.8,ease:'power1.inOut'},.6)
+    .to(IN,{shipA:1,duration:.8},1).to(IN,{cd:1.75,duration:3.6,ease:'power2.inOut'},1)
+    .to(IN,{shipT:T0+Math.PI*2,duration:10.5,ease:'sine.inOut'},1.2)              // one slow lap through the house
+    .to(IN,{charts:1,duration:1.5},2.6).to('#bi-cap',{opacity:0,duration:.6},3.2)
+    .to(IN,{cd:7,duration:1.6,ease:'power2.in'},10.6).to(IN,{shipA:0,duration:.7},11.5)     // the fighter pulls away
+    .to(IN,{house:0,duration:1.2,ease:'power2.in'},11).to(IN,{charts:0,duration:1},11.2)
+    .to(IN,{chart:1,duration:.8},11.6).to(IN,{bill:1,duration:.3},12.2)
+    .to(IN,{curve:1,duration:2.9,ease:'power1.in'},12.2)
+    .to(IN,{rocket:1,duration:.45,ease:'power2.in'},15.1)
+    .call(()=>{ const t=chartPt(1); IN.bill=0; burst2(t[0],H*.1,170,.6,16); },[],15.55)
+    .to('#bi-grid',{opacity:0,duration:1.4},15.4).to(IN,{chart:0,duration:1},15.7);
+  FW.forEach((f,i)=>tl.call(()=>burst2(W*f[0],H*f[1],f[2],f[3],4),[],15.9+i*.26));
+  tl.to('#bi-dim',{opacity:.55,duration:1.2},17.6)
+    .set('#bi-title',{opacity:1},18)
+    .fromTo('#bi-title .ch',{opacity:0,scale:2.6,filter:'blur(14px)'},{opacity:1,scale:1,filter:'blur(0px)',duration:.7,ease:'expo.out',stagger:.045},18)
+    .fromTo('#bi-title .plus',{opacity:0,rotate:-180,scale:0},{opacity:1,rotate:0,scale:1,duration:.6,ease:'back.out(3)'},18.35)
+    .fromTo('#bi-sub',{opacity:0,letterSpacing:'.1em'},{opacity:1,letterSpacing:'.55em',duration:1.2,ease:'power2.out'},18.7)
+    .to('#intro',{opacity:0,duration:1.3,ease:'power2.inOut'},21);
+  const skip=()=>{ if(tl.progress()<1) tl.progress(1); }, onKey=e=>{ e.preventDefault(); skip(); };
+  addEventListener('keydown',onKey,true); $('#bi-skip').addEventListener('click',skip);
+  function finish(){
+    removeEventListener('keydown',onKey,true); $('#bi-skip').removeEventListener('click',skip); removeEventListener('resize',rs);
+    gsap.ticker.remove(drawIntro); IN.on=false; parts.length=0;
+    html.classList.remove('intro-on'); Reveal.configure({keyboard:true});
+    gsap.to('#stage',{opacity:1,duration:.6}); SC.n=-1; RC.x=-140; applyR();
+    onSlide(Reveal.getCurrentSlide(),Reveal.getIndices().h);
+  }
+}
+</script>
+</body>
+</html>

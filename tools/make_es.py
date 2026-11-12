@@ -175,6 +175,9 @@ R = [
  '<div class="ph">Eficiencia</div><div class="t">Co-dueño</div><div class="m">JV 50 / 50</div><div class="d">Innovación sostenible</div>'),
 ('From renting demand<br/>to <em>owning growth.</em>', 'De arrendar la demanda<br/>a <em>ser dueños del crecimiento.</em>'),
 ('Let’s build TripVan’s digital future together · sondri.ai →', 'Construyamos juntos el futuro digital de TripVan · sondri.ai →'),
+('href="blueprint.html" style=', 'href="blueprint.html?lang=es" style='),
+('>The Blueprint →</a>', '>El plano →</a>'),
+('>Action plan &amp; timeline →</a>', '>Plan de acción y cronograma →</a>'),
 # Raco click lines
 ('"Cajón del Maipo has 12 stops — I\'ve visited all of them. Twice."', '"El Cajón tiene 12 paradas y me las conozco todas. Dos veces."'),
 ('"Fun fact: llamas hum when they\'re happy. Mmmmm."', '"Dato curioso: las llamas tarareamos cuando estamos felices. Mmmmm."'),
